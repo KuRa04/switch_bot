@@ -33,14 +33,14 @@ function get_devicelist($token){
 
     $url = "https://api.switch-bot.com/v1.0/devices";
     $curl = curl_init($url);
-    //curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-    //curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);  
-    //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);  
-    //curl_setopt($curl, CURLOPT_COOKIEJAR,      'cookie');
-    //curl_setopt($curl, CURLOPT_COOKIEFILE,     'tmp');
-    //curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);  
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+    curl_setopt($curl, CURLOPT_COOKIEJAR,      'cookie');
+    curl_setopt($curl, CURLOPT_COOKIEFILE,     'tmp');
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
 
     $output = curl_exec($curl);
     curl_close($curl);
