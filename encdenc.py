@@ -6,17 +6,20 @@ from Crypto.Hash import SHA256
 from Crypto import Random
 import base64
 
+# TODO create_aesの調査
 def create_aes(password, iv):
   sha = SHA256.new()
   sha.update(password.encode())
   key = sha.digest()
   return AES.new(key, AES.MODE_CFB, iv)
 
+# TODO encryptの調査
 def encrypt(decrypted_data, password):
   iv = Random.new().read(AES.block_size)
   iv = iv + create_aes(password, iv).encrypt(decrypted_data.encode('utf-8'))
   return base64.b64encode(iv, altchars=b'-:')
  
+# TODO decryptの調査
 def decrypt(encrypted_data, password):
   encrypted_data = base64.b64decode(encrypted_data, altchars=b'-:')
   iv, cipher = encrypted_data[:AES.block_size], encrypted_data[AES.block_size:]

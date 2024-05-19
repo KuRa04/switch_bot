@@ -18,13 +18,14 @@ password=""
 
 if 'x' in form:
     param_enc = form['x'].value
-    #print(f'param_enc: {param_enc}')
+    print(f'param_enc: {param_enc}')
+
 if 'p' in form:
     password = form['p'].value
-    #print(f'password: {password}')
+    # print(f'password: {password}')
 if 'd' in form:
     deviceid = form['d'].value
-    #print(f'deviceid: {deviceid}')
+    # print(f'deviceid: {deviceid}')
 
 if not ( param_enc and password and deviceid ):
     print("Parameters is NOT enough")
@@ -47,7 +48,7 @@ if not deviceid in pickDevice:
     print('Sorry, deviceid: {deviceid} is NOT accepted.')
     sys.exit(1)
 
-print ("Content-type: application/json; charset=UTF-8\n")
+print ("Content-type: application/json; char- set=UTF-8\n")
 
 HEADERS = {
     'Authorization': token,

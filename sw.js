@@ -39,6 +39,7 @@ $(document).ready(function () {
 function clickBtn() {
   const dlist = [];
   const device = document.device.pick;
+  console.log(device);
 
   for (let i = 0; i < device.length; i++) {
     if (device[i].checked) {
@@ -48,6 +49,7 @@ function clickBtn() {
 
   const rlist = [];
   const remote = document.remote.pick;
+  console.log(remote);
 
   for (let i = 0; i < remote.length; i++) {
     if (remote[i].checked) {
