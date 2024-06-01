@@ -5,6 +5,7 @@ import base64
 import uuid
 import requests
 import pprint
+import json
 
 def make_secret(secret_key):
     secret_key = bytes(secret_key, 'utf-8')
@@ -49,4 +50,4 @@ headers = {
 #requests処理
 response = requests.get(url,headers=headers)
 
-pprint.pprint(response.json())
+print(json.dumps(response.json()))

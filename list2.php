@@ -22,74 +22,43 @@ textarea#encdata {
 </head>
 <body>
 <?php
+    $pythonScriptPath = __DIR__ . '/index.py';
 
-// IoTのデバイスのリストを取得
-function get_devicelist($token){
-    // リクエストヘッダー 設定
-    $headers = array(
-        "Authorization: $token",
-        "Content-Type: application/json; charset=utf8",
-    );
-
-    $url = "https://api.switch-bot.com/v1.0/devices";
-    $curl = curl_init($url);
-    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);  
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
-    curl_setopt($curl, CURLOPT_COOKIEJAR,      'cookie');
-    curl_setopt($curl, CURLOPT_COOKIEFILE,     'tmp');
-    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
-
-    $output = curl_exec($curl);
-    curl_close($curl);
-    
-    return( json_decode($output, true) );
-}
-
-$token = $_REQUEST['token'];
-
-if(isset($token) && $token != ''){
-    echo '<strong>token= [ '.$token.' ]'."</strong><br/><br/>";
-    echo "SwitchBot APIにアクセスします<br/><hr/>";
-    $data = get_devicelist( $token );
-    echo "デバイスリストを取得しました<br/><hr/>";
-} else {
-    $output = "tokenが設定されていません";
-    $data = json_decode("{}", true);
-}
+    $output = [];
+    $return_variable = 0;
+    exec("python3 $pythonScriptPath", $output, $return_variable);
+    // JSONレスポンスを結合してデコード
+    $deviceList = json_decode(implode("\n", $output), true);
 ?>
 
 <form name="device">
 
 Device List:<br>
 <table name="device">
-<tr>
-<th><input type="checkbox" name="deviceall" value=""></th>
-<th>Device ID: </th>
-<th>Device Name: </th>
-<th>Device Type: </th>
-<th>Enable Cloud Service: </th>
-<th>Hub Device ID: </th>
-<th>Master: </th>
-</tr>
+    <tr>
+        <th><input type="checkbox" name="deviceall" value=""></th>
+        <th>Device ID: </th>
+        <th>Device Name: </th>
+        <th>Device Type: </th>
+        <th>Enable Cloud Service: </th>
+        <th>Hub Device ID: </th>
+        <th>Master: </th>
+    </tr>
 
-<?php
-foreach ((array)$data['body']['deviceList'] as $device) {
-    echo "<tr>\n";
-    echo '<td><input type="checkbox" name="pick" value="' . $device['deviceId'] . '"></td>';
-    echo "<td>" . $device['deviceId'] . "</td>\n";
-    echo "<td>" . $device['deviceName'] . "</td>\n";
-    echo "<td>" . $device['deviceType'] . "</td>\n";
-    echo "<td>" . ($device['enableCloudService'] ? 'Yes' : 'No') . "</td>\n";
-    echo "<td>" . $device['hubDeviceId'] . "</td>\n";
-    echo "<td>" . ($device['master'] ? 'Yes' : 'No') . "</td>\n";
-    echo "</tr>\n";
-    //echo "\n";
-}
-?>
-
+    <?php
+        foreach ((array)$deviceList['body']['deviceList'] as $device) {
+            echo "<tr>\n";
+            echo '<td><input type="checkbox" name="pick" value="' . $device['deviceId'] . '"></td>';
+            echo "<td>" . $device['deviceId'] . "</td>\n";
+            echo "<td>" . $device['deviceName'] . "</td>\n";
+            echo "<td>" . $device['deviceType'] . "</td>\n";
+            echo "<td>" . ($device['enableCloudService'] ? 'Yes' : 'No') . "</td>\n";
+            echo "<td>" . $device['hubDeviceId'] . "</td>\n";
+            echo "<td>" . ($device['master'] ? 'Yes' : 'No') . "</td>\n";
+            echo "</tr>\n";
+            //echo "\n";
+        }
+    ?>
 </table>
 </form>
 <br/>
@@ -106,19 +75,6 @@ Infrared Remote List:<br/>
 <th>Remote Type: </th>
 <th>Hub Device ID: </th>
 </tr>
-
-<?php
-foreach ((array)$data['body']['infraredRemoteList'] as $remote) {
-    echo "<tr>\n";
-    echo '<td><input type="checkbox" name="pick" value="' . $remote['deviceId'] . '"></td>';
-    echo "<td>" . $remote['deviceId'] . "</td>\n";
-    echo "<td>" . $remote['deviceName'] . "</td>\n";
-    echo "<td>" . $remote['remoteType'] . "</td>\n";
-    echo "<td>" . $remote['hubDeviceId'] . "</td>\n";
-    echo "</tr>\n";
-    echo "\n";
-}
-?>
 
 </table>
 </form>
