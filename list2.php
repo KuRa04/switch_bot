@@ -14,9 +14,6 @@
                 border-style: solid;
                 border-collapse: collapse;
             }
-            textarea#encdata {
-                display: none;
-            } 
         </style>
     </head>
     <body>
@@ -74,9 +71,8 @@
         </form>
         <br/>
         <hr/>
-        
         <input type="button" value="　選択決定　" onclick="clickBtn()" />
-       
+
         <table>
             <tr><td>選択されたDeviceID</td><td><b><span id="dlist"></span></b></td></tr>
             <tr><td>選択されたInfrared DeviceID</td><td><b><span id="rlist"></span></b></td></tr>

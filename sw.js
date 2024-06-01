@@ -22,43 +22,59 @@ $(function () {
 
 // テーブルの行のクリックでチェック
 $(document).ready(function () {
+  // チェックボックスがクリックされたときにチェック状態を反転
   $("input[type=checkbox]").click(function () {
-    var t = $(this).prop;
-    if (t("checked")) t("checked", "");
-    else t("checked", "checked");
+    $(this).prop("checked", !$(this).prop("checked"));
   });
 
+  // テーブル行がクリックされたときにその行内のチェックボックスのチェック状態を反転
   $("table tr").click(function () {
     var c = $(this).children("td").children("input[type=checkbox]");
-    if (c.prop("checked")) c.prop("checked", "");
-    else c.prop("checked", "checked");
+    c.prop("checked", !c.prop("checked"));
   });
 });
 
-// デバイスを選択
+// デバイスを選択する関数
 function clickBtn() {
   const dlist = [];
   const device = document.device.pick;
-  console.log(device);
 
-  for (let i = 0; i < device.length; i++) {
-    if (device[i].checked) {
-      dlist.push('"' + device[i].value + '"');
+  // deviceが単一の要素か配列かを判定
+  if (device.length === undefined) {
+    if (device.checked) {
+      dlist.push(device.value);
+    }
+  } else {
+    // チェックされたデバイスをリストに追加
+    for (let i = 0; i < device.length; i++) {
+      if (device[i].checked) {
+        dlist.push(device[i].value);
+      }
     }
   }
 
+  // 選択されたデバイスIDを画面に表示
+  document.getElementById("dlist").textContent = dlist.join(", ");
+
+  // 赤外線リモコンのリストも処理する場合のコード（コメントアウト）
+  /*
   const rlist = [];
   const remote = document.remote.pick;
-  console.log(remote);
 
-  for (let i = 0; i < remote.length; i++) {
-    if (remote[i].checked) {
-      rlist.push('"' + remote[i].value + '"');
+  if (remote.length === undefined) {
+    if (remote.checked) {
+      rlist.push(remote.value);
+    }
+  } else {
+    for (let i = 0; i < remote.length; i++) {
+      if (remote[i].checked) {
+        rlist.push(remote[i].value);
+      }
     }
   }
 
-  document.getElementById("dlist").textContent = dlist;
-  document.getElementById("rlist").textContent = rlist;
+  document.getElementById("rlist").textContent = rlist.join(', ');
+  */
 }
 
 // 暗号化のためにCGIをたたく
@@ -74,7 +90,7 @@ function clickBtnEnc() {
     "http://localhost:8000/encsw_json.cgi",
     param,
     (data, status) => {
-      document.getElementById("encdata").textContent = "hoge";
+      document.getElementById("encdata").textContent = ret.responseJSON["enc"];
     }
   );
 }
@@ -87,6 +103,6 @@ function clickBtnDec() {
   var param = "x=" + encdata + "&p=" + password2;
 
   ret2 = $.post("http://localhost:8000/swstatus.cgi", param, (data, status) => {
-    document.getElementById("decdata").textContent = "huga";
+    document.getElementById("decdata").textContent = ret2.responseText;
   });
 }
