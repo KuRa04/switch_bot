@@ -82,27 +82,59 @@ function clickBtnEnc() {
   var password = document.getElementById("password").value;
   var token = document.getElementById("token").value;
   var dlist = document.getElementById("dlist").textContent;
-  var data = dlist;
 
-  var param = "t=" + token + "&p=" + password + "&d=" + data;
+  // リクエストデータをJSON形式で構築
+  var data = {
+    t: token,
+    p: password,
+    d: dlist,
+  };
 
-  ret = $.post(
-    "http://localhost:8000/encsw_json.cgi",
-    param,
-    (data, status) => {
-      document.getElementById("encdata").textContent = ret.responseJSON["enc"];
-    }
-  );
+  // jQueryの$.ajaxを使用してPOSTリクエストを送信
+  $.ajax({
+    url: "http://127.0.0.1:8000/api/encode_token",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data),
+    success: function (response) {
+      // レスポンスデータを処理
+      document.getElementById("encdata").textContent = response.enc;
+    },
+    error: function (xhr, status, error) {
+      console.error("Error: " + error);
+      console.error("Status: " + status);
+      console.error(xhr);
+    },
+  });
 }
 
 // 確認のための、復号化のためにCGIをたたく
 function clickBtnDec() {
-  var password2 = document.getElementById("password").value;
-  var encdata = document.getElementById("encdata").textContent;
+  var encodeData = document.getElementById("encdata").value;
+  var password = document.getElementById("password").value;
+  var dlist = document.getElementById("dlist").textContent;
 
-  var param = "x=" + encdata + "&p=" + password2;
+  // リクエストデータをJSON形式で構築
+  var data = {
+    x: encodeData,
+    p: password,
+    d: dlist,
+  };
 
-  ret2 = $.post("http://localhost:8000/swstatus.cgi", param, (data, status) => {
-    document.getElementById("decdata").textContent = ret2.responseText;
+  // jQueryの$.ajaxを使用してPOSTリクエストを送信
+  $.ajax({
+    url: "http://127.0.0.1:8000/api/decode_token",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data),
+    success: function (response) {
+      // レスポンスデータを処理
+      document.getElementById("decdata").textContent = JSON.stringify(response);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error: " + error);
+      console.error("Status: " + status);
+      console.error(xhr);
+    },
   });
 }

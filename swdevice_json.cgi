@@ -41,7 +41,7 @@ token = dec_json['token']
 pickDevice = dec_json['pickDevice']
 
 
-url="https://api.switch-bot.com/v1.0/devices/"
+url="https://api.switch-bot.com/v1.1/devices/"
 
 if not deviceid in pickDevice:
     print ("Content-type: plain/text; charset=UTF-8\n")
@@ -55,7 +55,7 @@ HEADERS = {
     'Content-Type': 'application/json; charset=utf8'
 }
 
-geturl="https://api.switch-bot.com/v1.0/devices/"+deviceid+"/status"
+geturl="https://api.switch-bot.com/v1.1/devices/"+deviceid+"/status"
 
 swres=requests.get(geturl, headers=HEADERS)
 
