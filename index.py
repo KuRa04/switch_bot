@@ -9,8 +9,6 @@ import json
 import sys
 import logging
 
-# sys調べる
-
 def make_secret(secret_key):
     secret_key = bytes(secret_key, 'utf-8')
     return secret_key
@@ -37,7 +35,6 @@ if len(sys.argv) != 3:
 #SwitchBotアプリから取得
 token = sys.argv[1]
 secret_key = sys.argv[2]
-
 
 #Requestパラメータ作成
 secret_key = make_secret(secret_key)
