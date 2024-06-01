@@ -23,10 +23,11 @@ textarea#encdata {
 <body>
 <?php
     $pythonScriptPath = __DIR__ . '/index.py';
-
+    $token = $_REQUEST['token'];
+    $secret = $_REQUEST['secret'];
     $output = [];
     $return_variable = 0;
-    exec("python3 $pythonScriptPath", $output, $return_variable);
+    exec("python3 $pythonScriptPath $token $secret", $output, $return_variable);
     // JSONレスポンスを結合してデコード
     $deviceList = json_decode(implode("\n", $output), true);
 ?>
@@ -42,7 +43,6 @@ Device List:<br>
         <th>Device Type: </th>
         <th>Enable Cloud Service: </th>
         <th>Hub Device ID: </th>
-        <th>Master: </th>
     </tr>
 
     <?php
@@ -54,7 +54,6 @@ Device List:<br>
             echo "<td>" . $device['deviceType'] . "</td>\n";
             echo "<td>" . ($device['enableCloudService'] ? 'Yes' : 'No') . "</td>\n";
             echo "<td>" . $device['hubDeviceId'] . "</td>\n";
-            echo "<td>" . ($device['master'] ? 'Yes' : 'No') . "</td>\n";
             echo "</tr>\n";
             //echo "\n";
         }

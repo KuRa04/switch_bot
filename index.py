@@ -6,6 +6,10 @@ import uuid
 import requests
 import pprint
 import json
+import sys
+import logging
+
+# sys調べる
 
 def make_secret(secret_key):
     secret_key = bytes(secret_key, 'utf-8')
@@ -25,9 +29,15 @@ def make_nonce():
     nonce = str(uuid.uuid4())
     return nonce
 
+if len(sys.argv) != 3:
+    print(json.dumps({"error": "引数が不正です"}))
+    sys.exit(1)
+
+
 #SwitchBotアプリから取得
-secret_key = "7594f1b4ef40a81c47a3c02dab055f2b"
-token = "5e084039a332385fce4821760d17856e238e10fe942271cce54b54d6eacecc14dc0f603e5b19df79bc49f5071c795e2f"
+token = sys.argv[1]
+secret_key = sys.argv[2]
+
 
 #Requestパラメータ作成
 secret_key = make_secret(secret_key)
