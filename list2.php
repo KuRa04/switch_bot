@@ -82,14 +82,14 @@
         <label>token:</label><br/>
         <input type="text" name="token" id="token" size="100" value="<?php echo $token ?>"/>
         <label>secret:</label><br/>
-        <input type="text" name="secret" id="token" size="100" value="<?php echo $secret ?>"/>
+        <input type="text" name="secret" id="secret" size="100" value="<?php echo $secret ?>"/>
         <label>説明:</label><br/>
-        <input type="text" name="description" id="token" size="100" value=""/><br/>
+        <input type="text" name="description" id="description" size="100" value=""/><br/>
         <p>有効期間</p>
         <label>開始:</label>
-        <input type="date" name="start_time" id="token" size="100" value=""/><br/>
+        <input type="date" name="startTime" id="startTime" size="100" value=""/><br/>
         <label>終了:</label>
-        <input type="date" name="end_time" id="token" size="100" value=""/>
+        <input type="date" name="endTime" id="endTime" size="100" value=""/>
         
         <br/>
         <br/>

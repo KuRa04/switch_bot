@@ -26,6 +26,10 @@ class EncodeRequestData(BaseModel):
     t: str
     p: str
     d: str
+    s: str
+    desc: str
+    st: str
+    et: str
 
 class DecodeRequestData(BaseModel):
     x: str

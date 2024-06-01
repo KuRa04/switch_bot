@@ -79,15 +79,23 @@ function clickBtn() {
 
 // 暗号化のためにCGIをたたく
 function clickBtnEnc() {
-  var password = document.getElementById("password").value;
-  var token = document.getElementById("token").value;
-  var dlist = document.getElementById("dlist").textContent;
+  const password = document.getElementById("password").value;
+  const token = document.getElementById("token").value;
+  const secret = document.getElementById("secret").value;
+  const description = document.getElementById("description").value;
+  const startTime = document.getElementById("startTime").value;
+  const endTime = document.getElementById("endTime").value;
+  const dlist = document.getElementById("dlist").textContent;
 
   // リクエストデータをJSON形式で構築
   var data = {
     t: token,
     p: password,
     d: dlist,
+    s: secret,
+    desc: description,
+    st: startTime,
+    et: endTime,
   };
 
   // jQueryの$.ajaxを使用してPOSTリクエストを送信
