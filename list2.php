@@ -32,7 +32,7 @@
         ?>
 
         <form name="device">
-            <p>Device List:</p><br>
+            <label>Device List:</label><br>
             <table name="device">
                 <tr>
                     <th><input type="checkbox" name="deviceall" value=""></th>
@@ -61,8 +61,7 @@
 
     <!-- // infraredRemoteListの表示 -->
         <form name="remote">
-
-            <p>Infrared Remote List:</p><br/>
+            <label>Infrared Remote List:</label><br>
             <table name="remote">
                 <tr>
                     <th><input type="checkbox" name="remoteall" value=""></th>
@@ -84,20 +83,20 @@
         </table>
         <hr/>
 
-        <p>token:</p><br/>
-        <input type="text" name="token" id="token" size="100" value="<?php echo $token ?>"/><br/>
-
-        <p>SwitchBotプロクシの利用パスワード：</p><br/>
+        <label>token:</label><br/>
+        <input type="text" name="token" id="token" size="100" value="<?php echo $token ?>"/>
+        <br/>
+        <br/>
+        <label>SwitchBotプロクシの利用パスワード：</label><br/>
         <input type="text" name="password" id="password"/><br/>
         <input type="button" value="　暗号化　" onclick="clickBtnEnc()" />
 
-        <br/><br/>
         <script type="text/javascript" src="sw.js"></script>
 
-        <p>暗号化データ</p><br/>
+        <label>暗号化データ</label><br/>
         <textarea id="encdata" cols="100" rows="5" readonly></textarea>
         <hr/>
-        <p>復号化の確認</p><br/>
+        <label>復号化の確認</label><br/>
         <input type="button" value="　復号化して確認　" onclick="clickBtnDec()" /><br/>
         <textarea id="decdata" cols="100" rows="10" readonly></textarea>
         <hr/>
