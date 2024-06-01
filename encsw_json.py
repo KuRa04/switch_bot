@@ -1,8 +1,9 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import base64
 import json
+from encdenc import encrypt, decrypt
+import requests
 
 app = FastAPI()
 
@@ -20,35 +21,73 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class RequestData(BaseModel):
-    d: str
-    p: str
+# リクエストデータのモデル定義
+class EncodeRequestData(BaseModel):
     t: str
+    p: str
+    d: str
 
-def encrypt(data: str, password: str) -> str:
-    # ダミーの暗号化関数
-    return base64.b64encode(data.encode('utf-8')).decode('utf-8')
+class DecodeRequestData(BaseModel):
+    x: str
+    p: str
+    d: str
 
+# エンドポイントの定義
 @app.post("/api/encode_token")
-async def encode_token(data: RequestData):
-    ret = {}
+async def encode_token(data: EncodeRequestData):
+    token = data.t
+    password = data.p
+    deviceid = data.d
 
-    # デバッグ用ログ
-    print(f"Received data: {data}")
+    if not (token and password and deviceid):
+        raise HTTPException(status_code=400, detail="Parameters are not enough")
 
-    if not data.d or not data.p or not data.t:
-        ret["result"] = "not enough param error"
-        return ret
+    json_data = json.dumps({"token": token, "pickDevice": deviceid.split(",")})
+    
+    try:
+        enc = encrypt(json_data, password).decode('utf-8')
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Encryption failed")
 
-    ret["d"] = data.d
-    ret["p"] = data.p
-    ret["t"] = data.t
+    return {"enc": enc}
 
-    json_data = json.dumps({"token": data.t, "pickDevice": data.d.split(",")})
-    ret["data"] = json_data
+@app.post("/api/decode_token")
+async def decode_token(data: DecodeRequestData):
+    param_enc = data.x
+    password = data.p
+    deviceid = data.d
 
-    enc = encrypt(json_data, data.p)
-    ret["enc"] = enc
+    if not (param_enc and password and deviceid):
+        raise HTTPException(status_code=400, detail="Parameters are not enough")
 
-    ret["result"] = "ok"
-    return ret
+    try:
+        dec = decrypt(param_enc, password)
+        dec_json = json.loads(dec)
+        token = dec_json['token']
+        pickDevice = dec_json['pickDevice']
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Decryption failed or invalid token")
+
+    if deviceid not in pickDevice:
+        raise HTTPException(status_code=403, detail=f"Device ID: {deviceid} is not accepted")
+
+    HEADERS = {
+        'Authorization': token,
+        'Content-Type': 'application/json; charset=utf-8'
+    }
+
+    geturl = f"https://api.switch-bot.com/v1.1/devices/{deviceid}/status"
+    swres = requests.get(geturl, headers=HEADERS)
+    
+    if swres.status_code != 200:
+        raise HTTPException(status_code=swres.status_code, detail="Failed to fetch device status")
+
+    res = swres.json()
+    swproxy = {'deviceid': deviceid}
+    res['swproxy'] = swproxy
+
+    return res
+
+if __name__ == '__main__':
+    import uvicorn
+    uvicorn.run(app, host='127.0.0.1', port=8000)
