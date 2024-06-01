@@ -71,10 +71,10 @@ function clickBtnEnc() {
   var param = "t=" + token + "&p=" + password + "&d=" + data;
 
   ret = $.post(
-    "https://watalab.info/sample/sw/encsw_json.cgi",
+    "http://localhost:8000/encsw_json.cgi",
     param,
     (data, status) => {
-      document.getElementById("encdata").textContent = ret.responseJSON["enc"];
+      document.getElementById("encdata").textContent = "hoge";
     }
   );
 }
@@ -86,11 +86,7 @@ function clickBtnDec() {
 
   var param = "x=" + encdata + "&p=" + password2;
 
-  ret2 = $.post(
-    "https://watalab.info/sample/sw/swstatus.cgi",
-    param,
-    (data, status) => {
-      document.getElementById("decdata").textContent = ret2.responseText;
-    }
-  );
+  ret2 = $.post("http://localhost:8000/swstatus.cgi", param, (data, status) => {
+    document.getElementById("decdata").textContent = "huga";
+  });
 }
