@@ -89,14 +89,25 @@
         <label>開始:</label>
         <input type="date" name="startTime" id="startTime" size="100" value=""/><br/>
         <label>終了:</label>
-        <input type="date" name="endTime" id="endTime" size="100" value=""/>
-        
-        <br/>
+        <input type="date" name="endTime" id="endTime" size="100" value=""/><br/><br/>
+        <label>version</label><br/>
+        <select name="version" id="version">
+            <option value="v1.0">v1.0</option>
+            <option value="v1.1">v1.1</option>
+        </select><br/>
+        <label>vender</label><br/>
+        <select name="vender" id="vender">
+            <option value="switchbot">switchbot</option>
+            <option value="tp-link">tp-link</option>
+        </select><br/>
         <br/>
         <label>SwitchBotプロクシの利用パスワード：</label><br/>
-        <input type="text" name="password" id="password"/><br/>
-        <input type="button" value="　暗号化　" onclick="clickBtnEnc()" />
-
+        <input type="text" name="password" id="password"/><br/><br/>
+        
+        <label>管理者パスワード：</label><br/>
+        <input type="text" name="managePassword" id="managePassword"/><br/><br/>
+        
+        <input type="button" value="　暗号化　" onclick="clickBtnEnc()" /><br/><br/>
         <script type="text/javascript" src="sw.js"></script>
 
         <label>暗号化データ</label><br/>

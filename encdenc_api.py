@@ -31,6 +31,10 @@ class EncodeRequestData(BaseModel):
     desc: str
     st: str
     et: str
+    managePassword: str
+    version: str
+    vender: str
+
 
 class DecodeRequestData(BaseModel):
     x: str
@@ -47,6 +51,9 @@ async def encode_token(data: EncodeRequestData):
     desc = data.desc
     start_time = data.st
     end_time = data.et
+    managePassword = data.managePassword
+    version = data.version
+    vender = data.vender
 
     if not (token and password and deviceid):
         raise HTTPException(status_code=400, detail="Parameters are not enough")
@@ -57,7 +64,10 @@ async def encode_token(data: EncodeRequestData):
         "secret": secret, 
         "desc": desc, 
         "start_time": start_time, 
-        "end_time": end_time
+        "end_time": end_time,
+        "managePassword": managePassword,
+        "version": version,
+        "vender": vender
     })
     
     try:
@@ -103,6 +113,7 @@ async def decode_token(data: DecodeRequestData):
         "Content-Type": "application/json; charset=utf-8"
     }
 
+    # TODO 許可しているデバイスIDのみ取得なので、複数デバイスIDの場合は複数デバイスの情報を取得する
     geturl = "https://api.switch-bot.com/v1.1/devices"
     try:
         swres = requests.get(geturl, headers=headers)
