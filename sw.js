@@ -106,7 +106,8 @@ function clickBtnEnc() {
 
   // jQueryの$.ajaxを使用してPOSTリクエストを送信
   $.ajax({
-    url: "http://127.0.0.1:8000/api/encode_token",
+    //fastAPI url: "http://127.0.0.1:8000/api/encode_token",
+    url: "http://[::]:9000/cgi-bin/encsw_json.cgi",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),
