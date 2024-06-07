@@ -17,16 +17,60 @@
         </style>
     </head>
     <body>
-        <?php
-            $pythonScriptPath = __DIR__ . '/index.py';
-            $token = $_REQUEST['token'];
-            $secret = $_REQUEST['secret'];
-            $output = [];
-            $return_variable = 0;
-            exec("python3 $pythonScriptPath $token $secret", $output, $return_variable);
-            // JSONレスポンスを結合してデコード
-            $deviceList = json_decode(implode("\n", $output), true);
-        ?>
+    <?php
+        function make_secret($secret_key) {
+            return $secret_key;
+        }
+
+        function make_sign($secret_key, $token, $t, $nonce) {
+            return base64_encode(hash_hmac('sha256', $token . $t . $nonce, $secret_key, true));
+        }
+
+        function make_t() {
+            return round(microtime(true) * 1000);
+        }
+
+        function make_nonce() {
+            return bin2hex(random_bytes(16));
+        }
+
+        if (!isset($_POST['token']) || !isset($_POST['secret'])) {
+            echo json_encode(["error" => "引数が不正です"]);
+            exit(1);
+        }
+
+        // SwitchBotアプリから取得
+        $token = $_POST['token'];
+        $secret_key = $_POST['secret'];
+
+        // Requestパラメータ作成
+        $secret_key = make_secret($secret_key);
+        $t = make_t();
+        $nonce = make_nonce();
+        $sign = make_sign($secret_key, $token, $t, $nonce); // token を引数として渡す
+
+        // URL指定
+        $url = "https://api.switch-bot.com/v1.1/devices";
+
+        // APIheader作成
+        $headers = [
+            "Authorization: $token",
+            "sign: $sign",
+            "t: $t",
+            "nonce: $nonce",
+            "Content-Type: application/json; charset=utf-8"
+        ];
+
+        // cURL処理
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        curl_close($ch);
+
+        $deviceList = json_decode($response, true);
+    ?>
 
         <form name="device">
             <label>Device List:</label><br>
