@@ -18,21 +18,7 @@
     </head>
     <body>
     <?php
-        function make_secret($secret_key) {
-            return $secret_key;
-        }
-
-        function make_sign($secret_key, $token, $t, $nonce) {
-            return base64_encode(hash_hmac('sha256', $token . $t . $nonce, $secret_key, true));
-        }
-
-        function make_t() {
-            return round(microtime(true) * 1000);
-        }
-
-        function make_nonce() {
-            return bin2hex(random_bytes(16));
-        }
+        require_once 'api_utils.php';
 
         if (!isset($_POST['token']) || !isset($_POST['secret'])) {
             echo json_encode(["error" => "引数が不正です"]);

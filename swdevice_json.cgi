@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# 利用しないコードです。cgiのサンプルとして残しています。
 
 import requests
 import json
