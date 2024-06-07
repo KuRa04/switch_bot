@@ -31,17 +31,17 @@ if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
         $response = array("error" => "Parameters are not enough");
     } else {
         $json_data = json_encode(array(
-            "token" => $token, 
-            "pickDevice" => explode(",", $deviceid), 
-            "secret" => $secret, 
-            "desc" => $desc, 
-            "start_time" => $start_time, 
+            "token" => $token,
+            "pickDevice" => explode(",", $deviceid),
+            "secret" => $secret,
+            "desc" => $desc,
+            "start_time" => $start_time,
             "end_time" => $end_time,
             "managePassword" => $managePassword,
             "version" => $version,
             "vender" => $vender
         ));
-        
+
         try {
             $enc = encrypt($json_data, $password);
             $response = array("enc" => $enc);
@@ -57,4 +57,3 @@ if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
 
 header("Content-Type: application/json; charset=UTF-8");
 echo json_encode($response);
-?>

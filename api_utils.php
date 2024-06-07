@@ -1,21 +1,26 @@
 <?php
-function make_secret($secret_key) {
+function make_secret($secret_key)
+{
     return $secret_key;
 }
 
-function make_sign($secret_key, $token, $t, $nonce) {
+function make_sign($secret_key, $token, $t, $nonce)
+{
     return base64_encode(hash_hmac('sha256', $token . $t . $nonce, $secret_key, true));
 }
 
-function make_t() {
+function make_t()
+{
     return round(microtime(true) * 1000);
 }
 
-function make_nonce() {
+function make_nonce()
+{
     return bin2hex(random_bytes(16));
 }
 
-function get_device_list($token, $secret_key) {
+function get_device_list($token, $secret_key)
+{
     $secret_key = make_secret($secret_key);
     $t = make_t();
     $nonce = make_nonce();
@@ -41,7 +46,8 @@ function get_device_list($token, $secret_key) {
     return json_decode($response, true);
 }
 
-function get_device_status($data) {
+function get_device_status($data)
+{
     $param_enc = $data['x'];
     $password = $data['p'];
     $deviceid = $data['d'];
@@ -108,4 +114,3 @@ function get_device_status($data) {
         "decrypted_data" => $dec_json
     );
 }
-?>
