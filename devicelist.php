@@ -157,6 +157,7 @@
     <input type="button" value="　復号化して確認　" onclick="clickBtnDec()" /><br />
     <textarea id="decdata" cols="100" rows="10" readonly></textarea>
     <hr />
+    <button onclick="jsonDownload()">jsonダウンロード</button>
     <p><small>&copy; 2023 watalab.info</small></p>
 </body>
 

@@ -109,6 +109,7 @@ function clickBtnDec() {
     contentType: "application/json",
     data: JSON.stringify(data),
     success: function (response) {
+      const responseJson = JSON.stringify(response);
       document.getElementById("decdata").textContent = JSON.stringify(response);
     },
     error: function (xhr, status, error) {
@@ -117,4 +118,15 @@ function clickBtnDec() {
       console.error(xhr);
     },
   });
+}
+
+function jsonDownload() {
+  const json = document.getElementById("decdata").textContent;
+  const blob = new Blob([json], { type: "application/json" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "data.json";
+  a.click();
+  window.URL.revokeObjectURL(url);
 }
