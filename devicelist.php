@@ -59,7 +59,7 @@
     $response = curl_exec($ch);
     curl_close($ch);
 
-    $deviceList = json_decode($response, true);
+    $device_list = json_decode($response, true);
     ?>
 
     <form name="device">
@@ -74,7 +74,7 @@
                 <th>Hub Device ID: </th>
             </tr>
             <?php
-            foreach ((array)$deviceList['body']['deviceList'] as $device) {
+            foreach ((array)$device_list['body']['deviceList'] as $device) {
                 echo "<tr>\n";
                 echo '<td><input type="checkbox" name="pick" value="' . $device['deviceId'] . '"></td>';
                 echo "<td>" . $device['deviceId'] . "</td>\n";
