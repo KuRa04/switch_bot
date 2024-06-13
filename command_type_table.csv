@@ -1,0 +1,103 @@
+deviceType,commandType,Command,command parameter,Description
+Bot,command,turnOff,default,set to OFF state
+Bot,command,turnOn,default,set to ON state
+Bot,command,press,default,trigger press
+Curtain,command,setPosition,"index0,mode0,position0e.g.0,ff,80","mode: 0 (Performance Mode), 1 (Silent Mode), ff (default mode)position: 0~100 (0 means open, 100 means closed)"
+Curtain,command,turnOff,default,equivalent to set position to 100
+Curtain,command,turnOn,default,equivalent to set position to 0
+Curtain,command,pause,default,set to PAUSE state
+Curtain 3,command,setPosition,"index0,mode0,position0e.g.0,ff,80","mode: 0 (Performance Mode), 1 (Silent Mode), ff (default mode)position: 0~100 (0 means open, 100 means closed)"
+Curtain 3,command,turnOff,default,equivalent to set position to 100
+Curtain 3,command,turnOn,default,equivalent to set position to 0
+Curtain 3,command,pause,default,set to PAUSE state
+Lock,command,lock,default,rotate to locked position
+Lock,command,unlock,default,rotate to unlocked position
+Lock,command,lock,default,rotate to locked position
+Lock,command,unlock,default,rotate to unlocked position
+Humidifier,command,turnOff,default,set to OFF state
+Humidifier,command,turnOn,default,set to ON state
+Humidifier,command,setMode,autoor101or102or103or{0~100},"auto, set to Auto Mode,101, set atomization efficiency to 34%,102, set atomization efficiency to 67%,103, set atomization efficiency to 100%"
+Plug,command,turnOn,default,set to ON state
+Plug,command,turnOff,default,set to OFF state
+Plug Mini (US),command,turnOn,default,set to ON state
+Plug Mini (US),command,turnOff,default,set to OFF state
+Plug Mini (US),command,toggle,default,toggle state
+Plug Mini (JP),command,turnOn,default,set to ON state
+Plug Mini (JP),command,turnOff,default,set to OFF state
+Plug Mini (JP),command,toggle,default,toggle state
+Color Bulb,command,turnOn,default,set to ON state
+Color Bulb,command,turnOff,default,set to OFF state
+Color Bulb,command,toggle,default,toggle state
+Color Bulb,command,setBrightness,{1-100},set brightness
+Color Bulb,command,setColor,"""{0-255}:{0-255}:{0-255}""",set RGB color value
+Color Bulb,command,setColorTemperature,{2700-6500},set color temperature
+Strip Light,command,turnOn,default,set to ON state
+Strip Light,command,turnOff,default,set to OFF state
+Strip Light,command,toggle,default,toggle state
+Strip Light,command,setBrightness,{1-100},set brightness
+Strip Light,command,setColor,"""{0-255}:{0-255}:{0-255}""",set RGB color value
+Robot Vacuum Cleaner S1,command,start,default,start vacuuming
+Robot Vacuum Cleaner S1,command,stop,default,stop vacuuming
+Robot Vacuum Cleaner S1,command,dock,default,return to charging dock
+Robot Vacuum Cleaner S1,command,PowLevel,{0-3},"set suction power level: 0 (Quiet), 1 (Standard), 2 (Strong), 3 (MAX)"
+Robot Vacuum Cleaner S1 Plus,command,start,default,start vacuuming
+Robot Vacuum Cleaner S1 Plus,command,stop,default,stop vacuuming
+Robot Vacuum Cleaner S1 Plus,command,dock,default,return to charging dock
+Robot Vacuum Cleaner S1 Plus,command,PowLevel,{0-3},"set suction power level: 0 (Quiet), 1 (Standard), 2 (Strong), 3 (MAX)"
+Floor Cleaning Robot S10,command,startClean,"{""action"": clean_mode_str, ""param"": {""fanLevel"": fan_level_int, ""waterLevel"": water_level_int, ""times"": clean_cycle_int}}","start cleaning.action, the cleaning mode,sweeporsweep_mop.fanLevel, the vacuum level,1-4.waterLevel, the mop moisture level,1-2.times, the number of cycles,1-2639999, in theory."
+Floor Cleaning Robot S10,command,addWaterForHumi,default,refill the mind blowing Evaporative Humidifier (Auto-refill).
+Floor Cleaning Robot S10,command,pause,default,pause.
+Floor Cleaning Robot S10,command,dock,default,return to Auto-empty Station and charge.
+Floor Cleaning Robot S10,command,setVolume,0-100,"set volume,1-100"
+Floor Cleaning Robot S10,command,selfClean,1or2or3,"mode1, wash the mop.mode2, dry itself.mode3, terminate."
+Floor Cleaning Robot S10,command,changeParam,"{""fanLevel"": fan_level_int, ""waterLevel"": water_level_int, ""times"": clean_cycle_int}","fanLevel, the vacuum level,1-4.waterLevel, the mop moisture level,1-2.times, the number of cycles,1-2639999, in theory."
+Ceiling Light,command,turnOn,default,set to ON state
+Ceiling Light,command,turnOff,default,set to OFF state
+Ceiling Light,command,toggle,default,toggle state
+Ceiling Light,command,setBrightness,{1-100},set brightness
+Ceiling Light,command,setColorTemperature,{2700-6500},set the color temperature
+Ceiling Light Pro,command,turnOn,default,set to ON state
+Ceiling Light Pro,command,turnOff,default,set to OFF state
+Ceiling Light Pro,command,toggle,default,toggle state
+Ceiling Light Pro,command,setBrightness,{1-100},set brightness
+Ceiling Light Pro,command,setColorTemperature,{2700-6500},set the color temperature
+Keypad,command,createKey,"{ ""name"": passcode _name_str, ""type"": passcode_type_str, ""password"": passcode_str, ""startTime"": valid_from_long, ""endTime"": valid_to_long }",create a new passcode
+Keypad,command,deleteKey,"{ ""id"": passcode_id_int }",delete an existing passcode
+Keypad Touch,command,createKey,"{ ""name"": passcode _name_str, ""type"": passcode_type_str, ""password"": passcode_str, ""startTime"": valid_from_long, ""endTime"": valid_to_long }",create a new passcode
+Keypad Touch,command,deleteKey,"{ ""id"": passcode_id_int }",delete an existing passcode
+Blind Tilt,command,setPosition,direction;positione.g.up;60,"direction: up/downposition: 0~100 (0 means closed, 100 means open, it MUST be set to a multiple of 2. e.g.up;48orup; 36)"
+Blind Tilt,command,fullyOpen,default,"Set the position of Blind Tilt to open, equivalent to setting the position toup;100ordown;100"
+Blind Tilt,command,closeUp,default,"Set the position of Blind Tilt to closed up, equivalent to setting the position toup;0"
+Blind Tilt,command,closeDown,default,"Set the position of Blind Tilt to closed down, equivalent to setting the position todown;0"
+Battery Circulator Fan,command,turnOff,default,Set to OFF state
+Battery Circulator Fan,command,turnOn,default,Set to ON state
+Battery Circulator Fan,command,setNightLightMode,"off,1, or2","off, turn off nightlight,1, bright2, dim"
+Battery Circulator Fan,command,setWindMode,"direct,natural,sleep, orbaby",Set fan mode.direct: direct mode.natural:  natural mode.sleep: sleep mode.baby: ultra quiet mode
+Battery Circulator Fan,command,setWindSpeed,{1-100}e.g.10,Set fan speed.1~100
+All home appliance types except Others,command,turnOn,default,every home appliance can be turned on by default
+All home appliance types except Others,command,turnOff,default,every home appliance can be turned off by default
+Others,customize,{user-defined button name},default,all user-defined buttons must be configured with commandType=customize
+Air Conditioner,command,setAll,"{temperature},{mode},{fan speed},{power state}e.g.26,1,3,on","the unit of temperature is in celsius;modes include 0/1 (auto), 2 (cool), 3 (dry), 4 (fan), 5 (heat);fan speed includes 1 (auto), 2 (low), 3 (medium), 4 (high);power state includes on and off"
+,,,,
+"TV, IPTV/Streamer,  Set Top Box",command,SetChannel,"{channel number}, e.g. 15",set the TV channel to switch to
+,command,volumeAdd,default,volume up
+,command,volumeSub,default,volume down
+,command,channelAdd,default,next channel
+,command,channelSub,default,previous channel
+"DVD, Speaker",command,setMute,default,mute/unmute
+,command,FastForward,default,fast forward
+,command,Rewind,default,rewind
+,command,Next,default,next track
+,command,Previous,default,last track
+,command,Pause,default,pause
+,command,Play,default,play/resume
+,command,Stop,default,stop
+Speaker,command,volumeAdd,default,volume up
+,command,volumeSub,default,volume down
+Fan,command,swing,default,swing
+,command,timer,default,set timer
+,command,lowSpeed,default,set fan speed to low
+,command,middleSpeed,default,set fan speed to medium
+,command,highSpeed,default,set fan speed to high
+Light,command,brightnessUp,default,brightness up
+,command,brightnessDown,default,brightness down
