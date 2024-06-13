@@ -57,7 +57,6 @@ function clickBtnEnc() {
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
-  const managePassword = document.getElementById("managePassword").value;
   const version = document.getElementById("version").value;
   const vender = document.getElementById("vender").value;
   const dlist = document.getElementById("dlist").textContent;
@@ -70,7 +69,6 @@ function clickBtnEnc() {
     desc: description,
     st: startTime,
     et: endTime,
-    managePassword: managePassword,
     version: version,
     vender: vender,
   };
