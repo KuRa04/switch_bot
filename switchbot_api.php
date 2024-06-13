@@ -40,9 +40,15 @@ if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
             "vender" => $vender
         ));
 
+        $manage_password = bin2hex(random_bytes(16));
+        $bin_password = hex2bin($manage_password);
+        $encryption_password = $password . $bin_password;
+
+        $guest_login_page_url = "https://watalab.info/lab/asakura/guest_login.html?mp=$manage_password";
+
         try {
-            $enc = encrypt($json_data, $password);
-            $response = array("enc" => $enc);
+            $enc = encrypt($json_data, $encryption_password);
+            $response = array("enc" => $enc, "guest_login_page_url" => $guest_login_page_url);
         } catch (Exception $e) {
             $response = array("error" => "Encryption failed");
         }

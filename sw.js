@@ -79,7 +79,11 @@ function clickBtnEnc() {
     contentType: "application/json",
     data: JSON.stringify(data),
     success: function (response) {
+      // switchbot_apiで作成したencを取得して、encdataに代入。
+      //guest_login.htmlのURLを表示するpタグを作成。queryパラメータを含めたURLを表示。
       document.getElementById("encdata").textContent = response.enc;
+      document.getElementById("guest_login_page_url").textContent =
+        response.guest_login_page_url;
     },
     error: function (xhr, status, error) {
       console.error("Error: " + error);
