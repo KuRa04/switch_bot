@@ -144,9 +144,6 @@
     <label>SwitchBotプロクシの利用パスワード：</label><br />
     <input type="text" name="password" id="password" /><br /><br />
 
-    <label>管理者パスワード：</label><br />
-    <input type="text" name="managePassword" id="managePassword" /><br /><br />
-
     <input type="button" value="　暗号化　" onclick="clickBtnEnc()" /><br /><br />
     <script type="text/javascript" src="sw.js"></script>
 

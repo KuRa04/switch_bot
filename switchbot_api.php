@@ -37,7 +37,6 @@ if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
             "desc" => $desc,
             "start_time" => $start_time,
             "end_time" => $end_time,
-            "managePassword" => $managePassword,
             "version" => $version,
             "vender" => $vender
         ));
