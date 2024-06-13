@@ -122,7 +122,7 @@
     <label>token:</label><br />
     <input type="text" name="token" id="token" size="100" value="<?php echo $token ?>" /><br />
     <label>secret:</label><br />
-    <input type="text" name="secret" id="secret" size="100" value="<?php echo $secret ?>" /><br />
+    <input type="text" name="secret" id="secret" size="100" value="<?php echo $secret_key ?>" /><br />
     <label>説明:</label><br />
     <input type="text" name="description" id="description" size="100" value="" /><br />
     <p>有効期間</p>
