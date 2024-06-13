@@ -123,15 +123,16 @@ function clickBtnDec() {
 }
 
 function jsonDownload() {
-  const json = document.getElementById("encdata").textContent;
   const auth_guest_token = document.getElementById("encdata").textContent;
   const guest_login_page_url = document.getElementById(
     "guest_login_page_url"
   ).textContent;
+  const password = document.getElementById("password").value;
 
   const guest_login_info = {
     token: auth_guest_token,
     guest_login_page_url: guest_login_page_url,
+    password: password,
   };
 
   const guest_login_json = JSON.stringify(guest_login_info);
