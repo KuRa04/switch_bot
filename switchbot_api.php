@@ -44,7 +44,7 @@ if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
         $bin_password = hex2bin($manage_password);
         $encryption_password = $password . $bin_password;
 
-        $guest_login_page_url = "https://watalab.info/lab/asakura/guest_login.html?mp=$manage_password";
+        $guest_login_page_url = "https://watalab.info/lab/asakura/guest_login.php?mp=$manage_password";
 
         try {
             $enc = encrypt($json_data, $encryption_password);
