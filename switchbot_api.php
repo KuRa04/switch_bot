@@ -23,7 +23,6 @@ if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
     $desc = $data['desc'];
     $start_time = $data['st'];
     $end_time = $data['et'];
-    $managePassword = $data['managePassword'];
     $version = $data['version'];
     $vender = $data['vender'];
 
