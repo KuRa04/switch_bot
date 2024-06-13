@@ -3,6 +3,7 @@ import pandas as pd
 import markdown
 from bs4 import BeautifulSoup
 
+# 指定されたURLからMarkdownのテキストを取得する
 def fetch_markdown(url):
     try:
         response = requests.get(url)
@@ -12,6 +13,7 @@ def fetch_markdown(url):
         print(f"Error fetching the markdown file: {e}")
         return None
 
+# MarkdownのテキストをHTMLに変換する
 def convert_markdown_to_html(markdown_content):
     try:
         return markdown.markdown(markdown_content)
@@ -19,6 +21,7 @@ def convert_markdown_to_html(markdown_content):
         print(f"Error converting markdown to HTML: {e}")
         return None
 
+# HTMLからテーブルを抽出する
 def extract_tables_from_html(html):
     try:
         soup = BeautifulSoup(html, 'html.parser')
@@ -30,6 +33,8 @@ def extract_tables_from_html(html):
         print(f"Error parsing HTML with BeautifulSoup: {e}")
         return []
 
+
+# テーブルのリストから2列目のheaderが"commandType"であるテーブルを取得する
 def extract_relevant_tables(tables):
     relevant_tables = []
     for table in tables:
@@ -39,12 +44,13 @@ def extract_relevant_tables(tables):
             row = [cell.get_text(strip=True) for cell in cells]
             rows.append(row)
         
-        # Check if the second column header is "commandType"
         if rows and len(rows[0]) > 1 and rows[0][1] == "commandType":
             relevant_tables.append(rows)
     
     return relevant_tables
 
+# pandasを使ってテーブルをCSVに変換する
+# pandasのDataFrameを使ってテーブルを作成し、to_csv()メソッドを使ってCSVファイルに書き込む
 def convert_tables_to_csv(tables, output_file):
     try:
         all_rows = []
