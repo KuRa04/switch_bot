@@ -17,22 +17,35 @@ $(function () {
   );
 });
 
-// テーブルの行のクリックでチェック
-$(document).ready(function () {
-  $("input[type=checkbox]").click(function () {
-    $(this).prop("checked", !$(this).prop("checked"));
-  });
+// コマンドを保持する配列
+let commandArray = [];
 
-  $("table tr").click(function () {
-    var c = $(this).children("td").children("input[type=checkbox]");
-    c.prop("checked", !c.prop("checked"));
-  });
-});
+// チェックボックスがクリックされたときに呼び出されるメソッド
+function onCheckboxClick(checkbox) {
+  // チェックボックスの値を取得
+  const value = checkbox.value;
+
+  // デバイスIDとコマンドを取得
+  const [deviceId, command] = value.split("/");
+
+  if (checkbox.checked) {
+    // チェックボックスがチェックされた場合、コマンドを配列に追加
+    commandArray.push({ deviceId, command });
+  } else {
+    // チェックボックスがチェックを外された場合、コマンドを配列から削除
+    commandArray = commandArray.filter(
+      (item) => item.deviceId !== deviceId || item.command !== command
+    );
+  }
+  console.log(commandArray);
+}
 
 // デバイスを選択する関数
 function clickBtn() {
   const dlist = [];
+  //formの中のdeviceの中のpickを取得
   const device = document.device.pick;
+  console.log(document.device);
 
   if (device.length === undefined) {
     if (device.checked) {

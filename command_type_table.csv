@@ -78,26 +78,25 @@ All home appliance types except Others,command,turnOn,default,every home applian
 All home appliance types except Others,command,turnOff,default,every home appliance can be turned off by default
 Others,customize,{user-defined button name},default,all user-defined buttons must be configured with commandType=customize
 Air Conditioner,command,setAll,"{temperature},{mode},{fan speed},{power state}e.g.26,1,3,on","the unit of temperature is in celsius;modes include 0/1 (auto), 2 (cool), 3 (dry), 4 (fan), 5 (heat);fan speed includes 1 (auto), 2 (low), 3 (medium), 4 (high);power state includes on and off"
-,,,,
 "TV, IPTV/Streamer,  Set Top Box",command,SetChannel,"{channel number}, e.g. 15",set the TV channel to switch to
-,command,volumeAdd,default,volume up
-,command,volumeSub,default,volume down
-,command,channelAdd,default,next channel
-,command,channelSub,default,previous channel
+TV,command,volumeAdd,default,volume up
+TV,command,volumeSub,default,volume down
+TV,command,channelAdd,default,next channel
+TV,command,channelSub,default,previous channel
 "DVD, Speaker",command,setMute,default,mute/unmute
-,command,FastForward,default,fast forward
-,command,Rewind,default,rewind
-,command,Next,default,next track
-,command,Previous,default,last track
-,command,Pause,default,pause
-,command,Play,default,play/resume
-,command,Stop,default,stop
+DVD,command,FastForward,default,fast forward
+DVD,command,Rewind,default,rewind
+DVD,command,Next,default,next track
+DVD,command,Previous,default,last track
+DVD,command,Pause,default,pause
+DVD,command,Play,default,play/resume
+DVD,command,Stop,default,stop
 Speaker,command,volumeAdd,default,volume up
-,command,volumeSub,default,volume down
+Speaker,command,volumeSub,default,volume down
 Fan,command,swing,default,swing
-,command,timer,default,set timer
-,command,lowSpeed,default,set fan speed to low
-,command,middleSpeed,default,set fan speed to medium
-,command,highSpeed,default,set fan speed to high
+Fan,command,timer,default,set timer
+Fan,command,lowSpeed,default,set fan speed to low
+Fan,command,middleSpeed,default,set fan speed to medium
+Fan,command,highSpeed,default,set fan speed to high
 Light,command,brightnessUp,default,brightness up
-,command,brightnessDown,default,brightness down
+Light,command,brightnessDown,default,brightness down
