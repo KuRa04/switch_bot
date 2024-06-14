@@ -1,4 +1,4 @@
-deviceType,commandType,Command,command parameter,Description
+deviceType,commandType,command,commandParameter,description
 Bot,command,turnOff,default,set to OFF state
 Bot,command,turnOn,default,set to ON state
 Bot,command,press,default,trigger press

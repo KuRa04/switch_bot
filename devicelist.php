@@ -60,6 +60,63 @@
     curl_close($ch);
 
     $device_list = json_decode($response, true);
+
+    //TODO: コマンド操作があるデバイスをアプリに登録する
+    //device_listのmockを作成
+    $mock_device_list = [
+        "body" => [
+            "deviceList" => [
+                [
+                    "deviceId" => "1",
+                    "deviceName" => "device1",
+                    "deviceType" => "Bot",
+                    "enableCloudService" => true,
+                    "hubDeviceId" => "hubDeviceId1"
+                ],
+                [
+                    "deviceId" => "2",
+                    "deviceName" => "device2",
+                    "deviceType" => "Curtain",
+                    "enableCloudService" => false,
+                    "hubDeviceId" => "hubDeviceId2"
+                ],
+                [
+                    "deviceId" => "3",
+                    "deviceName" => "device3",
+                    "deviceType" => "Humidifier",
+                    "enableCloudService" => true,
+                    "hubDeviceId" => "hubDeviceId3"
+                ]
+            ]
+        ]
+    ];
+
+    //command一覧を取得し、$device_listに追加する
+    // CSVファイルを開き、その内容を配列に読み込む
+    $csv = array_map('str_getcsv', file('command_type_table.csv'));
+    array_walk($csv, function (&$a) use ($csv) {
+        $a = array_combine($csv[0], $a);
+    });
+    array_shift($csv); // remove column header
+
+    // $mock_device_list_add_commandsを$mock_device_listのコピーとして初期化
+    $mock_device_list_add_commands = $mock_device_list;
+
+    // $mock_device_listをループし、各deviceTypeに対して以下の操作を行う
+    // deviceListの各デバイスに対してループを行う
+    foreach ($mock_device_list_add_commands['body']['deviceList'] as $index => $device) {
+        // CSV配列をループし、deviceTypeが一致する行を見つける
+        foreach ($csv as $row) {
+            if ($device['deviceType'] == $row['deviceType']) {                // 一致する行が見つけられたら、その行の「Command,command parameter,Description」を該当するdeviceTypeの配列に追加する
+                $mock_device_list_add_commands['body']['deviceList'][$index]['commands'][] = [
+                    'command' => $row['command'],
+                    'commandParameter' => $row['commandParameter'],
+                    'description' => $row['description']
+                ];
+            }
+        }
+    }
+
     ?>
 
     <form name="device">
@@ -72,9 +129,10 @@
                 <th>Device Type: </th>
                 <th>Enable Cloud Service: </th>
                 <th>Hub Device ID: </th>
+                <th>command: </th>
             </tr>
             <?php
-            foreach ((array)$device_list['body']['deviceList'] as $device) {
+            foreach ((array)$mock_device_list_add_commands['body']['deviceList'] as $device) {
                 echo "<tr>\n";
                 echo '<td><input type="checkbox" name="pick" value="' . $device['deviceId'] . '"></td>';
                 echo "<td>" . $device['deviceId'] . "</td>\n";
@@ -82,6 +140,11 @@
                 echo "<td>" . $device['deviceType'] . "</td>\n";
                 echo "<td>" . ($device['enableCloudService'] ? 'Yes' : 'No') . "</td>\n";
                 echo "<td>" . $device['hubDeviceId'] . "</td>\n";
+                echo "<td>";
+                foreach ($device['commands'] as $command) {
+                    echo "<input type='checkbox' name='command[]' value='" . $command['command'] . "'> " . $command['command'] . "<br>";
+                }
+                echo "</td>\n";
                 echo "</tr>\n";
                 echo "\n";
             }
