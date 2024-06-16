@@ -18,26 +18,32 @@ $(function () {
 });
 
 // コマンドを保持する配列
-let commandArray = [];
+let deviceArray = [];
 
-// チェックボックスがクリックされたときに呼び出されるメソッド
 function onCheckboxClick(checkbox) {
   // チェックボックスの値を取得
   const value = checkbox.value;
 
-  // デバイスIDとコマンドを取得
-  const [deviceId, command] = value.split("/");
+  // デバイスID、タイプ、コマンドを取得
+  const [deviceId, deviceType, command] = value.split("/");
 
-  if (checkbox.checked) {
-    // チェックボックスがチェックされた場合、コマンドを配列に追加
-    commandArray.push({ deviceId, command });
-  } else {
-    // チェックボックスがチェックを外された場合、コマンドを配列から削除
-    commandArray = commandArray.filter(
-      (item) => item.deviceId !== deviceId || item.command !== command
-    );
+  // デバイスIDを持つエントリを探す
+  let deviceEntry = deviceArray.find((entry) => entry.deviceId === deviceId);
+
+  if (!deviceEntry) {
+    // デバイスIDが存在しない場合、新しいエントリを作成
+    deviceEntry = { deviceId: deviceId, deviceType: deviceType, commands: {} };
+    deviceArray.push(deviceEntry);
   }
-  console.log(commandArray);
+
+  // コマンドの状態を更新
+  if (checkbox.checked) {
+    deviceEntry.commands[command] = true;
+  } else {
+    deviceEntry.commands[command] = false;
+  }
+
+  console.log(deviceArray);
 }
 
 // デバイスを選択する関数
