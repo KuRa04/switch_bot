@@ -126,7 +126,8 @@
     foreach ($mock_device_list_add_commands['body']['deviceList'] as $index => $device) {
         // CSV配列をループし、deviceTypeが一致する行を見つける
         foreach ($csv as $row) {
-            if ($device['deviceType'] == $row['deviceType']) {                // 一致する行が見つけられたら、その行の「Command,command parameter,Description」を該当するdeviceTypeの配列に追加する
+            //該当のdeviceTypeかつ、keyにdeviceが含まれない場合
+            if ($device['deviceType'] == $row['deviceType'] && stripos($row['key'], 'device') === false) {                // 一致する行が見つけられたら、その行の「Command,command parameter,Description」を該当するdeviceTypeの配列に追加する
                 $mock_device_list_add_commands['body']['deviceList'][$index]['status'][] = [
                     'key' => $row['key'],
                     'deviceType' => $row['deviceType'],
