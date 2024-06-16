@@ -1,0 +1,201 @@
+Key,ValueType,DeviceType,Description
+deviceId,String,Bot,device ID
+deviceType,String,Bot,device type.Bot
+power,String,Bot,ON/OFF state
+battery,Integer,Bot,"the current battery level, 0-100"
+version,String,Bot,"the current firmware version, e.g. V6.3"
+deviceMode,String,Bot,"pressMode,switchMode, orcustomizeMode"
+hubDeviceId,String,Bot,device's parent Hub ID
+deviceId,String,Curtain,device ID
+deviceType,String,Curtain,device type.Curtain
+hubDeviceId,String,Curtain,device's parent Hub ID
+calibrate,Boolean,Curtain,determines if the open position and the close position of a device have been properly calibrated or not
+group,Boolean,Curtain,determines if a Curtain is paired with or grouped with another Curtain or not
+moving,Boolean,Curtain,determines if a Curtain is moving or not
+battery,Integer,Curtain,"the current battery level, 0-100"
+version,String,Curtain,"the current firmware version, e.g. V4.2"
+slidePosition,String,Curtain,the percentage of the distance between the calibrated open position and closed position that Curtain has traversed
+deviceId,String,Curtain 3,device ID
+deviceType,String,Curtain 3,device type.Curtain3
+hubDeviceId,String,Curtain 3,device's parent Hub ID
+calibrate,Boolean,Curtain 3,determines if the open position and the close position of a device have been properly calibrated or not
+group,Boolean,Curtain 3,determines if a Curtain is paired with or grouped with another Curtain or not
+moving,Boolean,Curtain 3,determines if a Curtain is moving or not
+battery,Integer,Curtain 3,"the current battery level, 0-100"
+version,String,Curtain 3,"the current firmware version, e.g. V4.2"
+slidePosition,String,Curtain 3,the percentage of the distance between the calibrated open position and closed position that Curtain has traversed
+deviceId,String,Meter,device ID
+deviceType,String,Meter,device type.Meter
+hubDeviceId,String,Meter,device's parent Hub ID
+temperature,Float,Meter,temperature in celsius
+version,String,Meter,"the current firmware version, e.g. V4.2"
+battery,Integer,Meter,"the current battery level, 0-100"
+humidity,Integer,Meter,humidity percentage
+deviceId,String,Meter Plus,device ID
+deviceType,String,Meter Plus,device type.MeterPlus
+hubDeviceId,String,Meter Plus,device's parent Hub ID
+battery,Integer,Meter Plus,"the current battery level, 0-100"
+version,String,Meter Plus,"the current firmware version, e.g. V4.2"
+temperature,Float,Meter Plus,temperature in celsius
+humidity,Integer,Meter Plus,humidity percentage
+deviceId,String,Outdoor Meter,device ID
+deviceType,String,Outdoor Meter,device type.WoIOSensor
+hubDeviceId,String,Outdoor Meter,device's parent Hub ID
+battery,Integer,Outdoor Meter,"the current battery level, 0-100"
+version,String,Outdoor Meter,"the current firmware version, e.g. V4.2"
+temperature,Float,Outdoor Meter,temperature in celsius
+humidity,Integer,Outdoor Meter,humidity percentage
+deviceId,String,Lock,device ID
+deviceType,String,Lock,device type.Smart Lock
+hubDeviceId,String,Lock,device's parent Hub ID
+battery,Integer,Lock,"the current battery level, 0-100"
+version,String,Lock,"the current firmware version, e.g. V4.2"
+lockState,String,Lock,determines if locked or not
+doorState,String,Lock,determines if the door is closed or not
+calibrate,Boolean,Lock,determines if Lock has been calibrated or not
+deviceId,String,Lock Pro,device ID
+deviceType,String,Lock Pro,device type.Smart Lock Pro
+hubDeviceId,String,Lock Pro,device's parent Hub ID
+battery,Integer,Lock Pro,"the current battery level, 0-100"
+version,String,Lock Pro,"the current firmware version, e.g. V4.2"
+lockState,String,Lock Pro,"determines if locked or not,jammed,unlockorlock"
+doorState,String,Lock Pro,"determines if the door is closed or not,openorclose"
+calibrate,Boolean,Lock Pro,determines if Lock has been calibrated or not
+deviceId,String,Keypad,device ID
+deviceType,String,Keypad,device type.Keypad
+hubDeviceId,String,Keypad,device's parent Hub ID
+deviceId,String,Keypad Touch,device ID
+deviceType,String,Keypad Touch,device type.Keypad Touch
+hubDeviceId,String,Keypad Touch,device's parent Hub ID
+deviceId,String,Motion Sensor,device ID
+deviceType,String,Motion Sensor,device type.Motion Sensor
+hubDeviceId,String,Motion Sensor,device's parent Hub ID
+battery,Integer,Motion Sensor,"the current battery level, 0-100"
+version,String,Motion Sensor,"the current firmware version, e.g. V4.2"
+moveDetected,Boolean,Motion Sensor,determines if motion is detected
+brightness,String,Motion Sensor,the ambient brightness picked up by the sensor.brightordim
+deviceId,String,Contact Sensor,device ID
+deviceType,String,Contact Sensor,device type.Contact Sensor
+hubDeviceId,String,Contact Sensor,device's parent Hub ID
+battery,Integer,Contact Sensor,"the current battery level, 0-100"
+version,String,Contact Sensor,"the current firmware version, e.g. V4.2"
+moveDetected,Boolean,Contact Sensor,determines if motion is detected
+openState,String,Contact Sensor,"the open state of the sensor.open,close, ortimeOutNotClose"
+brightness,String,Contact Sensor,the ambient brightness picked up by the sensor.brightordim
+deviceId,String,Water Leak Detector,device ID
+deviceType,String,Water Leak Detector,device type.Water Detector
+hubDeviceId,String,Water Leak Detector,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+battery,Integer,Water Leak Detector,"the current battery level,0-100"
+version,String,Water Leak Detector,"the current firmware version, e.g. V4.2"
+status,Integer,Water Leak Detector,"0, dry.1, leak detected"
+deviceId,String,Ceiling Light,device ID
+deviceType,String,Ceiling Light,device type.Ceiling Light
+hubDeviceId,String,Ceiling Light,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+power,String,Ceiling Light,ON/OFF state
+version,String,Ceiling Light,"the current BLE and Wi-Fi firmware version, e.g. V3.1-6.3"
+brightness,Integer,Ceiling Light,"the brightness value, range from 1 to 100"
+colorTemperature,Integer,Ceiling Light,"the color temperature value, range from 2700 to 6500"
+deviceId,String,Ceiling Light Pro,device ID
+deviceType,String,Ceiling Light Pro,device type.Ceiling Light Pro
+hubDeviceId,String,Ceiling Light Pro,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+version,String,Ceiling Light Pro,"the current BLE and Wi-Fi firmware version, e.g. V3.1-6.3"
+power,String,Ceiling Light Pro,ON/OFF state
+brightness,Integer,Ceiling Light Pro,"the brightness value, range from 1 to 100"
+colorTemperature,Integer,Ceiling Light Pro,"the color temperature value, range from 2700 to 6500"
+deviceId,String,Plug Mini (US),device ID
+deviceType,String,Plug Mini (US),device type.Plug Mini (US)
+hubDeviceId,String,Plug Mini (US),device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+voltage,Float,Plug Mini (US),"the voltage of the device, measured in Volt"
+version,String,Plug Mini (US),"the current BLE and Wi-Fi firmware version, e.g. V3.1-6.3"
+weight,Float,Plug Mini (US),"the power consumed in a day, measured in Watts"
+electricityOfDay,Integer,Plug Mini (US),"the duration that the device has been used during a day, measured in minutes"
+electricCurrent,Float,Plug Mini (US),"the current of the device at the moment, measured in Amp"
+deviceId,String,Plug Mini (JP),device ID
+deviceType,String,Plug Mini (JP),device type.Plug Mini (JP)
+hubDeviceId,String,Plug Mini (JP),device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+voltage,Float,Plug Mini (JP),"the voltage of the device, measured in Volt"
+version,String,Plug Mini (JP),"the current BLE and Wi-Fi firmware version, e.g. V3.1-6.3"
+weight,Float,Plug Mini (JP),"the power consumed in a day, measured in Watts"
+electricityOfDay,Integer,Plug Mini (JP),"the duration that the device has been used during a day, measured in minutes"
+electricCurrent,Float,Plug Mini (JP),"the current of the device at the moment, measured in Amp"
+deviceId,String,Plug,device ID
+deviceType,String,Plug,device type.Plug
+power,String,Plug,ON/OFF state
+version,String,Plug,"the current Wi-Fi firmware version, e.g. V4.2"
+hubDeviceId,String,Plug,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+deviceId,String,Strip Light,device ID
+deviceType,String,Strip Light,device type.Strip Light
+hubDeviceId,String,Strip Light,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+power,String,Strip Light,ON/OFF state
+version,String,Strip Light,"the current BLE and Wi-Fi firmware version, e.g. V3.1-6.3"
+brightness,Integer,Strip Light,"the brightness value, range from 1 to 100"
+color,String,Strip Light,"the color value, RGB ""255:255:255"""
+deviceId,String,Color Bulb,device ID
+deviceType,String,Color Bulb,device type.Color Bulb
+hubDeviceId,String,Color Bulb,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+power,String,Color Bulb,ON/OFF state
+brightness,Integer,Color Bulb,"the brightness value, range from 1 to 100"
+version,String,Color Bulb,"the current BLE and Wi-Fi firmware version, e.g. V3.1-6.3"
+color,String,Color Bulb,"the color value, RGB ""255:255:255"""
+colorTemperature,Integer,Color Bulb,"the color temperature value, range from 2700 to 6500"
+deviceId,String,Robot Vacuum Cleaner S1,device ID
+deviceType,String,Robot Vacuum Cleaner S1,device type.Robot Vacuum Cleaner S1
+hubDeviceId,String,Robot Vacuum Cleaner S1,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+workingStatus,String,Robot Vacuum Cleaner S1,"the working status of the device.StandBy,Clearing,Paused,GotoChargeBase,Charging,ChargeDone,Dormant,InTrouble,InRemoteControl, orInDustCollecting"
+onlineStatus,String,Robot Vacuum Cleaner S1,the connection status of the device.onlineoroffline
+battery,Integer,Robot Vacuum Cleaner S1,the current battery level
+deviceId,String,Robot Vacuum Cleaner S1 Plus,device ID
+deviceName,String,Robot Vacuum Cleaner S1 Plus,device name
+deviceType,String,Robot Vacuum Cleaner S1 Plus,device type.Robot Vacuum Cleaner S1 Plus
+hubDeviceId,String,Robot Vacuum Cleaner S1 Plus,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+workingStatus,String,Robot Vacuum Cleaner S1 Plus,"the working status of the device.StandBy,Clearing,Paused,GotoChargeBase,Charging,ChargeDone,Dormant,InTrouble,InRemoteControl, orInDustCollecting"
+onlineStatus,String,Robot Vacuum Cleaner S1 Plus,the connection status of the device.onlineoroffline
+battery,Integer,Robot Vacuum Cleaner S1 Plus,the current battery level
+deviceId,String,Floor Cleaning Robot S10,device ID
+deviceName,String,Floor Cleaning Robot S10,device name
+deviceType,String,Floor Cleaning Robot S10,device type.Robot Vacuum Cleaner S10
+hubDeviceId,String,Floor Cleaning Robot S10,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+workingStatus,String,Floor Cleaning Robot S10,"the working status of the device.StandBy,Clearing,Paused,GotoChargeBase,Charging,ChargeDone,Dormant,InTrouble,InRemoteControl, orInDustCollecting"
+onlineStatus,String,Floor Cleaning Robot S10,the connection status of the device.onlineoroffline
+battery,Integer,Floor Cleaning Robot S10,the current battery level0-100
+waterBaseBattery,Integer,Floor Cleaning Robot S10,the current battery level0-100
+taskType,String,Floor Cleaning Robot S10,"the current task in progress.standBy,explore,cleanAll,cleanArea,cleanRoom,fillWater,deepWashing,backToCharge,markingWaterBase,drying,collectDust,remoteControl,cleanWithExplorer,fillWaterForHumi,markingHumi"
+deviceId,String,Humidifier,device ID
+deviceType,String,Humidifier,device type.Humidifier
+hubDeviceId,String,Humidifier,device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
+power,String,Humidifier,ON/OFF state
+humidity,Integer,Humidifier,humidity percentage
+temperature,Float,Humidifier,temperature in celsius
+nebulizationEfficiency,Integer,Humidifier,atomization efficiency percentage
+auto,Boolean,Humidifier,determines if a Humidifier is in Auto Mode or not
+childLock,Boolean,Humidifier,determines if a Humidifier's safety lock is on or not
+sound,Boolean,Humidifier,determines if a Humidifier is muted or not
+lackWater,Boolean,Humidifier,determines if the water tank is empty or not
+deviceId,String,Blind Tilt,device ID
+deviceType,String,Blind Tilt,device type.Blind Tilt
+hubDeviceId,String,Blind Tilt,device's parent Hub ID
+version,Integer,Blind Tilt,the firmware version of the device
+calibrate,Boolean,Blind Tilt,determines if the open and the closed positions have been properly calibrated or not
+group,Boolean,Blind Tilt,determines if a Blind Tilt device is paired with or grouped with one or more devices of the same type or not
+moving,Boolean,Blind Tilt,determines if the device is moving or not
+direction,String,Blind Tilt,the opening direction of a Blind Tilt device
+slidePosition,Integer,Blind Tilt,"the current position, 0-100"
+deviceId,String,Hub 2,device ID
+deviceType,String,Hub 2,device type.Hub 2
+hubDeviceId,String,Hub 2,"Hub ID, equivalent to device ID"
+temperature,Float,Hub 2,temperature in celsius
+lightLevel,Integer,Hub 2,"the level of illuminance of the ambience light, 1~20"
+version,String,Hub 2,"the current firmware version, e.g. V4.2"
+humidity,Integer,Hub 2,humidity percentage
+deviceId,String,Battery Circulator Fan,device ID
+deviceName,String,Battery Circulator Fan,device name
+deviceType,String,Battery Circulator Fan,device type.Battery Circulator Fan
+mode,String,Battery Circulator Fan,"fan mode. direct mode:direct; natural mode: ""natural""; sleep mode: ""sleep""; ultra quiet mode: ""baby"""
+version,String,Battery Circulator Fan,"the current firmware version, e.g. V4.2"
+battery,Integer,Battery Circulator Fan,the current battery level
+power,String,Battery Circulator Fan,ON/OFF state
+nightStatus,Integer,Battery Circulator Fan,set nightlight status. turn off:off; mode 1:1; mode 2:2
+oscillation,String,Battery Circulator Fan,set horizontal oscillation. turn on:on; turn off:off
+verticalOscillation,String,Battery Circulator Fan,set vertical oscillation. turn on:on; turn off:off
+chargingStatus,String,Battery Circulator Fan,battery charge status.chargingoruncharged
+fanSpeed,Integer,Battery Circulator Fan,fan speed. 1~100
