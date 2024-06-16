@@ -211,8 +211,9 @@
     <script type="text/javascript" src="sw.js"></script>
 
     <label>暗号化データ</label><br />
-    <textarea id="encdata" cols="100" rows="5" readonly></textarea>
-    <textarea id="guest_login_page_url" cols="100" rows="5" readonly></textarea>
+    <textarea id="encdata" cols="100" rows="5" readonly></textarea><br />
+    <label>配布用URL</label><br />
+    <textarea id="guest_login_page_url" cols="100" rows="1" readonly></textarea>
 
     <hr />
     <label>復号化の確認</label><br />
