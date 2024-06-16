@@ -29,7 +29,6 @@ if (isset($_POST['password']) && isset($_FILES['jsonFile'])) {
     $dec = decrypt($auth_guest_token, $decrypt_password);
     $dec_json = json_decode($dec, true);
     $token = $dec_json['token']; //元々のswitchbotAPIのトークン
-    print_r($dec_json); //復号化したJSONデータを表示
 
 
     // ここで$manage_passwordと$form_passwordを使用した処理を行う
@@ -42,3 +41,43 @@ if (isset($_POST['password']) && isset($_FILES['jsonFile'])) {
 
 // セッションのクリーンアップ
 unset($_SESSION['manage_password']);
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login and Upload JSON</title>
+</head>
+
+<body>
+  <?php
+  $html = "<div>";
+  foreach ($dec_json['device_list'] as $device) {
+    $html .= "<h2>{$device['deviceType']}</h2>";
+    $html .= "<h3>{$device['deviceName']}</h3>";
+    $html .= "<div style='display: flex; align-items: baseline;'>";
+    foreach (['status', 'commands'] as $category) {
+      $html .= "<div style='margin-right: 10px;'>";
+      $html .= "<h4 style='display: inline-block;'>{$category}</h4>";
+      foreach ($device[$category] as $key => $value) {
+        if ($value == 1) {
+          $html .= "<p>{$key}</p>";
+        }
+      }
+      $html .= "</div>";
+    }
+    $html .= "</div>";
+  }
+  $html .= "</div>";
+
+  // HTMLを表示
+
+  echo $html;
+  ?>
+</body>
+
+</html>
