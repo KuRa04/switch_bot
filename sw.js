@@ -25,14 +25,19 @@ function onCheckboxClick(checkbox) {
   const value = checkbox.value;
 
   // デバイスID、タイプ、コマンドを取得
-  const [deviceId, deviceType, command] = value.split("/");
+  const [deviceId, deviceType, deviceName, command] = value.split("/");
 
   // デバイスIDを持つエントリを探す
   let deviceEntry = deviceArray.find((entry) => entry.deviceId === deviceId);
 
   if (!deviceEntry) {
     // デバイスIDが存在しない場合、新しいエントリを作成
-    deviceEntry = { deviceId: deviceId, deviceType: deviceType, commands: {} };
+    deviceEntry = {
+      deviceId: deviceId,
+      deviceType: deviceType,
+      deviceName: deviceName,
+      commands: {},
+    };
     deviceArray.push(deviceEntry);
   }
 

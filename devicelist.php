@@ -142,7 +142,7 @@
                 echo "<td>" . $device['hubDeviceId'] . "</td>\n";
                 echo "<td>";
                 foreach ($device['commands'] as $command) {
-                    echo "<input type='checkbox' name='" . $device['deviceId'] . $command['command'] . "' value='" . $device['deviceId'] . "/" . $device['deviceType'] ."/" . $command['command'] . "' onclick='onCheckboxClick(this)'> " . $command['command'] . "<br>";
+                    echo "<input type='checkbox' name='" . $device['deviceId'] . $command['command'] . "' value='" . $device['deviceId'] . "/" . $device['deviceType'] . "/" . $device['deviceName'] . "/" . $command['command'] . "' onclick='onCheckboxClick(this)'> " . $command['command'] . "<br>";
                 }
                 echo "</td>\n";
                 echo "</tr>\n";
