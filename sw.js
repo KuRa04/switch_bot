@@ -91,18 +91,18 @@ function clickBtnEnc() {
   const endTime = document.getElementById("endTime").value;
   const version = document.getElementById("version").value;
   const vender = document.getElementById("vender").value;
-  const dlist = document.getElementById("dlist").textContent;
+  const deviceList = deviceArray;
 
   var data = {
     t: token,
     p: password,
-    d: dlist,
     s: secret,
-    desc: description,
+    description: description,
     st: startTime,
     et: endTime,
     version: version,
     vender: vender,
+    deviceList: deviceList,
   };
 
   $.ajax({

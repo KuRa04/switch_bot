@@ -14,24 +14,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true);
 
 $response = array();
-if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
+//token, password, deviceListが存在する時。!emptyがわかりづらいので修正
+if (isset($data['t']) && isset($data['p']) && !empty($data['deviceList'])) {
     // Encryption process
     $token = $data['t'];
     $password = $data['p'];
-    $deviceid = $data['d'];
+    $device_list = $data['deviceList'];
     $secret = $data['s'];
-    $desc = $data['desc'];
+    $desc = $data['description'];
     $start_time = $data['st'];
     $end_time = $data['et'];
     $version = $data['version'];
     $vender = $data['vender'];
 
-    if (!$token || !$password || !$deviceid) {
+    if (!$token || !$password || !$device_list) {
         $response = array("error" => "Parameters are not enough");
     } else {
         $json_data = json_encode(array(
             "token" => $token,
-            "pickDevice" => explode(",", $deviceid),
+            "device_list" => $device_list,
             "secret" => $secret,
             "desc" => $desc,
             "start_time" => $start_time,
@@ -53,7 +54,7 @@ if (isset($data['t']) && isset($data['p']) && isset($data['d'])) {
             $response = array("error" => "Encryption failed");
         }
     }
-} elseif (isset($data['x']) && isset($data['p']) && isset($data['d'])) {
+} elseif (isset($data['x']) && isset($data['p']) && isset($data['deviceList'])) {
     $response = get_device_status($data);
 } else {
     $response = array("error" => "Invalid parameters");
