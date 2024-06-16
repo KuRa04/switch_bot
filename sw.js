@@ -25,7 +25,7 @@ function onCheckboxClick(checkbox) {
   const value = checkbox.value;
 
   // デバイスID、タイプ、コマンドを取得
-  const [deviceId, deviceType, deviceName, command] = value.split("/");
+  const [deviceId, deviceType, deviceName, type, allowFunc] = value.split("/");
 
   // デバイスIDを持つエントリを探す
   let deviceEntry = deviceArray.find((entry) => entry.deviceId === deviceId);
@@ -37,17 +37,25 @@ function onCheckboxClick(checkbox) {
       deviceType: deviceType,
       deviceName: deviceName,
       commands: {},
+      status: {},
     };
     deviceArray.push(deviceEntry);
   }
 
   // コマンドの状態を更新
   if (checkbox.checked) {
-    deviceEntry.commands[command] = true;
+    if (type === "status") {
+      deviceEntry.status[allowFunc] = true;
+    } else {
+      deviceEntry.commands[allowFunc] = true;
+    }
   } else {
-    deviceEntry.commands[command] = false;
+    if (type === "status") {
+      deviceEntry.status[allowFunc] = false;
+    } else {
+      deviceEntry.commands[allowFunc] = false;
+    }
   }
-
   console.log(deviceArray);
 }
 

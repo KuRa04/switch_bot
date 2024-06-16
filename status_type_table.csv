@@ -1,4 +1,4 @@
-Key,ValueType,DeviceType,Description
+key,valueType,deviceType,description
 deviceId,String,Bot,device ID
 deviceType,String,Bot,device type.Bot
 power,String,Bot,ON/OFF state

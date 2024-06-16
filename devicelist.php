@@ -117,6 +117,25 @@
         }
     }
 
+    $csv = array_map('str_getcsv', file('status_type_table.csv'));
+    array_walk($csv, function (&$a) use ($csv) {
+        $a = array_combine($csv[0], $a);
+    });
+    array_shift($csv); // remove column header
+
+    foreach ($mock_device_list_add_commands['body']['deviceList'] as $index => $device) {
+        // CSV配列をループし、deviceTypeが一致する行を見つける
+        foreach ($csv as $row) {
+            if ($device['deviceType'] == $row['deviceType']) {                // 一致する行が見つけられたら、その行の「Command,command parameter,Description」を該当するdeviceTypeの配列に追加する
+                $mock_device_list_add_commands['body']['deviceList'][$index]['status'][] = [
+                    'key' => $row['key'],
+                    'deviceType' => $row['deviceType'],
+                    'description' => $row['description']
+                ];
+            }
+        }
+    }
+
     ?>
 
     <form name="device">
@@ -129,6 +148,7 @@
                 <th>Device Type: </th>
                 <th>Enable Cloud Service: </th>
                 <th>Hub Device ID: </th>
+                <th>status: </th>
                 <th>command: </th>
             </tr>
             <?php
@@ -141,8 +161,13 @@
                 echo "<td>" . ($device['enableCloudService'] ? 'Yes' : 'No') . "</td>\n";
                 echo "<td>" . $device['hubDeviceId'] . "</td>\n";
                 echo "<td>";
+                foreach ($device['status'] as $status) {
+                    echo "<input type='checkbox' name='" . $device['deviceId'] . $status['key'] . "' value='" . $device['deviceId'] . "/" . $device['deviceType'] . "/" . $device['deviceName'] . "/" . "status" . "/" . $status['key'] . "' onclick='onCheckboxClick(this)'> " . $status['key'] . "<br>";
+                }
+                echo "</td>\n";
+                echo "<td>";
                 foreach ($device['commands'] as $command) {
-                    echo "<input type='checkbox' name='" . $device['deviceId'] . $command['command'] . "' value='" . $device['deviceId'] . "/" . $device['deviceType'] . "/" . $device['deviceName'] . "/" . $command['command'] . "' onclick='onCheckboxClick(this)'> " . $command['command'] . "<br>";
+                    echo "<input type='checkbox' name='" . $device['deviceId'] . $command['command'] . "' value='" . $device['deviceId'] . "/" . $device['deviceType'] . "/" . $device['deviceName'] . "/" . "command" . "/" . $command['command'] . "' onclick='onCheckboxClick(this)'> " . $command['command'] . "<br>";
                 }
                 echo "</td>\n";
                 echo "</tr>\n";
