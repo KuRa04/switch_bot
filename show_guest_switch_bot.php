@@ -1,20 +1,34 @@
 <?php
-if (!isset($_GET['file'])) {
-  echo "No file specified!";
+$managePassword = isset($_GET['mp']) ? $_GET['mp'] : '';
+
+if (!$managePassword) {
+  echo "No manage password provided!";
   exit;
 }
 
-$filePath = urldecode($_GET['file']);
-if (!file_exists($filePath)) {
-  echo "File not found!";
-  exit;
-}
+if (isset($GET['data'])) {
 
-$jsonData = file_get_contents($filePath);
-$data = json_decode($jsonData, true);
-if (json_last_error() !== JSON_ERROR_NONE) {
-  echo "Invalid JSON file!";
-  exit;
+  $encodedJsonContent = $_GET['data'];
+
+  $jsonContent = urldecode($encodedJsonContent);
+
+  echo "Received JSON Content" . htmlspecialchars($jsonContent) . "<br>";
+  echo "Manage Password: " . htmlspecialchars($managePassword) . "<br>";
+
+  $jsonData = json_decode($jsonContent, true);
+
+  if (json_last_error() === JSON_ERROR_NONE) {
+    echo "Decoded JSON Data: <br>";
+    echo "Token: " . htmlspecialchars($jsonData['token']) . "<br>";
+    echo "Guest Login Page URL: " . htmlspecialchars($jsonData['guest_login_page_url']) . "<br>";
+
+    $password = $jsonData['password'];
+    $bin_password = hex2bin($managePassword);
+    $decrypt_password = $password . $bin_password;
+    $dec = decrypt($jsonData['token'], $decrypt_password);
+    $dec_json = json_decode($dec, true);
+    echo $dec_json['token'];
+  }
 }
 ?>
 
@@ -45,45 +59,6 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 
 <body>
   <h1>JSON Data</h1>
-  <table id="jsonTable">
-    <thead>
-      <tr>
-        <th>Key</th>
-        <th>Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- JSONデータがここに表示されます -->
-    </tbody>
-  </table>
-  <script>
-    const data = <?php echo json_encode($data); ?>;
-
-    function buildTable(data, tableId) {
-      const table = document.getElementById(tableId);
-      const tbody = table.querySelector('tbody');
-      tbody.innerHTML = ''; // 既存の行をクリア
-
-      for (const key in data) {
-        if (data.hasOwnProperty(key)) {
-          const row = document.createElement('tr');
-          const keyCell = document.createElement('td');
-          const valueCell = document.createElement('td');
-
-          keyCell.textContent = key;
-          valueCell.textContent = (typeof data[key] === 'object') ? JSON.stringify(data[key]) : data[key];
-
-          row.appendChild(keyCell);
-          row.appendChild(valueCell);
-          tbody.appendChild(row);
-        }
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", function() {
-      buildTable(data, 'jsonTable');
-    });
-  </script>
 </body>
 
 </html>
