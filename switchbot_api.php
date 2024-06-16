@@ -54,8 +54,9 @@ if (isset($data['t']) && isset($data['p']) && !empty($data['deviceList'])) {
             $response = array("error" => "Encryption failed");
         }
     }
-} elseif (isset($data['x']) && isset($data['p']) && isset($data['deviceList'])) {
-    $response = get_device_status($data);
+} elseif (isset($data['x']) && isset($data['p']) && isset($data['mp'])) {
+    $decrypt_password = $data['p'] . hex2bin($data['mp']);
+    $response = decrypt($data['x'], $decrypt_password);
 } else {
     $response = array("error" => "Invalid parameters");
 }

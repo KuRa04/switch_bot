@@ -127,14 +127,16 @@ function clickBtnEnc() {
 
 // 確認のための、復号化のためにPHPをたたく
 function clickBtnDec() {
-  var encodeData = document.getElementById("encdata").value;
-  var password = document.getElementById("password").value;
-  var dlist = document.getElementById("dlist").textContent;
+  const encodeData = document.getElementById("encdata").value;
+  const password = document.getElementById("password").value;
+  const url = document.getElementById("guest_login_page_url").value;
+  const match = url.match(/mp=(.*)/);
+  const managePassword = match ? match[1] : "";
 
   var data = {
     x: encodeData,
     p: password,
-    d: dlist,
+    mp: managePassword,
   };
 
   $.ajax({
@@ -143,8 +145,7 @@ function clickBtnDec() {
     contentType: "application/json",
     data: JSON.stringify(data),
     success: function (response) {
-      const responseJson = JSON.stringify(response);
-      document.getElementById("decdata").textContent = JSON.stringify(response);
+      document.getElementById("decdata").textContent = response;
     },
     error: function (xhr, status, error) {
       console.error("Error: " + error);
