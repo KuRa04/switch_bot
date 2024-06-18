@@ -6,89 +6,175 @@ $(function () {
   var tableRows = $("table tbody tr");
 
   tableRows.hover(
-    // カーソルが乗った時の処理
     function () {
       tmpColor = $(this).find("th, td").css("background-color");
       tmpIdx = tableRows.index(this);
       tableRows.eq(tmpIdx).find("th, td").css("background", highLightColor);
     },
-
-    // カーソルが外れた時の処理
     function () {
       tableRows.eq(tmpIdx).find("th, td").css("background", tmpColor);
     }
   );
 });
 
-// テーブルの行のクリックでチェック
-$(document).ready(function () {
-  $("input[type=checkbox]").click(function () {
-    var t = $(this).prop;
-    if (t("checked")) t("checked", "");
-    else t("checked", "checked");
-  });
+// コマンドを保持する配列
+let deviceArray = [];
 
-  $("table tr").click(function () {
-    var c = $(this).children("td").children("input[type=checkbox]");
-    if (c.prop("checked")) c.prop("checked", "");
-    else c.prop("checked", "checked");
-  });
-});
+function onCheckboxClick(checkbox) {
+  // チェックボックスの値を取得
+  const value = checkbox.value;
 
-// デバイスを選択
+  // デバイスID、タイプ、コマンドを取得
+  const [deviceId, deviceType, deviceName, type, allowFunc] = value.split("/");
+
+  // デバイスIDを持つエントリを探す
+  let deviceEntry = deviceArray.find((entry) => entry.deviceId === deviceId);
+
+  if (!deviceEntry) {
+    // デバイスIDが存在しない場合、新しいエントリを作成
+    deviceEntry = {
+      deviceId: deviceId,
+      deviceType: deviceType,
+      deviceName: deviceName,
+      commands: {},
+      status: {},
+    };
+    deviceArray.push(deviceEntry);
+  }
+
+  // コマンドの状態を更新
+  if (checkbox.checked) {
+    if (type === "status") {
+      deviceEntry.status[allowFunc] = true;
+    } else {
+      deviceEntry.commands[allowFunc] = true;
+    }
+  } else {
+    if (type === "status") {
+      deviceEntry.status[allowFunc] = false;
+    } else {
+      deviceEntry.commands[allowFunc] = false;
+    }
+  }
+  console.log(deviceArray);
+}
+
+// デバイスを選択する関数
 function clickBtn() {
   const dlist = [];
+  //formの中のdeviceの中のpickを取得
   const device = document.device.pick;
+  console.log(document.device);
 
-  for (let i = 0; i < device.length; i++) {
-    if (device[i].checked) {
-      dlist.push('"' + device[i].value + '"');
+  if (device.length === undefined) {
+    if (device.checked) {
+      dlist.push(device.value);
+    }
+  } else {
+    for (let i = 0; i < device.length; i++) {
+      if (device[i].checked) {
+        dlist.push(device[i].value);
+      }
     }
   }
 
-  const rlist = [];
-  const remote = document.remote.pick;
-
-  for (let i = 0; i < remote.length; i++) {
-    if (remote[i].checked) {
-      rlist.push('"' + remote[i].value + '"');
-    }
-  }
-
-  document.getElementById("dlist").textContent = dlist;
-  document.getElementById("rlist").textContent = rlist;
+  document.getElementById("dlist").textContent = dlist.join(", ");
 }
 
-// 暗号化のためにCGIをたたく
+// 暗号化のためにPHPをたたく
 function clickBtnEnc() {
-  var password = document.getElementById("password").value;
-  var token = document.getElementById("token").value;
-  var dlist = document.getElementById("dlist").textContent;
-  var data = dlist;
+  const password = document.getElementById("password").value;
+  const token = document.getElementById("token").value;
+  const secret = document.getElementById("secret").value;
+  const description = document.getElementById("description").value;
+  const startTime = document.getElementById("startTime").value;
+  const endTime = document.getElementById("endTime").value;
+  const version = document.getElementById("version").value;
+  const vender = document.getElementById("vender").value;
+  const deviceList = deviceArray;
 
-  var param = "t=" + token + "&p=" + password + "&d=" + data;
+  var data = {
+    t: token,
+    p: password,
+    s: secret,
+    description: description,
+    st: startTime,
+    et: endTime,
+    version: version,
+    vender: vender,
+    deviceList: deviceList,
+  };
 
-  ret = $.post(
-    "https://watalab.info/sample/sw/encsw_json.cgi",
-    param,
-    (data, status) => {
-      document.getElementById("encdata").textContent = ret.responseJSON["enc"];
-    }
-  );
+  $.ajax({
+    url: "https://watalab.info/lab/asakura/switchbot_api.php",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data),
+    success: function (response) {
+      // switchbot_apiで作成したencを取得して、encdataに代入。
+      //guest_login.htmlのURLを表示するpタグを作成。queryパラメータを含めたURLを表示。
+      document.getElementById("encdata").textContent = response.enc;
+      document.getElementById("guest_login_page_url").textContent =
+        response.guest_login_page_url;
+    },
+    error: function (xhr, status, error) {
+      console.error("Error: " + error);
+      console.error("Status: " + status);
+      console.error(xhr);
+    },
+  });
 }
 
-// 確認のための、復号化のためにCGIをたたく
+// 確認のための、復号化のためにPHPをたたく
 function clickBtnDec() {
-  var password2 = document.getElementById("password").value;
-  var encdata = document.getElementById("encdata").textContent;
+  const encodeData = document.getElementById("encdata").value;
+  const password = document.getElementById("password").value;
+  const url = document.getElementById("guest_login_page_url").value;
+  const match = url.match(/mp=(.*)/);
+  const managePassword = match ? match[1] : "";
 
-  var param = "x=" + encdata + "&p=" + password2;
+  var data = {
+    x: encodeData,
+    p: password,
+    mp: managePassword,
+  };
 
-  ret2 = $.post(
-    "https://watalab.info/sample/sw/swstatus.cgi",
-    param,
-    (data, status) => {
-      document.getElementById("decdata").textContent = ret2.responseText;
-    }
-  );
+  $.ajax({
+    url: "https://watalab.info/lab/asakura/switchbot_api.php",
+    type: "POST",
+    contentType: "application/json",
+    data: JSON.stringify(data),
+    success: function (response) {
+      document.getElementById("decdata").textContent = response;
+    },
+    error: function (xhr, status, error) {
+      console.error("Error: " + error);
+      console.error("Status: " + status);
+      console.error(xhr);
+    },
+  });
+}
+
+function jsonDownload() {
+  const auth_guest_token = document.getElementById("encdata").textContent;
+  const guest_login_page_url = document.getElementById(
+    "guest_login_page_url"
+  ).textContent;
+  const password = document.getElementById("password").value;
+
+  const guest_login_info = {
+    token: auth_guest_token,
+    guest_login_page_url: guest_login_page_url,
+    password: password,
+  };
+
+  const guest_login_json = JSON.stringify(guest_login_info);
+
+  const blob = new Blob([guest_login_json], { type: "application/json" });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "data.json";
+  a.click();
+  window.URL.revokeObjectURL(url);
 }

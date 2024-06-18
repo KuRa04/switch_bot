@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# 利用しないコードです。cgiのサンプルとして残しています。
 
 import requests
 import json
@@ -18,13 +19,14 @@ password=""
 
 if 'x' in form:
     param_enc = form['x'].value
-    #print(f'param_enc: {param_enc}')
+    print(f'param_enc: {param_enc}')
+
 if 'p' in form:
     password = form['p'].value
-    #print(f'password: {password}')
+    # print(f'password: {password}')
 if 'd' in form:
     deviceid = form['d'].value
-    #print(f'deviceid: {deviceid}')
+    # print(f'deviceid: {deviceid}')
 
 if not ( param_enc and password and deviceid ):
     print("Parameters is NOT enough")
@@ -40,21 +42,21 @@ token = dec_json['token']
 pickDevice = dec_json['pickDevice']
 
 
-url="https://api.switch-bot.com/v1.0/devices/"
+url="https://api.switch-bot.com/v1.1/devices/"
 
 if not deviceid in pickDevice:
     print ("Content-type: plain/text; charset=UTF-8\n")
     print('Sorry, deviceid: {deviceid} is NOT accepted.')
     sys.exit(1)
 
-print ("Content-type: application/json; charset=UTF-8\n")
+print ("Content-type: application/json; char- set=UTF-8\n")
 
 HEADERS = {
     'Authorization': token,
     'Content-Type': 'application/json; charset=utf8'
 }
 
-geturl="https://api.switch-bot.com/v1.0/devices/"+deviceid+"/status"
+geturl="https://api.switch-bot.com/v1.1/devices/"+deviceid+"/status"
 
 swres=requests.get(geturl, headers=HEADERS)
 
