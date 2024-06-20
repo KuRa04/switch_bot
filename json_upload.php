@@ -1,5 +1,6 @@
 <?php
 require_once 'encrypt_decrypt.php';    // encrypt, decrypt 関数が定義されているファイル
+require_once 'api_utils.php';    // make_secret, make_sign, make_t, make_nonce, get_device_list 関数が定義されているファイル
 
 session_start();
 
@@ -29,6 +30,37 @@ if (isset($_POST['password']) && isset($_FILES['jsonFile'])) {
     $dec = decrypt($auth_guest_token, $decrypt_password);
     $dec_json = json_decode($dec, true);
     $token = $dec_json['token']; //元々のswitchbotAPIのトークン
+    $secret = $dec_json['secret']; //元々のswitchbotAPIのシークレット
+    $deviceId = $dec_json['device_list'][1]['deviceId']; //元々のswitchbotAPIのデバイスID
+
+    $secret_key = make_secret($secret);
+    $t = make_t();
+    $nonce = make_nonce();
+    $sign = make_sign($secret_key, $token, $t, $nonce); // token を引数として渡す
+
+    // URL指定
+    $url = "https://api.switch-bot.com/v1.1/devices/$deviceId/status";
+
+    // APIheader作成
+    $headers = [
+      "Authorization: $token",
+      "sign: $sign",
+      "t: $t",
+      "nonce: $nonce",
+      "Content-Type: application/json; charset=utf-8"
+    ];
+
+    // cURL処理
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $device_list_status = json_decode($response, true);
+
+    //get_device_statusを呼び出し、デバイスのステータスを取得
 
 
     // ここで$manage_passwordと$form_passwordを使用した処理を行う
