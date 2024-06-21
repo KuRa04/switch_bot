@@ -1,9 +1,9 @@
 <?php
 require_once '../util/auth.php';
-// $dataはjson形式で受け取る方法がわからないため、調査する
+
 function get_allow_device_status()
 {
-  // 生のPOSTデータを取得
+
   $json = file_get_contents('php://input');
   $data = json_decode($json, true);
 
