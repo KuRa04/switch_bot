@@ -1,7 +1,70 @@
-// コマンドを保持する配列
-let deviceArray = [];
+function getDeviceList() {
+  const token = document.getElementById("token").value;
+  const secret_key = document.getElementById("secret_key").value;
 
-function onCheckboxClick(checkbox) {
+  const data = {
+    token: token,
+    secret_key: secret_key,
+  };
+
+  let result = {};
+
+  try {
+    $.ajax({
+      url: "https://watalab.info/lab/asakura/api/get_device_list.php",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (response) {
+        result = JSON.stringify(response); // 最初のリクエストの結果をresultに格納
+        console.log(result);
+
+        // Table要素を生成
+        let table =
+          '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Commands</th><th>Status</th></tr>';
+
+        // responseからデバイスリストを取得し、Tableの行を生成
+        response.body.deviceList.forEach((device) => {
+          let statusHtml = "";
+          if (device.status) {
+            device.status.forEach((status) => {
+              statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
+            });
+          }
+
+          let commandsHtml = "";
+          if (device.commands) {
+            device.commands.forEach((command) => {
+              commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
+            });
+          }
+          table += `<tr>
+            <td>${device.deviceId}</td>
+            <td>${device.deviceName}</td>
+            <td>${device.deviceType}</td>
+            <td>${statusHtml}</td>
+            <td>${commandsHtml}</td>
+          </tr>`;
+        });
+
+        table += "</table>";
+
+        // 生成したTableをHTMLに展開
+        document.getElementById("deviceListContainer").innerHTML = table;
+      },
+      error: function (xhr, status, error) {
+        console.error("Error: " + error);
+        console.error("Status: " + status);
+        console.error(xhr);
+      },
+    });
+  } catch (error) {
+    console.log("error: ", error);
+  }
+}
+
+let deviceArray = [];
+function onClickCheckbox(checkbox) {
   // チェックボックスの値を取得
   const value = checkbox.value;
 
@@ -38,93 +101,6 @@ function onCheckboxClick(checkbox) {
     }
   }
   console.log(deviceArray);
-}
-
-function getDeviceList() {
-  const token = document.getElementById("token").value;
-  const secret_key = document.getElementById("secret_key").value;
-
-  const data = {
-    token: token,
-    secret_key: secret_key,
-  };
-
-  let result = {};
-
-  try {
-    $.ajax({
-      url: "https://watalab.info/lab/asakura/api/get_device_list.php",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(data),
-      success: function (response) {
-        result = JSON.stringify(response); // 最初のリクエストの結果をresultに格納
-        console.log(result);
-
-        // Table要素を生成
-        let table =
-          '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Commands</th><th>Status</th></tr>';
-
-        // responseからデバイスリストを取得し、Tableの行を生成
-        response.body.deviceList.forEach((device) => {
-          let statusHtml = "";
-          if (device.status) {
-            device.status.forEach((status) => {
-              statusHtml += `<input type="checkbox" onclick="onCheckboxClick(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
-            });
-          }
-
-          let commandsHtml = "";
-          if (device.commands) {
-            device.commands.forEach((command) => {
-              commandsHtml += `<input type="checkbox" onclick="onCheckboxClick(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
-            });
-          }
-          table += `<tr>
-            <td>${device.deviceId}</td>
-            <td>${device.deviceName}</td>
-            <td>${device.deviceType}</td>
-            <td>${statusHtml}</td>
-            <td>${commandsHtml}</td>
-          </tr>`;
-        });
-
-        table += "</table>";
-
-        // 生成したTableをHTMLに展開
-        document.getElementById("deviceListContainer").innerHTML = table;
-      },
-      error: function (xhr, status, error) {
-        console.error("Error: " + error);
-        console.error("Status: " + status);
-        console.error(xhr);
-      },
-    });
-  } catch (error) {
-    console.log("error: ", error);
-  }
-}
-
-// デバイスを選択する関数
-function clickBtn() {
-  const dlist = [];
-  //formの中のdeviceの中のpickを取得
-  const device = document.device.pick;
-  console.log(document.device);
-
-  if (device.length === undefined) {
-    if (device.checked) {
-      dlist.push(device.value);
-    }
-  } else {
-    for (let i = 0; i < device.length; i++) {
-      if (device[i].checked) {
-        dlist.push(device[i].value);
-      }
-    }
-  }
-
-  document.getElementById("dlist").textContent = dlist.join(", ");
 }
 
 // 暗号化のためにPHPをたたく
