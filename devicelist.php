@@ -63,7 +63,7 @@
 
     //command一覧を取得し、$device_listに追加する
     // CSVファイルを開き、その内容を配列に読み込む
-    $csv = array_map('str_getcsv', file('command_type_table.csv'));
+    $csv = array_map('str_getcsv', file('./csv/command_type_table.csv'));
     array_walk($csv, function (&$a) use ($csv) {
         $a = array_combine($csv[0], $a);
     });
@@ -87,7 +87,7 @@
         }
     }
 
-    $csv = array_map('str_getcsv', file('status_type_table.csv'));
+    $csv = array_map('str_getcsv', file('./csv/status_type_table.csv'));
     array_walk($csv, function (&$a) use ($csv) {
         $a = array_combine($csv[0], $a);
     });
