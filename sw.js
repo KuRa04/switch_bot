@@ -101,10 +101,9 @@ function onClickCheckbox(checkbox) {
   console.log(deviceArray);
 }
 
-// 暗号化のためにPHPをたたく
 function clickBtnEnc() {
-  const password = document.getElementById("password").value;
   const token = document.getElementById("token").value;
+  const password = document.getElementById("password").value;
   const secret = document.getElementById("secret_key").value;
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
@@ -125,27 +124,22 @@ function clickBtnEnc() {
     deviceList: deviceList,
   };
 
-  $.ajax({
+  axios({
+    method: "post",
     url: "https://watalab.info/lab/asakura/api/encrypt.php",
-    type: "POST",
-    contentType: "application/json",
     data: JSON.stringify(data),
-    success: function (response) {
-      // switchbot_apiで作成したencを取得して、encdataに代入。
-      //guest_login.htmlのURLを表示するpタグを作成。queryパラメータを含めたURLを表示。
-      document.getElementById("encdata").textContent = response.enc;
+    headers: { "Content-Type": "application/json" },
+  })
+    .then(function (response) {
+      document.getElementById("encdata").textContent = response.data.enc;
       document.getElementById("guest_login_page_url").textContent =
-        response.guest_login_page_url;
-    },
-    error: function (xhr, status, error) {
+        response.data.guest_login_page_url;
+    })
+    .catch(function (error) {
       console.error("Error: " + error);
-      console.error("Status: " + status);
-      console.error(xhr);
-    },
-  });
+    });
 }
 
-// 確認のための、復号化のためにPHPをたたく
 function clickBtnDec() {
   const encodeData = document.getElementById("encdata").value;
   const password = document.getElementById("password").value;
@@ -159,20 +153,18 @@ function clickBtnDec() {
     mp: managePassword,
   };
 
-  $.ajax({
+  axios({
+    method: "post",
     url: "https://watalab.info/lab/asakura/api/decrypt.php",
-    type: "POST",
-    contentType: "application/json",
     data: JSON.stringify(data),
-    success: function (response) {
-      document.getElementById("decdata").textContent = response;
-    },
-    error: function (xhr, status, error) {
+    headers: { "Content-Type": "application/json" },
+  })
+    .then(function (response) {
+      document.getElementById("decdata").textContent = response.data;
+    })
+    .catch(function (error) {
       console.error("Error: " + error);
-      console.error("Status: " + status);
-      console.error(xhr);
-    },
-  });
+    });
 }
 
 function jsonDownload() {
