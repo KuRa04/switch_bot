@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>SwitchBotプロクシ（暗号化）</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="sw.js"></script>
+  </head>
+  <body>
+    <h2>SwitchBotプロクシ用に暗号化します</h2>
+
+    <form method="post">
+      <label>SwitchBot APIのtoken：</label
+      ><input type="text" name="token" id="token" size="100" /><br />
+      <label>SwitchBot APIのsecret：</label
+      ><input type="text" name="secret_key" id="secret_key" size="100" /><br />
+    </form>
+    <button onclick="getDeviceList()">switchbotのリスト取得</button>
+
+    <h2>デバイスリスト</h2>
+    <!-- deviceListContainerを追加 -->
+    <div id="deviceListContainer">
+      <!-- JavaScriptがここにデバイスリストを動的に挿入します -->
+    </div>
+
+    <label>説明:</label><br />
+    <input
+      type="text"
+      name="description"
+      id="description"
+      size="100"
+      value=""
+    /><br />
+    <p>有効期間</p>
+    <label>開始:</label>
+    <input
+      type="date"
+      name="startTime"
+      id="startTime"
+      size="100"
+      value=""
+    /><br />
+    <label>終了:</label>
+    <input
+      type="date"
+      name="endTime"
+      id="endTime"
+      size="100"
+      value=""
+    /><br /><br />
+    <label>version</label><br />
+    <select name="version" id="version">
+      <option value="v1.0">v1.0</option>
+      <option value="v1.1" selected>v1.1</option></select
+    ><br />
+    <label>vender</label><br />
+    <select name="vender" id="vender">
+      <option value="switchbot" selected>switchbot</option>
+      <option value="tp-link">tp-link</option></select
+    ><br />
+    <br />
+    <label>SwitchBotプロクシの利用パスワード：</label><br />
+    <input type="text" name="password" id="password" /><br /><br />
+
+    <input
+      type="button"
+      value="　暗号化　"
+      onclick="clickBtnEnc()"
+    /><br /><br />
+    <script type="text/javascript" src="sw.js"></script>
+
+    <label>暗号化データ</label><br />
+    <textarea id="encdata" cols="100" rows="5" readonly></textarea><br />
+    <label>配布用URL</label><br />
+    <textarea id="guest_login_page_url" cols="100" rows="1" readonly></textarea>
+
+    <hr />
+    <label>復号化の確認</label><br />
+    <input
+      type="button"
+      value="　復号化して確認　"
+      onclick="clickBtnDec()"
+    /><br />
+    <textarea id="decdata" cols="100" rows="10" readonly></textarea>
+    <hr />
+    <button onclick="jsonDownload()">jsonダウンロード</button>
+    <p><small>&copy; 2023 watalab.info</small></p>
+  </body>
+</html>

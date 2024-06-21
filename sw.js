@@ -1,31 +1,75 @@
-// テーブルのカーソル行に色付け
-$(function () {
-  var tmpColor;
-  var tmpIdx;
-  var highLightColor = "#dff1ff";
-  var tableRows = $("table tbody tr");
+function getDeviceList() {
+  const token = document.getElementById("token").value;
+  const secret_key = document.getElementById("secret_key").value;
 
-  tableRows.hover(
-    function () {
-      tmpColor = $(this).find("th, td").css("background-color");
-      tmpIdx = tableRows.index(this);
-      tableRows.eq(tmpIdx).find("th, td").css("background", highLightColor);
-    },
-    function () {
-      tableRows.eq(tmpIdx).find("th, td").css("background", tmpColor);
-    }
-  );
-});
+  const data = {
+    token: token,
+    secret_key: secret_key,
+  };
 
-// コマンドを保持する配列
+  let result = {};
+
+  try {
+    $.ajax({
+      url: "https://watalab.info/lab/asakura/api/get_device_list.php",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (response) {
+        result = JSON.stringify(response); // 最初のリクエストの結果をresultに格納
+        console.log(result);
+
+        // Table要素を生成
+        let table =
+          '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Commands</th><th>Status</th></tr>';
+
+        // responseからデバイスリストを取得し、Tableの行を生成
+        response.body.deviceList.forEach((device) => {
+          let statusHtml = "";
+          if (device.status) {
+            device.status.forEach((status) => {
+              statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
+            });
+          }
+
+          let commandsHtml = "";
+          if (device.commands) {
+            device.commands.forEach((command) => {
+              commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
+            });
+          }
+          table += `<tr>
+            <td>${device.deviceId}</td>
+            <td>${device.deviceName}</td>
+            <td>${device.deviceType}</td>
+            <td>${statusHtml}</td>
+            <td>${commandsHtml}</td>
+          </tr>`;
+        });
+
+        table += "</table>";
+
+        // 生成したTableをHTMLに展開
+        document.getElementById("deviceListContainer").innerHTML = table;
+      },
+      error: function (xhr, status, error) {
+        console.error("Error: " + error);
+        console.error("Status: " + status);
+        console.error(xhr);
+      },
+    });
+  } catch (error) {
+    console.log("error: ", error);
+  }
+}
+
 let deviceArray = [];
-
-function onCheckboxClick(checkbox) {
+function onClickCheckbox(checkbox) {
   // チェックボックスの値を取得
   const value = checkbox.value;
 
   // デバイスID、タイプ、コマンドを取得
-  const [deviceId, deviceType, deviceName, type, allowFunc] = value.split("/");
+  const [deviceId, deviceType, deviceName, type, allowObj] = value.split("/");
 
   // デバイスIDを持つエントリを探す
   let deviceEntry = deviceArray.find((entry) => entry.deviceId === deviceId);
@@ -45,47 +89,25 @@ function onCheckboxClick(checkbox) {
   // コマンドの状態を更新
   if (checkbox.checked) {
     if (type === "status") {
-      deviceEntry.status[allowFunc] = true;
+      deviceEntry.status[allowObj] = true;
     } else {
-      deviceEntry.commands[allowFunc] = true;
+      deviceEntry.commands[allowObj] = true;
     }
   } else {
     if (type === "status") {
-      deviceEntry.status[allowFunc] = false;
+      deviceEntry.status[allowObj] = false;
     } else {
-      deviceEntry.commands[allowFunc] = false;
+      deviceEntry.commands[allowObj] = false;
     }
   }
   console.log(deviceArray);
-}
-
-// デバイスを選択する関数
-function clickBtn() {
-  const dlist = [];
-  //formの中のdeviceの中のpickを取得
-  const device = document.device.pick;
-  console.log(document.device);
-
-  if (device.length === undefined) {
-    if (device.checked) {
-      dlist.push(device.value);
-    }
-  } else {
-    for (let i = 0; i < device.length; i++) {
-      if (device[i].checked) {
-        dlist.push(device[i].value);
-      }
-    }
-  }
-
-  document.getElementById("dlist").textContent = dlist.join(", ");
 }
 
 // 暗号化のためにPHPをたたく
 function clickBtnEnc() {
   const password = document.getElementById("password").value;
   const token = document.getElementById("token").value;
-  const secret = document.getElementById("secret").value;
+  const secret = document.getElementById("secret_key").value;
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
@@ -106,7 +128,7 @@ function clickBtnEnc() {
   };
 
   $.ajax({
-    url: "https://watalab.info/lab/asakura/switchbot_api.php",
+    url: "https://watalab.info/lab/asakura/api/encrypt.php",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),
@@ -140,7 +162,7 @@ function clickBtnDec() {
   };
 
   $.ajax({
-    url: "https://watalab.info/lab/asakura/switchbot_api.php",
+    url: "https://watalab.info/lab/asakura/api/decrypt.php",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),
