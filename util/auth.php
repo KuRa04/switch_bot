@@ -1,5 +1,3 @@
-<!-- switchBotAPIに必要な情報を作成 -->
-
 <?php
 function make_sign($secret_key, $token, $t, $nonce)
 {
