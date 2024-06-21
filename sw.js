@@ -106,7 +106,7 @@ function clickBtnEnc() {
   };
 
   $.ajax({
-    url: "https://watalab.info/lab/asakura/switchbot_api.php",
+    url: "https://watalab.info/lab/asakura/api/encrypt.php",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),
@@ -140,7 +140,7 @@ function clickBtnDec() {
   };
 
   $.ajax({
-    url: "https://watalab.info/lab/asakura/switchbot_api.php",
+    url: "https://watalab.info/lab/asakura/api/decrypt.php",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),
