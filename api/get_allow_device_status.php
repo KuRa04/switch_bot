@@ -1,12 +1,15 @@
-<!-- token, secret, deviceIdを利用して許可されているデバイスのステータスを取得 -->
 <?php
-require_once 'util/auth.php';
+require_once '../util/auth.php';
 // $dataはjson形式で受け取る方法がわからないため、調査する
-function get_allow_device_status($data)
+function get_allow_device_status()
 {
+  // 生のPOSTデータを取得
+  $json = file_get_contents('php://input');
+  $data = json_decode($json, true);
+
   $token = $data['token'];
   $secret_key = $data['secret'];
-  $device_list = $data['deviceList'];
+  $device_list = $data['device_list'];
 
   $t = make_t();
   $nonce = make_nonce();
@@ -39,5 +42,5 @@ function get_allow_device_status($data)
 
   return $statuses;
 }
-
-echo json_encode(get_allow_device_status($_POST));
+header('Content-Type: application/json; charset=utf-8');
+echo json_encode(get_allow_device_status());
