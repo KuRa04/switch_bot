@@ -3,19 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <title>SwitchBotプロクシ（暗号化）</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="sw.js"></script>
   </head>
   <body>
     <h2>SwitchBotプロクシ用に暗号化します</h2>
 
-    <form
-      method="post"
-      action="https://watalab.info/lab/asakura/devicelist.php"
-    >
+    <form method="post">
       <label>SwitchBot APIのtoken：</label
-      ><input type="text" name="token" size="100" /><br />
+      ><input type="text" name="token" id="token" size="100" /><br />
       <label>SwitchBot APIのsecret：</label
-      ><input type="text" name="secret" size="100" /><br />
-      <input type="submit" value="デバイスリスト取得" />
+      ><input type="text" name="secret_key" id="secret_key" size="100" /><br />
     </form>
+    <button onclick="getDeviceList()">button</button>
+
+    <h1>デバイスリスト</h1>
+    <!-- deviceListContainerを追加 -->
+    <div id="deviceListContainer">
+      <!-- JavaScriptがここにデバイスリストを動的に挿入します -->
+    </div>
   </body>
 </html>

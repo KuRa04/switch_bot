@@ -1,22 +1,3 @@
-// テーブルのカーソル行に色付け
-$(function () {
-  var tmpColor;
-  var tmpIdx;
-  var highLightColor = "#dff1ff";
-  var tableRows = $("table tbody tr");
-
-  tableRows.hover(
-    function () {
-      tmpColor = $(this).find("th, td").css("background-color");
-      tmpIdx = tableRows.index(this);
-      tableRows.eq(tmpIdx).find("th, td").css("background", highLightColor);
-    },
-    function () {
-      tableRows.eq(tmpIdx).find("th, td").css("background", tmpColor);
-    }
-  );
-});
-
 // コマンドを保持する配列
 let deviceArray = [];
 
@@ -25,7 +6,7 @@ function onCheckboxClick(checkbox) {
   const value = checkbox.value;
 
   // デバイスID、タイプ、コマンドを取得
-  const [deviceId, deviceType, deviceName, type, allowFunc] = value.split("/");
+  const [deviceId, deviceType, deviceName, type, allowObj] = value.split("/");
 
   // デバイスIDを持つエントリを探す
   let deviceEntry = deviceArray.find((entry) => entry.deviceId === deviceId);
@@ -45,18 +26,83 @@ function onCheckboxClick(checkbox) {
   // コマンドの状態を更新
   if (checkbox.checked) {
     if (type === "status") {
-      deviceEntry.status[allowFunc] = true;
+      deviceEntry.status[allowObj] = true;
     } else {
-      deviceEntry.commands[allowFunc] = true;
+      deviceEntry.commands[allowObj] = true;
     }
   } else {
     if (type === "status") {
-      deviceEntry.status[allowFunc] = false;
+      deviceEntry.status[allowObj] = false;
     } else {
-      deviceEntry.commands[allowFunc] = false;
+      deviceEntry.commands[allowObj] = false;
     }
   }
   console.log(deviceArray);
+}
+
+function getDeviceList() {
+  const token = document.getElementById("token").value;
+  const secret_key = document.getElementById("secret_key").value;
+
+  const data = {
+    token: token,
+    secret_key: secret_key,
+  };
+
+  let result = {};
+
+  try {
+    $.ajax({
+      url: "https://watalab.info/lab/asakura/api/get_device_list.php",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify(data),
+      success: function (response) {
+        result = JSON.stringify(response); // 最初のリクエストの結果をresultに格納
+        console.log(result);
+
+        // Table要素を生成
+        let table =
+          '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Commands</th><th>Status</th></tr>';
+
+        // responseからデバイスリストを取得し、Tableの行を生成
+        response.body.deviceList.forEach((device) => {
+          let statusHtml = "";
+          if (device.status) {
+            device.status.forEach((status) => {
+              statusHtml += `<input type="checkbox" onclick="onCheckboxClick(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
+            });
+          }
+
+          let commandsHtml = "";
+          if (device.commands) {
+            device.commands.forEach((command) => {
+              commandsHtml += `<input type="checkbox" onclick="onCheckboxClick(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
+            });
+          }
+          table += `<tr>
+            <td>${device.deviceId}</td>
+            <td>${device.deviceName}</td>
+            <td>${device.deviceType}</td>
+            <td>${statusHtml}</td>
+            <td>${commandsHtml}</td>
+          </tr>`;
+        });
+
+        table += "</table>";
+
+        // 生成したTableをHTMLに展開
+        document.getElementById("deviceListContainer").innerHTML = table;
+      },
+      error: function (xhr, status, error) {
+        console.error("Error: " + error);
+        console.error("Status: " + status);
+        console.error(xhr);
+      },
+    });
+  } catch (error) {
+    console.log("error: ", error);
+  }
 }
 
 // デバイスを選択する関数

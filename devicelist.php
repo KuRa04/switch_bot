@@ -22,91 +22,9 @@
 
 <body>
     <?php
-    require_once 'api_utils.php';
+    require_once './api/get_device_list.php';
 
-    if (!isset($_POST['token']) || !isset($_POST['secret'])) {
-        echo json_encode(["error" => "引数が不正です"]);
-        exit(1);
-    }
-
-    // SwitchBotアプリから取得
-    $token = $_POST['token'];
-    $secret_key = $_POST['secret'];
-
-    // Requestパラメータ作成
-    $secret_key = make_secret($secret_key);
-    $t = make_t();
-    $nonce = make_nonce();
-    $sign = make_sign($secret_key, $token, $t, $nonce); // token を引数として渡す
-
-    // URL指定
-    $url = "https://api.switch-bot.com/v1.1/devices";
-
-    // APIheader作成
-    $headers = [
-        "Authorization: $token",
-        "sign: $sign",
-        "t: $t",
-        "nonce: $nonce",
-        "Content-Type: application/json; charset=utf-8"
-    ];
-
-    // cURL処理
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    $device_list = json_decode($response, true);
-
-    //command一覧を取得し、$device_listに追加する
-    // CSVファイルを開き、その内容を配列に読み込む
-    $csv = array_map('str_getcsv', file('./csv/command_type_table.csv'));
-    array_walk($csv, function (&$a) use ($csv) {
-        $a = array_combine($csv[0], $a);
-    });
-    array_shift($csv); // remove column header
-
-    // $device_list_add_commandsを$mock_device_listのコピーとして初期化
-    $device_list_add_commands = $device_list;
-
-    // $mock_device_listをループし、各deviceTypeに対して以下の操作を行う
-    // deviceListの各デバイスに対してループを行う
-    foreach ($device_list_add_commands['body']['deviceList'] as $index => $device) {
-        // CSV配列をループし、deviceTypeが一致する行を見つける
-        foreach ($csv as $row) {
-            if ($device['deviceType'] == $row['deviceType']) {                // 一致する行が見つけられたら、その行の「Command,command parameter,Description」を該当するdeviceTypeの配列に追加する
-                $device_list_add_commands['body']['deviceList'][$index]['commands'][] = [
-                    'command' => $row['command'],
-                    'commandParameter' => $row['commandParameter'],
-                    'description' => $row['description']
-                ];
-            }
-        }
-    }
-
-    $csv = array_map('str_getcsv', file('./csv/status_type_table.csv'));
-    array_walk($csv, function (&$a) use ($csv) {
-        $a = array_combine($csv[0], $a);
-    });
-    array_shift($csv); // remove column header
-
-    foreach ($device_list_add_commands['body']['deviceList'] as $index => $device) {
-        // CSV配列をループし、deviceTypeが一致する行を見つける
-        foreach ($csv as $row) {
-            //該当のdeviceTypeかつ、keyにdeviceが含まれない場合
-            if ($device['deviceType'] == $row['deviceType'] && stripos($row['key'], 'device') === false) {                // 一致する行が見つけられたら、その行の「Command,command parameter,Description」を該当するdeviceTypeの配列に追加する
-                $device_list_add_commands['body']['deviceList'][$index]['status'][] = [
-                    'key' => $row['key'],
-                    'deviceType' => $row['deviceType'],
-                    'description' => $row['description']
-                ];
-            }
-        }
-    }
-
+    $device_list = get_device_list();
     ?>
 
     <form name="device">
@@ -123,7 +41,7 @@
                 <th>command: </th>
             </tr>
             <?php
-            foreach ((array)$device_list_add_commands['body']['deviceList'] as $device) {
+            foreach ((array)$device_list['body']['deviceList'] as $device) {
                 echo "<tr>\n";
                 echo '<td><input type="checkbox" name="pick" value="' . $device['deviceId'] . '"></td>';
                 echo "<td>" . $device['deviceId'] . "</td>\n";
