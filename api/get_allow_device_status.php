@@ -9,38 +9,30 @@ function get_allow_device_status()
 
   $token = $data['token'];
   $secret_key = $data['secretKey'];
-  $device_list = $data['deviceList'];
+  $device_id = $data['deviceId'];
 
   $t = make_t();
   $nonce = make_nonce();
   $sign = make_sign($secret_key, $token, $t, $nonce);
 
-  $statuses = [];
+  $url = "https://api.switch-bot.com/v1.1/devices/$device_id/status";
 
-  foreach ($device_list as $device) {
-    $device_id = $device['deviceId'];
-    $url = "https://api.switch-bot.com/v1.1/devices/$device_id/status";
+  $headers = [
+    "Authorization: $token",
+    "sign: $sign",
+    "t: $t",
+    "nonce: $nonce",
+    "Content-Type: application/json; charset=utf-8"
+  ];
 
-    $headers = [
-      "Authorization: $token",
-      "sign: $sign",
-      "t: $t",
-      "nonce: $nonce",
-      "Content-Type: application/json; charset=utf-8"
-    ];
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  $response = curl_exec($ch);
+  curl_close($ch);
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    $device_status = json_decode($response, true);
-    $statuses[] = $device_status;
-  }
-
-  return $statuses;
+  return json_decode($response, true);
 }
 header('Content-Type: application/json; charset=utf-8');
 echo json_encode(get_allow_device_status());
