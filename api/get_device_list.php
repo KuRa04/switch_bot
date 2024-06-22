@@ -8,7 +8,7 @@ function get_device_list()
   $data = json_decode($json, true);
 
   $token = $data['token'];
-  $secret_key = $data['secret_key'];
+  $secret_key = $data['secretKey'];
 
   $t = make_t();
   $nonce = make_nonce();

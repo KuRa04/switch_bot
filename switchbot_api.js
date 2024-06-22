@@ -1,10 +1,10 @@
 function getDeviceList() {
   const token = document.getElementById("token").value;
-  const secret_key = document.getElementById("secret_key").value;
+  const secretKey = document.getElementById("secretKey").value;
 
   const data = {
     token: token,
-    secret_key: secret_key,
+    secretKey: secretKey,
   };
 
   document.getElementById("deviceListContainer").innerHTML = "Loading...";
@@ -136,7 +136,7 @@ function clickBtnEnc() {
 
   const token = document.getElementById("token").value;
   const password = document.getElementById("password").value;
-  const secret = document.getElementById("secret_key").value;
+  const secretKey = document.getElementById("secretKey").value;
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
@@ -144,13 +144,13 @@ function clickBtnEnc() {
   const vender = document.getElementById("vender").value;
   const deviceList = deviceArray;
 
-  var data = {
-    t: token,
-    p: password,
-    s: secret,
+  const data = {
+    token: token,
+    password: password,
+    secretKey: secretKey,
     description: description,
-    st: startTime,
-    et: endTime,
+    startTime: startTime,
+    endTime: endTime,
     version: version,
     vender: vender,
     deviceList: deviceList,
@@ -179,10 +179,10 @@ function clickBtnDec() {
   const match = url.match(/mp=(.*)/);
   const managePassword = match ? match[1] : "";
 
-  var data = {
-    x: encodeData,
-    p: password,
-    mp: managePassword,
+  const data = {
+    encodeData: encodeData,
+    password: password,
+    managePassword: managePassword,
   };
 
   axios({

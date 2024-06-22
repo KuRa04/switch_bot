@@ -5,7 +5,7 @@
     <title>SwitchBotプロクシ（暗号化）</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="sw.js"></script>
+    <script type="text/javascript" src="switchbot_api.js"></script>
   </head>
   <body>
     <h2>SwitchBotプロクシ用に暗号化します</h2>
@@ -14,7 +14,7 @@
       <label>SwitchBot APIのtoken：</label
       ><input type="text" name="token" id="token" size="100" /><br />
       <label>SwitchBot APIのsecret：</label
-      ><input type="text" name="secret_key" id="secret_key" size="100" /><br />
+      ><input type="text" name="secretKey" id="secretKey" size="100" /><br />
     </form>
     <button onclick="getDeviceList()">switchbotのリスト取得</button>
 
@@ -70,7 +70,6 @@
       value="　暗号化　"
       onclick="clickBtnEnc()"
     /><br /><br />
-    <script type="text/javascript" src="sw.js"></script>
 
     <label>暗号化データ</label><br />
     <textarea id="encdata" cols="100" rows="5" readonly></textarea><br />
