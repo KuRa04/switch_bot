@@ -15,8 +15,8 @@ $response = array();
 
 // Encryption process
 $token = $data['token'];
+$secret_key = $data['secretKey'];
 $password = $data['password'];
-$secret = $data['secretKey'];
 $desc = $data['description'];
 $start_time = $data['startTime'];
 $end_time = $data['endTime'];
@@ -29,13 +29,13 @@ if (!$token || !$password || !$device_list) {
 } else {
   $json_data = json_encode(array(
     "token" => $token,
-    "device_list" => $device_list,
-    "secret" => $secret,
-    "desc" => $desc,
-    "start_time" => $start_time,
-    "end_time" => $end_time,
+    "secretKey" => $secret_key,
+    "description" => $desc,
+    "startTime" => $start_time,
+    "endTime" => $end_time,
     "version" => $version,
-    "vender" => $vender
+    "vender" => $vender,
+    "deviceList" => $device_list
   ));
 
   $manage_password = bin2hex(random_bytes(16));
@@ -46,7 +46,7 @@ if (!$token || !$password || !$device_list) {
 
   try {
     $enc = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $encryption_password, OPENSSL_RAW_DATA, 'iv12345678901234'));
-    $response = array("enc" => $enc, "guest_login_page_url" => $guest_login_page_url);
+    $response = array("encodeData" => $enc, "guestLoginPageUrl" => $guest_login_page_url);
   } catch (Exception $e) {
     $response = array("error" => "Encryption failed");
   }
