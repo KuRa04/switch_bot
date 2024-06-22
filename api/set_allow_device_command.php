@@ -12,12 +12,6 @@ function set_allow_device_command()
   $device_id = $data['deviceId'];
   $command = $data['commands'];
 
-  $commandFormatted = [
-    "command" => $command['command'],
-    "parameter" => $command['parameter'],
-    "commandType" => $command['commandType']
-  ];
-
   $t = make_t();
   $nonce = make_nonce();
   $sign = make_sign($secret_key, $token, $t, $nonce);
@@ -37,7 +31,7 @@ function set_allow_device_command()
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
   curl_setopt($ch, CURLOPT_POST, true);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($commandFormatted));
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($command, true));
   $response = curl_exec($ch);
   curl_close($ch);
 
