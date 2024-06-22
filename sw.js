@@ -7,60 +7,58 @@ function getDeviceList() {
     secret_key: secret_key,
   };
 
-  let result = {};
+  // ローディング表示
+  document.getElementById("deviceListContainer").innerHTML = "Loading...";
 
-  try {
-    $.ajax({
-      url: "https://watalab.info/lab/asakura/api/get_device_list.php",
-      type: "POST",
-      contentType: "application/json",
-      data: JSON.stringify(data),
-      success: function (response) {
-        result = JSON.stringify(response); // 最初のリクエストの結果をresultに格納
-        console.log(result);
+  axios({
+    url: "https://watalab.info/lab/asakura/api/get_device_list.php",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(data),
+  })
+    .then(function (response) {
+      // response.dataを使用してレスポンスデータにアクセス
+      const result = JSON.stringify(response.data);
+      console.log(result);
 
-        // Table要素を生成
-        let table =
-          '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Commands</th><th>Status</th></tr>';
+      let table =
+        '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Commands</th><th>Status</th></tr>';
 
-        // responseからデバイスリストを取得し、Tableの行を生成
-        response.body.deviceList.forEach((device) => {
-          let statusHtml = "";
-          if (device.status) {
-            device.status.forEach((status) => {
-              statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
-            });
-          }
+      response.data.body.deviceList.forEach((device) => {
+        let statusHtml = "";
+        if (device.status) {
+          device.status.forEach((status) => {
+            statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
+          });
+        }
 
-          let commandsHtml = "";
-          if (device.commands) {
-            device.commands.forEach((command) => {
-              commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
-            });
-          }
-          table += `<tr>
-            <td>${device.deviceId}</td>
-            <td>${device.deviceName}</td>
-            <td>${device.deviceType}</td>
-            <td>${statusHtml}</td>
-            <td>${commandsHtml}</td>
-          </tr>`;
-        });
+        let commandsHtml = "";
+        if (device.commands) {
+          device.commands.forEach((command) => {
+            commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
+          });
+        }
+        table += `<tr>
+        <td>${device.deviceId}</td>
+        <td>${device.deviceName}</td>
+        <td>${device.deviceType}</td>
+        <td>${statusHtml}</td>
+        <td>${commandsHtml}</td>
+      </tr>`;
+      });
 
-        table += "</table>";
+      table += "</table>";
 
-        // 生成したTableをHTMLに展開
-        document.getElementById("deviceListContainer").innerHTML = table;
-      },
-      error: function (xhr, status, error) {
-        console.error("Error: " + error);
-        console.error("Status: " + status);
-        console.error(xhr);
-      },
+      document.getElementById("deviceListContainer").innerHTML = table;
+    })
+    .catch(function (error) {
+      console.error("Error: ", error);
+      // エラー発生時もLoadingを消す
+      document.getElementById("deviceListContainer").innerHTML =
+        "An error occurred";
     });
-  } catch (error) {
-    console.log("error: ", error);
-  }
 }
 
 let deviceArray = [];
@@ -103,10 +101,9 @@ function onClickCheckbox(checkbox) {
   console.log(deviceArray);
 }
 
-// 暗号化のためにPHPをたたく
 function clickBtnEnc() {
-  const password = document.getElementById("password").value;
   const token = document.getElementById("token").value;
+  const password = document.getElementById("password").value;
   const secret = document.getElementById("secret_key").value;
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
@@ -127,27 +124,22 @@ function clickBtnEnc() {
     deviceList: deviceList,
   };
 
-  $.ajax({
+  axios({
+    method: "post",
     url: "https://watalab.info/lab/asakura/api/encrypt.php",
-    type: "POST",
-    contentType: "application/json",
     data: JSON.stringify(data),
-    success: function (response) {
-      // switchbot_apiで作成したencを取得して、encdataに代入。
-      //guest_login.htmlのURLを表示するpタグを作成。queryパラメータを含めたURLを表示。
-      document.getElementById("encdata").textContent = response.enc;
+    headers: { "Content-Type": "application/json" },
+  })
+    .then(function (response) {
+      document.getElementById("encdata").textContent = response.data.enc;
       document.getElementById("guest_login_page_url").textContent =
-        response.guest_login_page_url;
-    },
-    error: function (xhr, status, error) {
+        response.data.guest_login_page_url;
+    })
+    .catch(function (error) {
       console.error("Error: " + error);
-      console.error("Status: " + status);
-      console.error(xhr);
-    },
-  });
+    });
 }
 
-// 確認のための、復号化のためにPHPをたたく
 function clickBtnDec() {
   const encodeData = document.getElementById("encdata").value;
   const password = document.getElementById("password").value;
@@ -161,20 +153,18 @@ function clickBtnDec() {
     mp: managePassword,
   };
 
-  $.ajax({
+  axios({
+    method: "post",
     url: "https://watalab.info/lab/asakura/api/decrypt.php",
-    type: "POST",
-    contentType: "application/json",
     data: JSON.stringify(data),
-    success: function (response) {
-      document.getElementById("decdata").textContent = response;
-    },
-    error: function (xhr, status, error) {
+    headers: { "Content-Type": "application/json" },
+  })
+    .then(function (response) {
+      document.getElementById("decdata").textContent = response.data;
+    })
+    .catch(function (error) {
       console.error("Error: " + error);
-      console.error("Status: " + status);
-      console.error(xhr);
-    },
-  });
+    });
 }
 
 function jsonDownload() {
