@@ -105,6 +105,15 @@ function validateInputs() {
     { id: "password", name: "パスワード" },
   ];
 
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const isChecked = Array.from(checkboxes).some((checkbox) => checkbox.checked);
+
+  if (!isChecked) {
+    isValid = false;
+    errorMessage +=
+      "少なくとも一つのcommand、またはstatusを選択してください。<br>";
+  }
+
   // 各入力フィールドをチェック
   inputs.forEach((input) => {
     const value = document.getElementById(input.id).value;
