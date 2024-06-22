@@ -29,13 +29,13 @@ if (!$token || !$password || !$device_list) {
 } else {
   $json_data = json_encode(array(
     "token" => $token,
-    "secret_key" => $secret_key,
-    "desc" => $desc,
-    "start_time" => $start_time,
-    "end_time" => $end_time,
+    "secretKey" => $secret_key,
+    "description" => $desc,
+    "startTime" => $start_time,
+    "endTime" => $end_time,
     "version" => $version,
     "vender" => $vender,
-    "device_list" => $device_list
+    "deviceList" => $device_list
   ));
 
   $manage_password = bin2hex(random_bytes(16));
