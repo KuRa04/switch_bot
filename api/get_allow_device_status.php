@@ -8,8 +8,8 @@ function get_allow_device_status()
   $data = json_decode($json, true);
 
   $token = $data['token'];
-  $secret_key = $data['secret'];
-  $device_list = $data['device_list'];
+  $secret_key = $data['secretKey'];
+  $device_list = $data['deviceList'];
 
   $t = make_t();
   $nonce = make_nonce();
