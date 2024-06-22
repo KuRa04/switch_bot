@@ -135,8 +135,8 @@ function clickBtnEnc() {
   }
 
   const token = document.getElementById("token").value;
-  const password = document.getElementById("password").value;
   const secretKey = document.getElementById("secretKey").value;
+  const password = document.getElementById("password").value;
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
