@@ -11,11 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true);
 $response = array();
 
-$encode_data = $data['x'];
-$password = $data['p'];
-$manage_password = $data['mp'];
+$encode_data = $data['encodeData'];
+$password = $data['password'];
+$manage_password = $data['managePassword'];
 
-$decrypt_password = $data['p'] . hex2bin($data['mp']);
+$decrypt_password = $password . hex2bin($manage_password);
 
 $response = openssl_decrypt(base64_decode($encode_data), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
 

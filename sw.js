@@ -179,10 +179,10 @@ function clickBtnDec() {
   const match = url.match(/mp=(.*)/);
   const managePassword = match ? match[1] : "";
 
-  var data = {
-    x: encodeData,
-    p: password,
-    mp: managePassword,
+  const data = {
+    encodeData: encodeData,
+    password: password,
+    managePassword: managePassword,
   };
 
   axios({
