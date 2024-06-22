@@ -7,7 +7,6 @@ function getDeviceList() {
     secret_key: secret_key,
   };
 
-  // ローディング表示
   document.getElementById("deviceListContainer").innerHTML = "Loading...";
 
   axios({
@@ -19,7 +18,6 @@ function getDeviceList() {
     data: JSON.stringify(data),
   })
     .then(function (response) {
-      // response.dataを使用してレスポンスデータにアクセス
       const result = JSON.stringify(response.data);
       console.log(result);
 
@@ -63,17 +61,12 @@ function getDeviceList() {
 
 let deviceArray = [];
 function onClickCheckbox(checkbox) {
-  // チェックボックスの値を取得
   const value = checkbox.value;
-
-  // デバイスID、タイプ、コマンドを取得
   const [deviceId, deviceType, deviceName, type, allowObj] = value.split("/");
 
-  // デバイスIDを持つエントリを探す
   let deviceEntry = deviceArray.find((entry) => entry.deviceId === deviceId);
 
   if (!deviceEntry) {
-    // デバイスIDが存在しない場合、新しいエントリを作成
     deviceEntry = {
       deviceId: deviceId,
       deviceType: deviceType,
@@ -84,7 +77,6 @@ function onClickCheckbox(checkbox) {
     deviceArray.push(deviceEntry);
   }
 
-  // コマンドの状態を更新
   if (checkbox.checked) {
     if (type === "status") {
       deviceEntry.status[allowObj] = true;
@@ -101,7 +93,47 @@ function onClickCheckbox(checkbox) {
   console.log(deviceArray);
 }
 
+function validateInputs() {
+  let isValid = true;
+  let errorMessage = "";
+
+  // 必要な入力フィールドのリスト
+  const inputs = [
+    { id: "description", name: "説明" },
+    { id: "startTime", name: "開始日" },
+    { id: "endTime", name: "終了日" },
+    { id: "password", name: "パスワード" },
+  ];
+
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const isChecked = Array.from(checkboxes).some((checkbox) => checkbox.checked);
+
+  if (!isChecked) {
+    isValid = false;
+    errorMessage +=
+      "少なくとも一つのcommand、またはstatusを選択してください。<br>";
+  }
+
+  // 各入力フィールドをチェック
+  inputs.forEach((input) => {
+    const value = document.getElementById(input.id).value;
+    if (!value) {
+      isValid = false;
+      errorMessage += `${input.name}が入力されていません。<br>`;
+    }
+  });
+
+  // エラーメッセージを表示またはクリア
+  document.getElementById("errorMessages").innerHTML = errorMessage;
+
+  return isValid;
+}
+
 function clickBtnEnc() {
+  if (!validateInputs()) {
+    return;
+  }
+
   const token = document.getElementById("token").value;
   const password = document.getElementById("password").value;
   const secret = document.getElementById("secret_key").value;

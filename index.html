@@ -19,9 +19,8 @@
     <button onclick="getDeviceList()">switchbotのリスト取得</button>
 
     <h2>デバイスリスト</h2>
-    <!-- deviceListContainerを追加 -->
     <div id="deviceListContainer">
-      <!-- JavaScriptがここにデバイスリストを動的に挿入します -->
+      Switchbotアプリに表示されているtokenとsecretを入力し、デバイスリストを取得してください。
     </div>
 
     <label>説明:</label><br />
@@ -62,6 +61,9 @@
     <br />
     <label>SwitchBotプロクシの利用パスワード：</label><br />
     <input type="text" name="password" id="password" /><br /><br />
+
+    <div id="errorMessages" style="color: red"></div>
+    <br />
 
     <input
       type="button"
