@@ -1,10 +1,10 @@
 function getDeviceList() {
   const token = document.getElementById("token").value;
-  const secret_key = document.getElementById("secret_key").value;
+  const secretKey = document.getElementById("secretKey").value;
 
   const data = {
     token: token,
-    secret_key: secret_key,
+    secretKey: secretKey,
   };
 
   document.getElementById("deviceListContainer").innerHTML = "Loading...";
@@ -136,7 +136,7 @@ function clickBtnEnc() {
 
   const token = document.getElementById("token").value;
   const password = document.getElementById("password").value;
-  const secretKey = document.getElementById("secret_key").value;
+  const secretKey = document.getElementById("secretKey").value;
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
