@@ -136,7 +136,7 @@ function clickBtnEnc() {
 
   const token = document.getElementById("token").value;
   const password = document.getElementById("password").value;
-  const secret = document.getElementById("secret_key").value;
+  const secretKey = document.getElementById("secret_key").value;
   const description = document.getElementById("description").value;
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
@@ -144,13 +144,13 @@ function clickBtnEnc() {
   const vender = document.getElementById("vender").value;
   const deviceList = deviceArray;
 
-  var data = {
-    t: token,
-    p: password,
-    s: secret,
+  const data = {
+    token: token,
+    password: password,
+    secretKey: secretKey,
     description: description,
-    st: startTime,
-    et: endTime,
+    startTime: startTime,
+    endTime: endTime,
     version: version,
     vender: vender,
     deviceList: deviceList,

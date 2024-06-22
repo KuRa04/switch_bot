@@ -14,15 +14,15 @@ $response = array();
 //token, password, deviceListが存在する時。!emptyがわかりづらいので修正
 
 // Encryption process
-$token = $data['t'];
-$password = $data['p'];
-$device_list = $data['deviceList'];
-$secret = $data['s'];
+$token = $data['token'];
+$password = $data['password'];
+$secret = $data['secretKey'];
 $desc = $data['description'];
-$start_time = $data['st'];
-$end_time = $data['et'];
+$start_time = $data['startTime'];
+$end_time = $data['endTime'];
 $version = $data['version'];
 $vender = $data['vender'];
+$device_list = $data['deviceList'];
 
 if (!$token || !$password || !$device_list) {
   $response = array("error" => "Parameters are not enough");
