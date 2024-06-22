@@ -93,7 +93,38 @@ function onClickCheckbox(checkbox) {
   console.log(deviceArray);
 }
 
+function validateInputs() {
+  let isValid = true;
+  let errorMessage = "";
+
+  // 必要な入力フィールドのリスト
+  const inputs = [
+    { id: "description", name: "説明" },
+    { id: "startTime", name: "開始日" },
+    { id: "endTime", name: "終了日" },
+    { id: "password", name: "パスワード" },
+  ];
+
+  // 各入力フィールドをチェック
+  inputs.forEach((input) => {
+    const value = document.getElementById(input.id).value;
+    if (!value) {
+      isValid = false;
+      errorMessage += `${input.name}が入力されていません。<br>`;
+    }
+  });
+
+  // エラーメッセージを表示またはクリア
+  document.getElementById("errorMessages").innerHTML = errorMessage;
+
+  return isValid;
+}
+
 function clickBtnEnc() {
+  if (!validateInputs()) {
+    return;
+  }
+
   const token = document.getElementById("token").value;
   const password = document.getElementById("password").value;
   const secret = document.getElementById("secret_key").value;
