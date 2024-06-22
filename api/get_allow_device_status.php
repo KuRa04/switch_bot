@@ -32,7 +32,7 @@ function get_allow_device_status()
   $response = curl_exec($ch);
   curl_close($ch);
 
-  return $response;
+  return json_decode($response, true);
 }
 header('Content-Type: application/json; charset=utf-8');
 echo json_encode(get_allow_device_status());
