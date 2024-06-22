@@ -46,7 +46,7 @@ if (!$token || !$password || !$device_list) {
 
   try {
     $enc = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $encryption_password, OPENSSL_RAW_DATA, 'iv12345678901234'));
-    $response = array("enc" => $enc, "guest_login_page_url" => $guest_login_page_url);
+    $response = array("encodeData" => $enc, "guestLoginPageUrl" => $guest_login_page_url);
   } catch (Exception $e) {
     $response = array("error" => "Encryption failed");
   }

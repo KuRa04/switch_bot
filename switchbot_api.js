@@ -163,9 +163,10 @@ function clickBtnEnc() {
     headers: { "Content-Type": "application/json" },
   })
     .then(function (response) {
-      document.getElementById("encdata").textContent = response.data.enc;
-      document.getElementById("guest_login_page_url").textContent =
-        response.data.guest_login_page_url;
+      document.getElementById("encodeData").textContent =
+        response.data.encodeData;
+      document.getElementById("guestLoginPageUrl").textContent =
+        response.data.guestLoginPageUrl;
     })
     .catch(function (error) {
       console.error("Error: " + error);
@@ -173,9 +174,9 @@ function clickBtnEnc() {
 }
 
 function clickBtnDec() {
-  const encodeData = document.getElementById("encdata").value;
+  const encodeData = document.getElementById("encodeData").value;
   const password = document.getElementById("password").value;
-  const url = document.getElementById("guest_login_page_url").value;
+  const url = document.getElementById("guestLoginPageUrl").value;
   const match = url.match(/mp=(.*)/);
   const managePassword = match ? match[1] : "";
 
@@ -192,7 +193,7 @@ function clickBtnDec() {
     headers: { "Content-Type": "application/json" },
   })
     .then(function (response) {
-      document.getElementById("decdata").textContent = response.data;
+      document.getElementById("decodeData").textContent = response.data;
     })
     .catch(function (error) {
       console.error("Error: " + error);
@@ -200,10 +201,9 @@ function clickBtnDec() {
 }
 
 function jsonDownload() {
-  const auth_guest_token = document.getElementById("encdata").textContent;
-  const guest_login_page_url = document.getElementById(
-    "guest_login_page_url"
-  ).textContent;
+  const auth_guest_token = document.getElementById("encodeData").textContent;
+  const guest_login_page_url =
+    document.getElementById("guestLoginPageUrl").textContent;
   const password = document.getElementById("password").value;
 
   const guest_login_info = {
