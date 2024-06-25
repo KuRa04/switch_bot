@@ -5,6 +5,39 @@ session_start();
 if (isset($_GET['mp'])) {
   $_SESSION['manage_password'] = $_GET['mp'];
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // ファイルがアップロードされたか確認
+  if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] == UPLOAD_ERR_OK) {
+    // ファイルタイプがJSONであることを確認
+    $fileType = $_FILES['fileToUpload']['type'];
+    if ($fileType == 'application/json') {
+      // JSONファイルを読み込み
+      $jsonContent = file_get_contents($_FILES['fileToUpload']['tmp_name']);
+      // JSONをデコード
+      $data = json_decode($jsonContent, true);
+      if ($data === null) {
+        echo "JSONファイルのデコードに失敗しました。";
+      } else {
+        // デコードされたデータを処理
+        // 例: データを表示
+        $auth_guest_token = $data['authGuestToken'];
+        $password = $_POST['password'];
+        $manage_password = $_SESSION['manage_password'];
+        $decrypt_password = $password . hex2bin($manage_password);
+
+        $response = openssl_decrypt(base64_decode($auth_guest_token), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+
+        $_SESSION['response'] = json_encode($response);
+        echo json_encode($response);
+      }
+    } else {
+      echo "アップロードされたファイルはJSON形式ではありません。";
+    }
+  } else {
+    echo "ファイルがアップロードされていません。";
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,18 +57,6 @@ if (isset($_GET['mp'])) {
     <input type="file" name="fileToUpload" id="fileToUpload">
     <button type="submit">Next</button>
   </form>
-
-  <script>
-    document
-      .getElementById("uploadForm")
-      .addEventListener("submit", function(event) {
-        const fileInput = document.getElementById("jsonFile");
-        if (fileInput.files.length === 0) {
-          alert("Please select a JSON file to upload.");
-          event.preventDefault();
-        }
-      });
-  </script>
 </body>
 
 </html>
