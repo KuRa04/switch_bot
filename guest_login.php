@@ -18,10 +18,10 @@ if (isset($_GET['mp'])) {
 
 <body>
   <h1>Login Page</h1>
-  <form id="uploadForm" action="json_upload.php" method="post" enctype="multipart/form-data">
+  <form id="uploadForm" action="allow_device_list.php" method="post" enctype="multipart/form-data">
     <label>所有者パスワード：</label><input type="text" name="password" size="100" /><br />
     <label for="jsonFile">Upload JSON File:</label>
-    <input type="file" id="jsonFile" name="jsonFile" accept=".json" required />
+    <input type="file" name="fileToUpload" id="fileToUpload">
     <button type="submit">Next</button>
   </form>
 
