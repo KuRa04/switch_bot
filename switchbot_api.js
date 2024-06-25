@@ -165,8 +165,6 @@ function clickBtnEnc() {
     .then(function (response) {
       document.getElementById("encodeData").textContent =
         response.data.encodeData;
-      document.getElementById("guestLoginPageUrl").textContent =
-        response.data.guestLoginPageUrl;
     })
     .catch(function (error) {
       console.error("Error: " + error);

@@ -41,8 +41,8 @@ if (!$token || !$password || !$device_list) {
   $guest_login_page_url = "https://watalab.info/lab/asakura/guest_login.php";
 
   try {
-    $enc = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $password, OPENSSL_RAW_DATA, 'iv12345678901234'));
-    $response = array("encodeData" => $enc, "guestLoginPageUrl" => $guest_login_page_url);
+    $encode_data = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $password, OPENSSL_RAW_DATA, 'iv12345678901234'));
+    $response = array("encodeData" => $encode_data);
   } catch (Exception $e) {
     $response = array("error" => "Encryption failed");
   }
