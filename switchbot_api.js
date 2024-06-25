@@ -1,3 +1,4 @@
+
 function getDeviceList() {
   const token = document.getElementById("token").value;
   const secretKey = document.getElementById("secretKey").value;
