@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <title>Device List</title>
 </head>
 
@@ -40,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
   <?php
+
   if (isset($json_data)) {
     echo "<h1>Device List</h1>";
     echo "<table border='1'>";
@@ -47,12 +50,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($json_data['deviceList'] as $device) {
       echo "<tr>";
       echo "<td>{$device['deviceId']}</td>";
-      echo "<td><a>{$device['deviceName']}</a></td>";
+      echo "<td><a href='allow_device_detail.php?" . "t=" . urlencode($json_data['token']) . "s=" . urlencode($json_data['secretKey']) . "&d=" . urlencode($device['deviceId']) . "'>{$device['deviceName']}</a></td>";
       echo "<td>";
       if (!empty($device['status'])) {
         foreach ($device['status'] as $key => $value) {
           if ($value) {
-            echo htmlspecialchars($key) . "<br>"; // コマンドを表示
+            echo "<p id='allowStatus" . htmlspecialchars($device['deviceId']) . "'></p>" . "<br>";
           }
         }
       }
@@ -75,6 +78,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <script>
   //jsにPHPの変数を渡す方法
   console.log('<?php echo $json_data['token'] ?>');
+
+  function getAllowDeviceStatus() {
+    const token = '<?php echo $json_data['token'] ?>'
+    const secretKey = '<?php echo $json_data['secretKey'] ?>'
+    const deviceList = JSON.parse('<?php echo addslashes(json_encode($json_data['deviceList'])) ?>');
+    const data = {
+      token: token,
+      secretKey: secretKey,
+      deviceList: deviceList
+    };
+
+    axios({
+        method: "post",
+        url: "https://watalab.info/lab/asakura/api/get_allow_device_list_status.php",
+        data: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      .then(function(response) {
+        console.log(response.data);
+        const allowDeviceStatus = response.data;
+        allowDeviceStatus.forEach(function(allowDevice) {
+          let statusContent = ''
+          if (typeof allowDevice.body === 'object') {
+            // オブジェクトのキーと値を文字列に変換し、それらを改行で区切る
+            const statusContent = Object.entries(allowDevice.body).map(([key, value]) => `${key}: ${value}`).join('<br>');
+            // HTMLの要素を選択
+            const statusElement = document.getElementById('allowStatus' + allowDevice.body.deviceId);
+            // innerHTMLを使用して、改行を<br>タグとして反映
+            statusElement.innerHTML = statusContent;
+          }
+        });
+      })
+      .catch(function(error) {
+        console.error("Error: " + error);
+      });
+  }
+  getAllowDeviceStatus();
 </script>
 
 </html>
