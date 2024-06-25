@@ -196,13 +196,10 @@ function clickBtnDec() {
 
 function jsonDownload() {
   const authGuestToken = document.getElementById("encodeData").textContent;
-  const guestLoginPageUrl =
-    document.getElementById("guestLoginPageUrl").textContent;
   const password = document.getElementById("password").value;
 
   const guestLoginInfo = {
     authGuestToken: authGuestToken,
-    guestLoginPageUrl: guestLoginPageUrl,
     password: password,
   };
 
