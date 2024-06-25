@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="switchbot_api.js"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>操作権限の発行者ログインページ</h2>
+    <form method="post" action="device_list.php">
+      <label>SwitchBot APIのtoken：</label
+      ><input type="text" name="token" id="token" size="100" /><br />
+      <label>SwitchBot APIのsecret：</label
+      ><input type="text" name="secretKey" id="secretKey" size="100" /><br />
+      <button type="submit">switchbotのリスト取得</button>
+    </form>
+  </body>
+</html>
