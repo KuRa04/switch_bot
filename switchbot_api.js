@@ -1,4 +1,3 @@
-
 function getDeviceList() {
   const token = document.getElementById("token").value;
   const secretKey = document.getElementById("secretKey").value;
@@ -202,20 +201,20 @@ function clickBtnDec() {
 }
 
 function jsonDownload() {
-  const auth_guest_token = document.getElementById("encodeData").textContent;
-  const guest_login_page_url =
+  const authGuestToken = document.getElementById("encodeData").textContent;
+  const guestLoginPageUrl =
     document.getElementById("guestLoginPageUrl").textContent;
   const password = document.getElementById("password").value;
 
-  const guest_login_info = {
-    token: auth_guest_token,
-    guest_login_page_url: guest_login_page_url,
+  const guestLoginInfo = {
+    authGuestToken: authGuestToken,
+    guestLoginPageUrl: guestLoginPageUrl,
     password: password,
   };
 
-  const guest_login_json = JSON.stringify(guest_login_info);
+  const guestLoginJson = JSON.stringify(guestLoginInfo);
 
-  const blob = new Blob([guest_login_json], { type: "application/json" });
+  const blob = new Blob([guestLoginJson], { type: "application/json" });
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
