@@ -166,8 +166,6 @@ $decode_device_list = json_decode(json_encode($device_list), true);
 
   <label>暗号化データ</label><br />
   <textarea id="encodeData" cols="100" rows="5" readonly></textarea><br />
-  <label>配布用URL</label><br />
-  <textarea id="guestLoginPageUrl" cols="100" rows="1" readonly></textarea>
 
   <hr />
   <label>復号化の確認</label><br />

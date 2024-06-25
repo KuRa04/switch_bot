@@ -176,14 +176,10 @@ function clickBtnEnc() {
 function clickBtnDec() {
   const encodeData = document.getElementById("encodeData").value;
   const password = document.getElementById("password").value;
-  const url = document.getElementById("guestLoginPageUrl").value;
-  const match = url.match(/mp=(.*)/);
-  const managePassword = match ? match[1] : "";
 
   const data = {
     encodeData: encodeData,
     password: password,
-    managePassword: managePassword,
   };
 
   axios({
