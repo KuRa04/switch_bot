@@ -21,7 +21,7 @@ $desc = $data['description'];
 $start_time = $data['startTime'];
 $end_time = $data['endTime'];
 $version = $data['version'];
-$vender = $data['vender'];
+$vendor = $data['vendor'];
 $device_list = $data['deviceList'];
 
 if (!$token || !$password || !$device_list) {
@@ -34,19 +34,15 @@ if (!$token || !$password || !$device_list) {
     "startTime" => $start_time,
     "endTime" => $end_time,
     "version" => $version,
-    "vender" => $vender,
+    "vendor" => $vendor,
     "deviceList" => $device_list
   ));
 
-  $manage_password = bin2hex(random_bytes(16));
-  $bin_password = hex2bin($manage_password);
-  $encryption_password = $password . $bin_password;
-
-  $guest_login_page_url = "https://watalab.info/lab/asakura/guest_login.php?mp=$manage_password";
+  $guest_login_page_url = "https://watalab.info/lab/asakura/guest_login.php";
 
   try {
-    $enc = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $encryption_password, OPENSSL_RAW_DATA, 'iv12345678901234'));
-    $response = array("encodeData" => $enc, "guestLoginPageUrl" => $guest_login_page_url);
+    $encode_data = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $password, OPENSSL_RAW_DATA, 'iv12345678901234'));
+    $response = array("encodeData" => $encode_data);
   } catch (Exception $e) {
     $response = array("error" => "Encryption failed");
   }

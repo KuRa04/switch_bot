@@ -141,7 +141,7 @@ function clickBtnEnc() {
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
   const version = document.getElementById("version").value;
-  const vender = document.getElementById("vender").value;
+  const vendor = document.getElementById("vendor").value;
   const deviceList = deviceArray;
 
   const data = {
@@ -152,7 +152,7 @@ function clickBtnEnc() {
     startTime: startTime,
     endTime: endTime,
     version: version,
-    vender: vender,
+    vendor: vendor,
     deviceList: deviceList,
   };
 
@@ -165,8 +165,6 @@ function clickBtnEnc() {
     .then(function (response) {
       document.getElementById("encodeData").textContent =
         response.data.encodeData;
-      document.getElementById("guestLoginPageUrl").textContent =
-        response.data.guestLoginPageUrl;
     })
     .catch(function (error) {
       console.error("Error: " + error);
@@ -176,14 +174,10 @@ function clickBtnEnc() {
 function clickBtnDec() {
   const encodeData = document.getElementById("encodeData").value;
   const password = document.getElementById("password").value;
-  const url = document.getElementById("guestLoginPageUrl").value;
-  const match = url.match(/mp=(.*)/);
-  const managePassword = match ? match[1] : "";
 
   const data = {
     encodeData: encodeData,
     password: password,
-    managePassword: managePassword,
   };
 
   axios({

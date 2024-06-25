@@ -150,8 +150,8 @@ $decode_device_list = json_decode(json_encode($device_list), true);
     <option value="v1.0">v1.0</option>
     <option value="v1.1" selected>v1.1</option>
   </select><br />
-  <label>vender</label><br />
-  <select name="vender" id="vender">
+  <label>vendor</label><br />
+  <select name="vendor" id="vendor">
     <option value="switchbot" selected>switchbot</option>
     <option value="tp-link">tp-link</option>
   </select><br />
@@ -166,8 +166,6 @@ $decode_device_list = json_decode(json_encode($device_list), true);
 
   <label>暗号化データ</label><br />
   <textarea id="encodeData" cols="100" rows="5" readonly></textarea><br />
-  <label>配布用URL</label><br />
-  <textarea id="guestLoginPageUrl" cols="100" rows="1" readonly></textarea>
 
   <hr />
   <label>復号化の確認</label><br />

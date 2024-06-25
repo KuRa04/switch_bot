@@ -13,11 +13,8 @@ $response = array();
 
 $encode_data = $data['encodeData'];
 $password = $data['password'];
-$manage_password = $data['managePassword'];
 
-$decrypt_password = $password . hex2bin($manage_password);
-
-$response = openssl_decrypt(base64_decode($encode_data), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+$response = openssl_decrypt(base64_decode($encode_data), 'aes-256-cbc', $password, OPENSSL_RAW_DATA, 'iv12345678901234');
 
 header("Content-Type: application/json; charset=UTF-8");
 echo json_encode($response);
