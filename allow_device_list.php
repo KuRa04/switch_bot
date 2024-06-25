@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($json_data['deviceList'] as $device) {
       echo "<tr>";
       echo "<td>{$device['deviceId']}</td>";
-      echo "<td>{$device['deviceName']}</td>";
+      echo "<td><a>{$device['deviceName']}</a></td>";
       echo "<td>";
       if (!empty($device['status'])) {
         foreach ($device['status'] as $key => $value) {
@@ -72,5 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   ?>
 </body>
+<script>
+  //jsにPHPの変数を渡す方法
+  console.log('<?php echo $json_data['token'] ?>');
+</script>
 
 </html>
