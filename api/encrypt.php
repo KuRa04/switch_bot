@@ -21,7 +21,7 @@ $desc = $data['description'];
 $start_time = $data['startTime'];
 $end_time = $data['endTime'];
 $version = $data['version'];
-$vender = $data['vender'];
+$vendor = $data['vendor'];
 $device_list = $data['deviceList'];
 
 if (!$token || !$password || !$device_list) {
@@ -34,7 +34,7 @@ if (!$token || !$password || !$device_list) {
     "startTime" => $start_time,
     "endTime" => $end_time,
     "version" => $version,
-    "vender" => $vender,
+    "vendor" => $vendor,
     "deviceList" => $device_list
   ));
 

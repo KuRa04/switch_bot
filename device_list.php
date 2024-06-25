@@ -150,8 +150,8 @@ $decode_device_list = json_decode(json_encode($device_list), true);
     <option value="v1.0">v1.0</option>
     <option value="v1.1" selected>v1.1</option>
   </select><br />
-  <label>vender</label><br />
-  <select name="vender" id="vender">
+  <label>vendor</label><br />
+  <select name="vendor" id="vendor">
     <option value="switchbot" selected>switchbot</option>
     <option value="tp-link">tp-link</option>
   </select><br />

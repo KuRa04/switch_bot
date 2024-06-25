@@ -141,7 +141,7 @@ function clickBtnEnc() {
   const startTime = document.getElementById("startTime").value;
   const endTime = document.getElementById("endTime").value;
   const version = document.getElementById("version").value;
-  const vender = document.getElementById("vender").value;
+  const vendor = document.getElementById("vendor").value;
   const deviceList = deviceArray;
 
   const data = {
@@ -152,7 +152,7 @@ function clickBtnEnc() {
     startTime: startTime,
     endTime: endTime,
     version: version,
-    vender: vender,
+    vendor: vendor,
     deviceList: deviceList,
   };
 
