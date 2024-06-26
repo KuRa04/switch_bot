@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           let statusContent = ''
           if (typeof allowDevice.body === 'object') {
             // オブジェクトのキーと値を文字列に変換し、それらを改行で区切る
-            const statusContent = Object.entries(allowDevice.body).map(([key, value]) => `${key}: ${value}`).join('<br>');
+            const statusContent = Object.entries(allowDevice.body.status).map(([key, value]) => `${key}: ${value}`).join('<br>');
             // HTMLの要素を選択
             const statusElement = document.getElementById('allowStatus' + allowDevice.body.deviceId);
             // innerHTMLを使用して、改行を<br>タグとして反映
