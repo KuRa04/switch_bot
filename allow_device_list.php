@@ -76,9 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ?>
 </body>
 <script>
-  //jsにPHPの変数を渡す方法
-  console.log('<?php echo $json_data['token'] ?>');
-
   function getAllowDeviceStatus() {
     const token = '<?php echo $json_data['token'] ?>'
     const secretKey = '<?php echo $json_data['secretKey'] ?>'
