@@ -53,14 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo "<td><a href='allow_device_detail.php?" . "t=" . urlencode($json_data['token']) . "s=" . urlencode($json_data['secretKey']) . "&d=" . urlencode($device['deviceId']) . "'>{$device['deviceName']}</a></td>";
       echo "<td>";
       if (!empty($device['status'])) {
-        echo "<p id='allowStatus" . htmlspecialchars($device['deviceId']) . "'></p>" ;
+        echo "<p id='allowStatus" . htmlspecialchars($device['deviceId']) . "'></p>";
       }
       echo "</td>";
       echo "<td>";
       if (!empty($device['commands'])) {
         foreach ($device['commands'] as $key => $value) {
           if ($value) {
-            echo htmlspecialchars($key) . "<br>"; // コマンドを表示
+            echo '<button id="' . htmlspecialchars($device['deviceId']) . "-" . htmlspecialchars($key) . '" value="' . htmlspecialchars($key) . '" onClick="setDeviceCommand(\'' . htmlspecialchars($device['deviceId']) . '\', \'' . htmlspecialchars($key) . '\')">' . htmlspecialchars($key) . '</button><br>';
           }
         }
       }
@@ -114,6 +114,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       });
   }
   getAllowDeviceStatus();
+
+  function setDeviceCommand(deviceId, func) {
+    const token = '<?php echo $json_data['token'] ?>'
+    const secretKey = '<?php echo $json_data['secretKey'] ?>'
+    const data = {
+      token: token,
+      secretKey: secretKey,
+      deviceId: deviceId,
+      commands: {
+        command: func,
+        parameter: "default",
+        commandType: "command"
+      }
+
+    };
+
+    axios({
+        method: "post",
+        url: "https://watalab.info/lab/asakura/api/set_allow_device_command.php",
+        data: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+      .then(function(response) {
+        console.log(response.data);
+      })
+      .catch(function(error) {
+        console.error("Error: " + error);
+      });
+  }
 </script>
 
 </html>
