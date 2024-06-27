@@ -41,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <body>
+  <h1>Device List</h1>
+  <p id="get-status-loading"></p>
   <?php
-
   if (isset($json_data)) {
-    echo "<h1>Device List</h1>";
     echo "<table border='1'>";
     echo "<tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>"; // Commands列を追加
     foreach ($json_data['deviceList'] as $device) {
@@ -53,11 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       echo "<td><a href='allow_device_detail.php?" . "t=" . urlencode($json_data['token']) . "s=" . urlencode($json_data['secretKey']) . "&d=" . urlencode($device['deviceId']) . "'>{$device['deviceName']}</a></td>";
       echo "<td>";
       if (!empty($device['status'])) {
-        foreach ($device['status'] as $key => $value) {
-          if ($value) {
-            echo "<p id='allowStatus" . htmlspecialchars($device['deviceId']) . "'></p>" . "<br>";
-          }
-        }
+        echo "<p id='allowStatus" . htmlspecialchars($device['deviceId']) . "'></p>" ;
       }
       echo "</td>";
       echo "<td>";
@@ -76,10 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ?>
 </body>
 <script>
-  //jsにPHPの変数を渡す方法
-  console.log('<?php echo $json_data['token'] ?>');
-
   function getAllowDeviceStatus() {
+    const loadingElement = document.getElementById('get-status-loading');
+    // innerHTMLを使用して、改行を<br>タグとして反映
+    loadingElement.innerHTML = "status取得中...";
     const token = '<?php echo $json_data['token'] ?>'
     const secretKey = '<?php echo $json_data['secretKey'] ?>'
     const deviceList = JSON.parse('<?php echo addslashes(json_encode($json_data['deviceList'])) ?>');
@@ -104,13 +100,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           let statusContent = ''
           if (typeof allowDevice.body === 'object') {
             // オブジェクトのキーと値を文字列に変換し、それらを改行で区切る
-            const statusContent = Object.entries(allowDevice.body).map(([key, value]) => `${key}: ${value}`).join('<br>');
+            const statusContent = Object.entries(allowDevice.body.status).map(([key, value]) => `${key}: ${value}`).join('<br>');
             // HTMLの要素を選択
             const statusElement = document.getElementById('allowStatus' + allowDevice.body.deviceId);
             // innerHTMLを使用して、改行を<br>タグとして反映
             statusElement.innerHTML = statusContent;
           }
         });
+        loadingElement.innerHTML = "";
       })
       .catch(function(error) {
         console.error("Error: " + error);

@@ -37,7 +37,28 @@ function get_allow_device_list_status()
     curl_close($ch);
 
     $device_status = json_decode($response, true);
-    $statuses[] = $device_status;
+
+    // payloadのstatusのvalueがtrueのkeyを抽出
+    $trueStatusKeys = array_keys(array_filter($device['status'], function ($value) {
+      return $value === true;
+    }));
+
+    // responseの同じkey名のみを含む新しいオブジェクトを作成
+    $filteredStatus = [
+      "statusCode" => $device_status['statusCode'],
+      "body" => [
+        "deviceId" => $device["deviceId"],
+      ],
+      "message" => $device_status['message']
+    ];
+
+    foreach ($trueStatusKeys as $key) {
+      if (array_key_exists($key, $device_status['body'])) {
+        $filteredStatus['body']['status'][$key] = $device_status['body'][$key];
+      }
+    }
+
+    $statuses[] = $filteredStatus;
   }
 
   return $statuses;
