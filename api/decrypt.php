@@ -16,11 +16,11 @@ function decrypt()
   $data = json_decode(file_get_contents('php://input'), true);
   $response = array();
 
-  $encode_data = $data['encodeData'];
+  $auth_guest_token = $data['authGuestToken'];
   $password = $data['password'];
   $decrypt_password = $password . MANAGE_PASSWORD;
 
-  $response = openssl_decrypt(base64_decode($encode_data), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+  $response = openssl_decrypt(base64_decode($auth_guest_token), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
   return $response;
 }
 

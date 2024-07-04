@@ -160,8 +160,8 @@ function clickBtnEnc() {
     headers: { "Content-Type": "application/json" },
   })
     .then(function (response) {
-      document.getElementById("encodeData").textContent =
-        response.data.encodeData;
+      document.getElementById("authGuestToken").textContent =
+        response.data.authGuestToken;
     })
     .catch(function (error) {
       console.error("Error: " + error);
@@ -169,11 +169,11 @@ function clickBtnEnc() {
 }
 
 function clickBtnDec() {
-  const encodeData = document.getElementById("encodeData").value;
+  const authGuestToken = document.getElementById("authGuestToken").value;
   const password = document.getElementById("password").value;
 
   const data = {
-    encodeData: encodeData,
+    authGuestToken: authGuestToken,
     password: password,
   };
 
@@ -192,7 +192,7 @@ function clickBtnDec() {
 }
 
 function jsonDownload() {
-  const authGuestToken = document.getElementById("encodeData").textContent;
+  const authGuestToken = document.getElementById("authGuestToken").textContent;
   const password = document.getElementById("password").value;
 
   const guestLoginInfo = {

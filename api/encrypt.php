@@ -43,8 +43,8 @@ function encrypt()
 
     try {
       $encrypt_password = $password . MANAGE_PASSWORD; // MANAGE_PASSWORDはconstants/constants.phpに定義
-      $encode_data = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $encrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234'));
-      $response = array("encodeData" => $encode_data);
+      $auth_guest_token = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $encrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234'));
+      $response = array("authGuestToken" => $auth_guest_token);
     } catch (Exception $e) {
       $response = array("error" => "Encryption failed");
     }
