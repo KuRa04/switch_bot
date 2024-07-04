@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-
+$manage_password = "KAIT2024";
 $response = array();
 //token, password, deviceListが存在する時。!emptyがわかりづらいので修正
 
@@ -38,10 +38,9 @@ if (!$token || !$password || !$device_list) {
     "deviceList" => $device_list
   ));
 
-  $guest_login_page_url = "https://watalab.info/lab/asakura/guest_login.php";
-
   try {
-    $encode_data = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $password, OPENSSL_RAW_DATA, 'iv12345678901234'));
+    $encrypt_password = $password . $manage_password;
+    $encode_data = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $encrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234'));
     $response = array("encodeData" => $encode_data);
   } catch (Exception $e) {
     $response = array("error" => "Encryption failed");
