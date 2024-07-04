@@ -1,3 +1,7 @@
+<?php
+$error = isset($_GET['error']) ? $_GET['error'] : '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +12,9 @@
 </head>
 
 <body>
+  <?php if ($error == 1) : ?>
+    <p style="color: red;">パスワードが間違っています。</p>
+  <?php endif; ?>
   <h1>Login Page</h1>
   <form id="uploadForm" action="allow_device_list.php" method="post" enctype="multipart/form-data">
     <label>所有者パスワード：</label><input type="text" name="password" size="100" /><br />

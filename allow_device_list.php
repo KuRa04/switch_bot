@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $decrypt_password = $password . MANAGE_PASSWORD;
 
         $response = openssl_decrypt(base64_decode($auth_guest_token), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+        if (!$response) {
+          header('Location: guest_login.php?error=1');
+          exit;
+        }
         $json_data = json_decode($response, true);
       }
     } else {
