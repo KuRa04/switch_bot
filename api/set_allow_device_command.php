@@ -1,5 +1,5 @@
 <?php
-require_once '../util/auth.php';
+require_once __DIR__ . '/../util/auth.php';
 
 function set_allow_device_command()
 {
