@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../constants/constants.php';
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Allow-Headers: X-Requested-With, Content-Type");
@@ -9,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $data = json_decode(file_get_contents('php://input'), true);
-$manage_password = "KAIT2024";
 $response = array();
 //token, password, deviceListが存在する時。!emptyがわかりづらいので修正
 
@@ -39,9 +40,9 @@ if (!$token || !$password || !$device_list) {
   ));
 
   try {
-    $encrypt_password = $password . $manage_password;
+    $encrypt_password = $password . MANAGE_PASSWORD; // MANAGE_PASSWORDはconstants/constants.phpに定義されている
     $encode_data = base64_encode(openssl_encrypt($json_data, 'aes-256-cbc', $encrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234'));
-    $response = array("encodeData" => $encode_data);
+    $response = array("encodeData" => $encode_data, "encryptPassword" => $encrypt_password);
   } catch (Exception $e) {
     $response = array("error" => "Encryption failed");
   }
