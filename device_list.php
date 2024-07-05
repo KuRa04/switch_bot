@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   <input type="button" value="暗号化" onclick="clickBtnEnc()" /><br /><br />
 
   <label>暗号化データ</label><br />
-  <textarea id="encodeData" cols="100" rows="5" readonly></textarea><br />
+  <textarea id="authGuestToken" cols="100" rows="5" readonly></textarea><br />
 
   <hr />
   <label>復号化の確認</label><br />
