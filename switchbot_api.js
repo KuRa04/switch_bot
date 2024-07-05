@@ -286,7 +286,7 @@ function printAllowDeviceTable(jsonData) {
   if (jsonData) {
     let tableHtml = "<table border='1'>";
     tableHtml +=
-      "<tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>"; // Commands列を追加
+      "<tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>";
 
     jsonData["deviceList"].forEach((device) => {
       tableHtml += "<tr>";
@@ -314,8 +314,6 @@ function printAllowDeviceTable(jsonData) {
     });
 
     tableHtml += "</table>";
-    // document.body.innerHTML += tableHtml; // または特定の要素にHTMLを設定
     document.getElementById("deviceListContainer").innerHTML = tableHtml;
-
   }
 }
