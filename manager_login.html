@@ -8,14 +8,80 @@
     <script type="text/javascript" src="switchbot_api.js"></script>
     <title>Document</title>
   </head>
-  <body>
-    <h2>操作権限の発行者ログインページ</h2>
-    <form method="post" action="device_list.php">
-      <label>SwitchBot APIのtoken：</label
-      ><input type="text" name="token" id="token" size="100" /><br />
-      <label>SwitchBot APIのsecret：</label
-      ><input type="text" name="secretKey" id="secretKey" size="100" /><br />
-      <button type="submit">switchbotのリスト取得</button>
+  <body class="login-body">
+    <h2 class="login-title">操作権限の発行者ログインページ</h2>
+    <form method="post" action="device_list.php" class="login-form">
+      <div class="form-group">
+        <label for="token" class="form-label">SwitchBotAPIのToken:</label>
+        <input type="text" name="token" id="token" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="secretKey" class="form-label"
+          >SwitchBotAPIのSecretKey:</label
+        >
+        <input
+          type="text"
+          name="secretKey"
+          id="secretKey"
+          class="form-control"
+        />
+      </div>
+      <button type="submit" class="submit-button">switchbotのリスト取得</button>
     </form>
   </body>
+  <style>
+    .login-body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    .login-title {
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .login-form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      color: #333;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .submit-button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </html>

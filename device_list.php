@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 <body class="device-list-body">
   <h2 class="page-title">権限管理画面</h2>
-  <p class="form-group"><label for="token" class="form-label">SwitchBot APIのToken:</label><input type="text" name="token" id="token" class="form-control" value="<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
-  <p class="form-group"><label for="secretKey" class="form-label">SwitchBot APIのSecretKey:</label><input type="text" name="secretKey" id="secretKey" class="form-control" value="<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
+  <p class="form-group"><label for="token" class="form-label">SwitchBotAPIのToken:</label><input type="text" name="token" id="token" class="form-control" value="<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
+  <p class="form-group"><label for="secretKey" class="form-label">SwitchBotAPIのSecretKey:</label><input type="text" name="secretKey" id="secretKey" class="form-control" value="<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
 
   <label for="description" class="form-label">デバイスリスト:</label>
   <div id="deviceListContainer" class="device-list-container"></div>
