@@ -12,6 +12,7 @@
 <?php
 require_once __DIR__ . '/constants/constants.php';
 
+// 読みづらいので、if文の精査を行う
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] == UPLOAD_ERR_OK) {
     $fileType = $_FILES['fileToUpload']['type'];
@@ -21,16 +22,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if ($data === null) {
         echo "JSONファイルのデコードに失敗しました。";
       } else {
+        //decrypt.phpの処理をここに移動
         $auth_guest_token = $data['authGuestToken'];
         $password = $_POST['password'];
         $decrypt_password = $password . MANAGE_PASSWORD;
 
         $response = openssl_decrypt(base64_decode($auth_guest_token), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
         if (!$response) {
+          // 管理者パスワードが間違っている可能性もある
           header('Location: guest_login.php?error=1');
           exit;
         }
         $json_data = json_decode($response, true);
+        print_r($json_data);
+
+        if (isset($json_data['endTime'])) {
+          $current_date = new DateTime();
+          $end_time = DateTime::createFromFormat('Y-m-d', $json_data['endTime']); // $json_data['end_time']からDateTimeオブジェクトを作成
+
+          if ($endTime < $current_date) {
+            header('Location: guest_login.php?error=2');
+            exit;
+          }
+        }
       }
     } else {
       echo "アップロードされたファイルはJSON形式ではありません。";
