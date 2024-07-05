@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   </div>
 
   <div class="form-group">
-    <label for="version" class="form-label">version</label>
+    <label for="version" class="form-label">version:</label>
     <select name="version" id="version" class="form-control">
       <option value="v1.0">v1.0</option>
       <option value="v1.1" selected>v1.1</option>
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   </div>
 
   <div class="form-group">
-    <label for="vendor" class="form-label">vendor</label>
+    <label for="vendor" class="form-label">vendor:</label>
     <select name="vendor" id="vendor" class="form-control">
       <option value="switchbot" selected>switchbot</option>
       <option value="tp-link">tp-link</option>
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   </div>
 
   <div class="form-group">
-    <label for="password" class="form-label">所有者パスワード：</label>
+    <label for="password" class="form-label">所有者パスワード:</label>
     <input type="text" name="password" id="password" class="form-control" />
   </div>
 
