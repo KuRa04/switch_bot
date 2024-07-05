@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script type="text/javascript" src="switchbot_api.js"></script>
   <title>Device List</title>
 </head>
 
@@ -60,108 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <h1>Device List</h1>
   <p id="get-status-loading"></p>
-  <?php
-  if (isset($json_data)) {
-    echo "<table border='1'>";
-    echo "<tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>"; // Commands列を追加
-    foreach ($json_data['deviceList'] as $device) {
-      echo "<tr>";
-      echo "<td>{$device['deviceId']}</td>";
-      echo "<td><a href='allow_device_detail.php?" . "t=" . urlencode($json_data['token']) . "s=" . urlencode($json_data['secretKey']) . "&d=" . urlencode($device['deviceId']) . "'>{$device['deviceName']}</a></td>";
-      echo "<td>";
-      if (!empty($device['status'])) {
-        echo "<p id='allowStatus" . htmlspecialchars($device['deviceId']) . "'></p>";
-      }
-      echo "</td>";
-      echo "<td>";
-      if (!empty($device['commands'])) {
-        foreach ($device['commands'] as $key => $value) {
-          if ($value) {
-            echo '<button id="' . htmlspecialchars($device['deviceId']) . "-" . htmlspecialchars($key) . '" value="' . htmlspecialchars($key) . '" onClick="setDeviceCommand(\'' . htmlspecialchars($device['deviceId']) . '\', \'' . htmlspecialchars($key) . '\')">' . htmlspecialchars($key) . '</button><br>';
-          }
-        }
-      }
-      echo "</td>";
-      echo "</tr>";
-    }
-    echo "</table>";
-  }
-  ?>
 </body>
 <script>
-  function getAllowDeviceStatus() {
-    const loadingElement = document.getElementById('get-status-loading');
-    // innerHTMLを使用して、改行を<br>タグとして反映
-    loadingElement.innerHTML = "status取得中...";
-    const token = '<?php echo $json_data['token'] ?>'
-    const secretKey = '<?php echo $json_data['secretKey'] ?>'
-    const deviceList = JSON.parse('<?php echo addslashes(json_encode($json_data['deviceList'])) ?>');
-    const data = {
-      token: token,
-      secretKey: secretKey,
-      deviceList: deviceList
-    };
-
-    axios({
-        method: "post",
-        url: "https://watalab.info/lab/asakura/api/get_allow_device_list_status.php",
-        data: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
-      .then(function(response) {
-        console.log(response.data);
-        const allowDeviceStatus = response.data;
-        allowDeviceStatus.forEach(function(allowDevice) {
-          let statusContent = ''
-          if (typeof allowDevice.body === 'object') {
-            // オブジェクトのキーと値を文字列に変換し、それらを改行で区切る
-            const statusContent = Object.entries(allowDevice.body.status).map(([key, value]) => `${key}: ${value}`).join('<br>');
-            // HTMLの要素を選択
-            const statusElement = document.getElementById('allowStatus' + allowDevice.body.deviceId);
-            // innerHTMLを使用して、改行を<br>タグとして反映
-            statusElement.innerHTML = statusContent;
-          }
-        });
-        loadingElement.innerHTML = "";
-      })
-      .catch(function(error) {
-        console.error("Error: " + error);
-      });
-  }
-  getAllowDeviceStatus();
-
-  function setDeviceCommand(deviceId, func) {
-    const token = '<?php echo $json_data['token'] ?>'
-    const secretKey = '<?php echo $json_data['secretKey'] ?>'
-    const data = {
-      token: token,
-      secretKey: secretKey,
-      deviceId: deviceId,
-      commands: {
-        command: func,
-        parameter: "default",
-        commandType: "command"
-      }
-
-    };
-
-    axios({
-        method: "post",
-        url: "https://watalab.info/lab/asakura/api/set_allow_device_command.php",
-        data: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json"
-        },
-      })
-      .then(function(response) {
-        console.log(response.data);
-      })
-      .catch(function(error) {
-        console.error("Error: " + error);
-      });
-  }
+  document.addEventListener('DOMContentLoaded', function() {
+    printAllowDeviceTable(<?php echo json_encode($json_data) ?>);
+  });
 </script>
 
 </html>
