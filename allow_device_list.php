@@ -13,47 +13,77 @@
 <?php
 require_once __DIR__ . '/constants/constants.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] == UPLOAD_ERR_OK) {
-    $fileType = $_FILES['fileToUpload']['type'];
-    if ($fileType == 'application/json') {
-      $jsonContent = file_get_contents($_FILES['fileToUpload']['tmp_name']);
-      $data = json_decode($jsonContent, true);
-      if ($data === null) {
-        echo "JSONファイルのデコードに失敗しました。";
-      } else {
-        $auth_guest_token = $data['authGuestToken'];
-        $password = $_POST['password'];
-        $decrypt_password = $password . MANAGE_PASSWORD;
+function handleFileUpload()
+{
+  if (!isset($_FILES['fileToUpload']) || $_FILES['fileToUpload']['error'] != UPLOAD_ERR_OK) {
+    return "ファイルがアップロードされていません。";
+  }
+  if ($_FILES['fileToUpload']['type'] != 'application/json') {
+    return "アップロードされたファイルはJSON形式ではありません。";
+  }
+  return null;
+}
 
-        $response = openssl_decrypt(base64_decode($auth_guest_token), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
-        if (!$response) {
-          header('Location: guest_login.php?error=1');
-          exit;
-        }
-        $json_data = json_decode($response, true);
+function decodeJsonFile($tmpName)
+{
+  $jsonContent = file_get_contents($tmpName);
+  $data = json_decode($jsonContent, true);
+  if ($data === null) {
+    return "JSONファイルのデコードに失敗しました。";
+  }
+  return $data;
+}
 
-        if (isset($json_data['startTime']) && isset($json_data['endTime'])) {
-          $current_date = new DateTime();
-          $start_time = DateTime::createFromFormat('Y-m-d', $json_data['startTime']);
-          $end_time = DateTime::createFromFormat('Y-m-d', $json_data['endTime']);
+function decryptAuthToken($authGuestToken, $password)
+{
+  $decrypt_password = $password . MANAGE_PASSWORD;
+  $response = openssl_decrypt(base64_decode($authGuestToken), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+  if (!$response) {
+    return false;
+  }
+  return json_decode($response, true);
+}
 
-          if ($start_time > $current_date) {
-            header('Location: guest_login.php?error=2');
-            exit;
-          }
+function validateAccessPeriod($json_data)
+{
+  if (isset($json_data['startTime']) && isset($json_data['endTime'])) {
+    $current_date = new DateTime();
+    $start_time = DateTime::createFromFormat('Y-m-d', $json_data['startTime']);
+    $end_time = DateTime::createFromFormat('Y-m-d', $json_data['endTime']);
 
-          if ($end_time < $current_date) {
-            header('Location: guest_login.php?error=3');
-            exit;
-          }
-        }
-      }
-    } else {
-      echo "アップロードされたファイルはJSON形式ではありません。";
+    if ($start_time > $current_date) {
+      return 2;
     }
-  } else {
-    echo "ファイルがアップロードされていません。";
+    if ($end_time < $current_date) {
+      return 3;
+    }
+  }
+  return null;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $fileUploadError = handleFileUpload();
+  if ($fileUploadError) {
+    echo $fileUploadError;
+    exit;
+  }
+
+  $data = decodeJsonFile($_FILES['fileToUpload']['tmp_name']);
+  if (is_string($data)) {
+    echo $data;
+    exit;
+  }
+
+  $json_data = decryptAuthToken($data['authGuestToken'], $_POST['password']);
+  if (!$json_data) {
+    header('Location: guest_login.php?error=1');
+    exit;
+  }
+
+  $accessError = validateAccessPeriod($json_data);
+  if ($accessError) {
+    header('Location: guest_login.php?error=' . $accessError);
+    exit;
   }
 }
 ?>
@@ -62,7 +92,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <h1>Device List</h1>
   <p id="get-status-loading"></p>
   <div id="deviceListContainer"></div>
-
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
