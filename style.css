@@ -27,6 +27,22 @@ body.device-list-body {
   display: block;
   margin-top: 20px;
   color: #333;
+  font-weight: bold;
+}
+
+.date-range {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-range-item {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.date-range-item:last-child {
+  margin-right: 0;
 }
 
 .device-list-container {

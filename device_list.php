@@ -35,11 +35,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   </div>
 
   <div class="form-group">
-    <p class="form-label">有効期間</p>
-    <label for="startTime" class="form-label">開始:</label>
-    <input type="date" name="startTime" id="startTime" class="form-control" size="100" value="" />
-    <label for="endTime" class="form-label">終了:</label>
-    <input type="date" name="endTime" id="endTime" class="form-control" size="100" value="" />
+    <div class="date-range">
+      <div class="date-range-item">
+        <label for="startTime" class="form-label">利用可能開始日:</label>
+        <input type="date" name="startTime" id="startTime" class="form-control" value="" />
+      </div>
+      <div class="date-range-item">
+        <label for="endTime" class="form-label">利用可能終了日:</label>
+        <input type="date" name="endTime" id="endTime" class="form-control" value="" />
+      </div>
+    </div>
   </div>
 
   <div class="form-group">
@@ -59,16 +64,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   </div>
 
   <div class="form-group">
-    <label for="password" class="form-label">SwitchBotプロクシの利用パスワード：</label>
+    <label for="password" class="form-label">所有者パスワード：</label>
     <input type="text" name="password" id="password" class="form-control" />
   </div>
 
   <div id="errorMessages" class="error-messages"></div>
 
-  <input type="button" value="暗号化" class="button" onclick="clickBtnEnc()" />
 
   <div class="form-group">
-    <label for="authGuestToken" class="form-label">暗号化データ</label>
+    <label for="authGuestToken" class="form-label">暗号化Token</label>
+    <input type="button" value="暗号化" class="button" onclick="clickBtnEnc()" />
     <textarea id="authGuestToken" class="form-control textarea" cols="100" rows="5" readonly></textarea>
   </div>
 
