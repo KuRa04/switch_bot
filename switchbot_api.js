@@ -211,9 +211,8 @@ function jsonDownload() {
   window.URL.revokeObjectURL(url);
 }
 
-function getAllowDeviceStatus(token, secretKey, deviceList) {
+async function getAllowDeviceStatus(token, secretKey, deviceList) {
   const loadingElement = document.getElementById("get-status-loading");
-  // innerHTMLを使用して、改行を<br>タグとして反映
   loadingElement.innerHTML = "status取得中...";
   const data = {
     token: token,
@@ -221,37 +220,20 @@ function getAllowDeviceStatus(token, secretKey, deviceList) {
     deviceList: deviceList,
   };
 
-  axios({
-    method: "post",
-    url: "https://watalab.info/lab/asakura/api/get_allow_device_list_status.php",
-    data: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (response) {
-      console.log(response.data);
-      const allowDeviceStatus = response.data;
-      allowDeviceStatus.forEach(function (allowDevice) {
-        let statusContent = "";
-        if (typeof allowDevice.body === "object") {
-          // オブジェクトのキーと値を文字列に変換し、それらを改行で区切る
-          const statusContent = Object.entries(allowDevice.body.status)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join("<br>");
-          // HTMLの要素を選択
-          const statusElement = document.getElementById(
-            "allowStatus" + allowDevice.body.deviceId
-          );
-          // innerHTMLを使用して、改行を<br>タグとして反映
-          statusElement.innerHTML = statusContent;
-        }
-      });
-      loadingElement.innerHTML = "";
-    })
-    .catch(function (error) {
-      console.error("Error: " + error);
+  try {
+    const response = await axios({
+      method: "post",
+      url: "https://watalab.info/lab/asakura/api/get_allow_device_list_status.php",
+      data: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    loadingElement.innerHTML = "";
+    return response.data;
+  } catch (error) {
+    console.error("Error: " + error);
+  }
 }
 
 function setDeviceCommand(token, secretKey, deviceId, func) {
@@ -282,8 +264,14 @@ function setDeviceCommand(token, secretKey, deviceId, func) {
     });
 }
 
-function printAllowDeviceTable(jsonData) {
+async function printAllowDeviceTable(jsonData) {
   if (jsonData) {
+    const allowDeviceStatus = await getAllowDeviceStatus(
+      jsonData["token"],
+      jsonData["secretKey"],
+      jsonData["deviceList"]
+    );
+
     let tableHtml = "<table border='1'>";
     tableHtml +=
       "<tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>";
@@ -298,7 +286,18 @@ function printAllowDeviceTable(jsonData) {
       )}'>${device["deviceName"]}</a></td>`;
       tableHtml += "<td>";
       if (device["status"]) {
-        tableHtml += `<p id='allowStatus${device["deviceId"]}'></p>`;
+        allowDeviceStatus.forEach(function (allowDevice) {
+          if (typeof allowDevice.body === "object") {
+            // オブジェクトのキーと値を文字列に変換し、それらを改行で区切る
+            const statusContent = Object.entries(allowDevice.body.status)
+              .map(([key, value]) => `${key}: ${value}`)
+              .join("<br>");
+            // HTMLの要素を選択
+            tableHtml += `<p id='allowStatus${device["deviceId"]}'>`;
+            tableHtml += statusContent;
+            tableHtml += "</p>";
+          }
+        });
       }
       tableHtml += "</td>";
       tableHtml += "<td>";
@@ -314,6 +313,7 @@ function printAllowDeviceTable(jsonData) {
     });
 
     tableHtml += "</table>";
+
     document.getElementById("deviceListContainer").innerHTML = tableHtml;
   }
 }
