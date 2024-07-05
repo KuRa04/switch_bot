@@ -15,18 +15,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 <head>
   <meta charset="utf-8" />
   <title>SwitchBotプロクシ（暗号化）</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="device_list.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="switchbot_api.js"></script>
 </head>
 
 <body class="device-list-body">
-  <h2 class="page-title">SwitchBotのTokenとSecretKey</h2>
-  <p class="form-group"><label for="token" class="form-label">SwitchBot APIのtoken：</label><input type="text" name="token" id="token" class="form-control" value="<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
-  <p class="form-group"><label for="secretKey" class="form-label">SwitchBot APIのsecret：</label><input type="text" name="secretKey" id="secretKey" class="form-control" value="<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
+  <h2 class="page-title">権限管理画面</h2>
+  <p class="form-group"><label for="token" class="form-label">SwitchBot APIのToken：</label><input type="text" name="token" id="token" class="form-control" value="<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
+  <p class="form-group"><label for="secretKey" class="form-label">SwitchBot APIのSecretKey：</label><input type="text" name="secretKey" id="secretKey" class="form-control" value="<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
 
-  <h2 class="section-heading">デバイスリスト</h2>
+  <label for="description" class="form-label">デバイスリスト:</label>
   <div id="deviceListContainer" class="device-list-container"></div>
 
   <div class="form-group">
@@ -72,14 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 
   <div class="form-group">
-    <label for="authGuestToken" class="form-label">暗号化Token</label>
-    <input type="button" value="暗号化" class="button" onclick="clickBtnEnc()" />
+    <button type="button" class="button button-encrypt" onclick="clickBtnEnc()">暗号化</button>
     <textarea id="authGuestToken" class="form-control textarea" cols="100" rows="5" readonly></textarea>
   </div>
 
   <div class="form-group">
-    <label for="decodeData" class="form-label">復号化</label>
-    <input type="button" value="復号化して確認" class="button" onclick="clickBtnDec()" />
+    <button type="button" class="button button-decrypt" onclick="clickBtnDec()">復号化</button>
     <textarea id="decodeData" class="form-control textarea" cols="100" rows="10" readonly></textarea>
   </div>
 

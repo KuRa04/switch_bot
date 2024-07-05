@@ -25,7 +25,6 @@ body.device-list-body {
 
 .form-label {
   display: block;
-  margin-top: 20px;
   color: #333;
   font-weight: bold;
 }
@@ -47,6 +46,24 @@ body.device-list-body {
 
 .device-list-container {
   margin-bottom: 20px;
+}
+
+.button-encrypt,
+.button-decrypt {
+  width: auto;
+  padding: 10px 20px;
+  margin-top: 10px; /* Add space above the button */
+}
+
+/* Optional: Add specific styles for encrypt and decrypt buttons if needed */
+.button-encrypt {
+  background-color: #007bff;
+  color: white;
+}
+
+.button-decrypt {
+  background-color: #28a745;
+  color: white;
 }
 
 .button,
