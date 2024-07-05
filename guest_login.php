@@ -12,6 +12,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
 </head>
 
 <body class="login-body">
+  <h2 class="login-title">メンバーのログインページ</h2>
   <div class="container">
     <?php if ($error == 1) : ?>
       <p class="error-message">パスワードが間違っています。</p>
@@ -20,7 +21,6 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
     <?php elseif ($error == 3) : ?>
       <p class="error-message">有効期限が切れています。</p>
     <?php endif; ?>
-    <h1 class="login-title">メンバーのログインページ</h1>
     <form id="uploadForm" class="login-form" action="allow_device_list.php" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="password" class="form-label">所有者パスワード:</label>
