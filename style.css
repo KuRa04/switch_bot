@@ -1,0 +1,70 @@
+body.device-list-body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.page-title,
+.section-heading {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.form-label {
+  display: block;
+  margin-top: 20px;
+  color: #333;
+}
+
+.device-list-container {
+  margin-bottom: 20px;
+}
+
+.button,
+.button-download {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-block;
+  margin: 5px 0;
+}
+
+.button-download {
+  background-color: #28a745;
+}
+
+.button:hover,
+.button-download:hover {
+  opacity: 0.8;
+}
+
+.textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 10px 0;
+  resize: vertical;
+}
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  color: #777;
+}
