@@ -12,7 +12,6 @@
 <?php
 require_once __DIR__ . '/constants/constants.php';
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] == UPLOAD_ERR_OK) {
     $fileType = $_FILES['fileToUpload']['type'];
