@@ -32,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           exit;
         }
         $json_data = json_decode($response, true);
-        print_r($json_data);
 
         if (isset($json_data['startTime']) && isset($json_data['endTime'])) {
           $current_date = new DateTime();
