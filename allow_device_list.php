@@ -61,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <h1>Device List</h1>
   <p id="get-status-loading"></p>
+  <div id="deviceListContainer"></div>
+
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', function() {

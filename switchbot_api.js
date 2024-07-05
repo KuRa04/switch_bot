@@ -314,6 +314,8 @@ function printAllowDeviceTable(jsonData) {
     });
 
     tableHtml += "</table>";
-    document.body.innerHTML += tableHtml; // または特定の要素にHTMLを設定
+    // document.body.innerHTML += tableHtml; // または特定の要素にHTMLを設定
+    document.getElementById("deviceListContainer").innerHTML = tableHtml;
+
   }
 }
