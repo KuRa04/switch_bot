@@ -15,10 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 <head>
   <meta charset="utf-8" />
   <title>SwitchBotプロクシ（暗号化）</title>
-  <link rel="stylesheet" href="device_list.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="switchbot_api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
+    });
+  </script>
 </head>
 
 <body class="device-list-body">
@@ -84,10 +88,109 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   <button class="button button-download" onclick="jsonDownload()">jsonダウンロード</button>
   <p class="footer"><small>&copy; 2023 watalab.info</small></p>
 </body>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
-  });
-</script>
+<style>
+  body.device-list-body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+
+  .page-title,
+  .section-heading {
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .form-label {
+    display: block;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .date-range {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .date-range-item {
+    flex: 1;
+    margin-right: 20px;
+  }
+
+  .date-range-item:last-child {
+    margin-right: 0;
+  }
+
+  .device-list-container {
+    margin-bottom: 20px;
+  }
+
+  .button-encrypt,
+  .button-decrypt {
+    width: auto;
+    padding: 10px 20px;
+    margin-top: 10px;
+  }
+
+  .button-encrypt {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .button-decrypt {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .button,
+  .button-download {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 5px 0;
+  }
+
+  .button-download {
+    background-color: #28a745;
+  }
+
+  .button:hover,
+  .button-download:hover {
+    opacity: 0.8;
+  }
+
+  .textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px 0;
+    resize: vertical;
+  }
+
+  .footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #777;
+  }
+</style>
 
 </html>
