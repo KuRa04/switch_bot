@@ -88,15 +88,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<body>
+<body class="device-list-body">
   <h1>Device List</h1>
   <p id="get-status-loading"></p>
   <div id="deviceListContainer"></div>
 </body>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    printAllowDeviceTable(<?php echo json_encode($json_data) ?>);
+  document.addEventListener('DOMContentLoaded', async function() {
+    await printAllowDeviceTable(<?php echo json_encode($json_data) ?>);
   });
 </script>
+<style>
+  .device-list-body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+
+  .device-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .device-table th,
+  .device-table td {
+    border-right: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .device-table th:first-child,
+  .device-table td:first-child {
+    border-left: 1px solid #eaeaea;
+  }
+
+  .device-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+  }
+
+  .device-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .device-table tr:hover {
+    background-color: #ecf0f1;
+  }
+
+  .device-table input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .button-command {
+    background-color: #4CAF50;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .button-command:hover {
+    background-color: #45a049;
+  }
+</style>
 
 </html>

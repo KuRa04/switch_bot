@@ -18,14 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="switchbot_api.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async function() {
-      const container = document.getElementById('container');
-      container.style.display = 'none';
-      await getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
-      container.style.display = '';
-    });
-  </script>
 </head>
 
 <body class="device-list-body">
@@ -93,8 +85,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <p class="footer"><small>&copy; 2023 watalab.info</small></p>
   </div>
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', async function() {
+    const container = document.getElementById('container');
+    container.style.display = 'none';
+    await getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
+    container.style.display = '';
+  });
+</script>
 <style>
-  body.device-list-body {
+  .device-list-body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f4;
     padding: 20px;
@@ -104,6 +104,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   .section-heading {
     color: #333;
     margin-bottom: 20px;
+  }
+
+  .device-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .device-table th,
+  .device-table td {
+    border-right: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .device-table th:first-child,
+  .device-table td:first-child {
+    border-left: 1px solid #eaeaea;
+  }
+
+  .device-table th {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+  }
+
+  .device-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .device-table tr:hover {
+    background-color: #ecf0f1;
+  }
+
+  .device-table input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
   }
 
   .form-group {
