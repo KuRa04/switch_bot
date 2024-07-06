@@ -89,13 +89,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <body class="device-list-body">
-  <h1>デバイス一覧</h1>
   <p id="get-status-loading"></p>
-  <div id="deviceListContainer"></div>
+  <div id="container" class="container">
+    <h2>デバイス一覧</h2>
+    <div id="deviceListContainer"></div>
+  </div>
 </body>
 <script>
   document.addEventListener('DOMContentLoaded', async function() {
+    const container = document.getElementById('container');
+    container.style.display = 'none';
     await printAllowDeviceTable(<?php echo json_encode($json_data) ?>);
+    container.style.display = '';
   });
 </script>
 <style>
