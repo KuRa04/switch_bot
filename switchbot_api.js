@@ -286,14 +286,12 @@ async function printAllowDeviceTable(jsonData) {
       if (device["status"]) {
         allowDeviceStatus.forEach(function (allowDevice) {
           if (typeof allowDevice.body === "object") {
-            // オブジェクトのキーと値を文字列に変換し、それらを改行で区切る
-            const statusContent = Object.entries(allowDevice.body.status)
-              .map(([key, value]) => `${key}: ${value}`)
-              .join("<br>");
-            // HTMLの要素を選択
-            tableHtml += `<p id='allowStatus${device["deviceId"]}'>`;
-            tableHtml += statusContent;
-            tableHtml += "</p>";
+            if (allowDevice.body.deviceId === device["deviceId"]) {
+              Object.entries(allowDevice.body.status).map(([key, value]) => {
+                tableHtml += `<p id='allowStatus${device["deviceId"]}'>${key}: ${value}</p>`;
+                ``;
+              });
+            }
           }
         });
       }
