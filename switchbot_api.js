@@ -161,6 +161,9 @@ function clickBtnEnc() {
     .then(function (response) {
       document.getElementById("authGuestToken").textContent =
         response.data.authGuestToken;
+
+      document.getElementById("decode-button").disabled = false;
+      document.getElementById("json-download-button").disabled = false;
     })
     .catch(function (error) {
       console.error("Error: " + error);
@@ -183,7 +186,8 @@ function clickBtnDec() {
     headers: { "Content-Type": "application/json" },
   })
     .then(function (response) {
-      document.getElementById("decodeData").textContent = response.data;
+      const result = JSON.stringify(response.data, null, 2);
+      document.getElementById("decodeData").textContent = result;
     })
     .catch(function (error) {
       console.error("Error: " + error);
@@ -212,7 +216,7 @@ function jsonDownload() {
 
 async function getAllowDeviceStatus(token, secretKey, deviceList) {
   const loadingElement = document.getElementById("get-status-loading");
-  loadingElement.innerHTML = "status取得中...";
+  loadingElement.innerHTML = "デバイスを取得中...";
   const data = {
     token: token,
     secretKey: secretKey,

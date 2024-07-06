@@ -20,7 +20,7 @@ function encrypt()
   $token = $data['token'];
   $secret_key = $data['secretKey'];
   $password = $data['password'];
-  $desc = $data['description'];
+  $description = $data['description'];
   $start_time = $data['startTime'];
   $end_time = $data['endTime'];
   $version = $data['version'];
@@ -33,7 +33,7 @@ function encrypt()
     $json_data = json_encode(array(
       "token" => $token,
       "secretKey" => $secret_key,
-      "description" => $desc,
+      "description" => $description,
       "startTime" => $start_time,
       "endTime" => $end_time,
       "version" => $version,

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <p class="form-group"><label for="token" class="form-label">SwitchBotAPIのToken:</label><input type="text" name="token" id="token" class="form-control" value="<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
     <p class="form-group"><label for="secretKey" class="form-label">SwitchBotAPIのSecretKey:</label><input type="text" name="secretKey" id="secretKey" class="form-control" value="<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
 
-    <label for="description" class="form-label">デバイスリスト:</label>
+    <label for="description" class="form-label">デバイス一覧:</label>
     <div id="deviceListContainer" class="device-list-container"></div>
 
     <div class="form-group">
@@ -38,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <div class="form-group">
       <div class="date-range">
         <div class="date-range-item">
-          <label for="startTime" class="form-label">利用可能開始日:</label>
+          <label for="startTime" class="form-label">利用開始日:</label>
           <input type="date" name="startTime" id="startTime" class="form-control" value="" />
         </div>
         <div class="date-range-item">
-          <label for="endTime" class="form-label">利用可能終了日:</label>
+          <label for="endTime" class="form-label">利用終了日:</label>
           <input type="date" name="endTime" id="endTime" class="form-control" value="" />
         </div>
       </div>
@@ -77,11 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     </div>
 
     <div class="form-group">
-      <button type="button" class="button button-decrypt" onclick="clickBtnDec()">復号化</button>
+      <button type="button" id="decode-button" class="button button-decrypt" onclick="clickBtnDec()">復号化</button>
       <textarea id="decodeData" class="form-control textarea" cols="100" rows="10" readonly></textarea>
     </div>
 
-    <button class="button button-download" onclick="jsonDownload()">jsonダウンロード</button>
+    <button id="json-download-button" class="button button-download" onclick="jsonDownload()">jsonダウンロード</button>
     <p class="footer"><small>&copy; 2023 watalab.info</small></p>
   </div>
 </body>
@@ -91,6 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     container.style.display = 'none';
     await getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
     container.style.display = '';
+
+    const decodeButton = document.getElementById('decode-button');
+    decodeButton.disabled = true;
+    const jsonDownloadButton = document.getElementById('json-download-button');
+    jsonDownloadButton.disabled = true;
   });
 </script>
 <style>
@@ -201,6 +206,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     color: white;
   }
 
+  .button-decrypt:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   .button,
   .button-download {
     background-color: #007bff;
@@ -221,6 +231,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   .button-download:hover {
     opacity: 0.8;
   }
+
+  .button-download:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
 
   .textarea {
     width: 100%;
