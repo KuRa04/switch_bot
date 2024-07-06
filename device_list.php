@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
       <textarea id="decodeData" class="form-control textarea" cols="100" rows="10" readonly></textarea>
     </div>
 
-    <button id="json-download-button" class="button button-download" onclick="jsonDownload()">jsonダウンロード</button>
+    <button id="json-download-button" class="button button-download" onclick="jsonDownload()">jsonファイルをダウンロード</button>
     <p class="footer"><small>&copy; 2023 watalab.info</small></p>
   </div>
 </body>
