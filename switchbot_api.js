@@ -21,7 +21,7 @@ async function getDeviceList(token, secretKey) {
     console.log(result);
 
     let table =
-      '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Status</th><th>Commands</th></tr>';
+      '<table class="device-table"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Status</th><th>Command</th></tr>';
 
     response.data.body.deviceList.forEach((device) => {
       let statusHtml = "";
