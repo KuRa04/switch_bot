@@ -302,7 +302,7 @@ async function printAllowDeviceTable(jsonData) {
       if (device["commands"]) {
         Object.keys(device["commands"]).forEach((key) => {
           if (device["commands"][key]) {
-            tableHtml += `<button id='${device["deviceId"]}-${key}' value='${key}' onClick="setDeviceCommand('${jsonData["token"]}', '${jsonData["secretKey"]}','${device["deviceId"]}', '${key}')">${key}</button><br>`;
+            tableHtml += `<button id='${device["deviceId"]}-${key}' class='button-command' value='${key}' onClick="setDeviceCommand('${jsonData["token"]}', '${jsonData["secretKey"]}','${device["deviceId"]}', '${key}')">${key}</button><br>`;
           }
         });
       }
