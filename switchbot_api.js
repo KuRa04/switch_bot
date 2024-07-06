@@ -1,59 +1,58 @@
-function getDeviceList(token, secretKey) {
+async function getDeviceList(token, secretKey) {
   const data = {
     token: token,
     secretKey: secretKey,
   };
 
-  document.getElementById("deviceListContainer").innerHTML = "Loading...";
+  document.getElementById("get-device-list-loading").innerHTML =
+    "デバイスを取得中...";
 
-  axios({
-    url: "https://watalab.info/lab/asakura/api/get_device_list.php",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: JSON.stringify(data),
-  })
-    .then(function (response) {
-      const result = JSON.stringify(response.data);
-      console.log(result);
+  try {
+    const response = await axios({
+      url: "https://watalab.info/lab/asakura/api/get_device_list.php",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify(data),
+    });
 
-      let table =
-        '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Status</th><th>Commands</th></tr>';
+    const result = JSON.stringify(response.data);
+    console.log(result);
 
-      response.data.body.deviceList.forEach((device) => {
-        let statusHtml = "";
-        if (device.status) {
-          device.status.forEach((status) => {
-            statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
-          });
-        }
+    let table =
+      '<table border="1"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Status</th><th>Commands</th></tr>';
 
-        let commandsHtml = "";
-        if (device.commands) {
-          device.commands.forEach((command) => {
-            commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
-          });
-        }
-        table += `<tr>
+    response.data.body.deviceList.forEach((device) => {
+      let statusHtml = "";
+      if (device.status) {
+        device.status.forEach((status) => {
+          statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
+        });
+      }
+
+      let commandsHtml = "";
+      if (device.commands) {
+        device.commands.forEach((command) => {
+          commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
+        });
+      }
+      table += `<tr>
         <td>${device.deviceId}</td>
         <td>${device.deviceName}</td>
         <td>${device.deviceType}</td>
         <td>${statusHtml}</td>
         <td>${commandsHtml}</td>
       </tr>`;
-      });
-
-      table += "</table>";
-
-      document.getElementById("deviceListContainer").innerHTML = table;
-    })
-    .catch(function (error) {
-      console.error("Error: ", error);
-      // エラー発生時もLoadingを消す
-      document.getElementById("deviceListContainer").innerHTML =
-        "An error occurred";
     });
+
+    table += "</table>";
+    
+    document.getElementById("get-device-list-loading").innerHTML = "";
+    document.getElementById("device-list-container").innerHTML = table;
+  } catch (error) {
+    console.error("Error: " + error);
+  }
 }
 
 let deviceArray = [];
