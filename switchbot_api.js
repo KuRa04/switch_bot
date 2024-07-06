@@ -271,9 +271,8 @@ async function printAllowDeviceTable(jsonData) {
       jsonData["deviceList"]
     );
 
-    let tableHtml = "<table border='1'>";
-    tableHtml +=
-      "<tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>";
+    let tableHtml =
+      '<table class="device-table"><tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>';
 
     jsonData["deviceList"].forEach((device) => {
       tableHtml += "<tr>";
