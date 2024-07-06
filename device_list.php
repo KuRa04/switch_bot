@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   });
 </script>
 <style>
-  body.device-list-body {
+  .device-list-body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f4;
     padding: 20px;

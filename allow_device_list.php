@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<body>
+<body class="device-list-body">
   <h1>Device List</h1>
   <p id="get-status-loading"></p>
   <div id="deviceListContainer"></div>
@@ -99,6 +99,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   });
 </script>
 <style>
+  .device-list-body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+
   .device-table {
     width: 100%;
     border-collapse: separate;
