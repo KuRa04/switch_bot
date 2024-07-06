@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <body class="device-list-body">
-  <h1>Device List</h1>
+  <h1>デバイス一覧</h1>
   <p id="get-status-loading"></p>
   <div id="deviceListContainer"></div>
 </body>

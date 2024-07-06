@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <p class="form-group"><label for="token" class="form-label">SwitchBotAPIのToken:</label><input type="text" name="token" id="token" class="form-control" value="<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
     <p class="form-group"><label for="secretKey" class="form-label">SwitchBotAPIのSecretKey:</label><input type="text" name="secretKey" id="secretKey" class="form-control" value="<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
 
-    <label for="description" class="form-label">デバイスリスト:</label>
+    <label for="description" class="form-label">デバイス一覧:</label>
     <div id="deviceListContainer" class="device-list-container"></div>
 
     <div class="form-group">
@@ -38,11 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <div class="form-group">
       <div class="date-range">
         <div class="date-range-item">
-          <label for="startTime" class="form-label">利用可能開始日:</label>
+          <label for="startTime" class="form-label">利用開始日:</label>
           <input type="date" name="startTime" id="startTime" class="form-control" value="" />
         </div>
         <div class="date-range-item">
-          <label for="endTime" class="form-label">利用可能終了日:</label>
+          <label for="endTime" class="form-label">利用終了日:</label>
           <input type="date" name="endTime" id="endTime" class="form-control" value="" />
         </div>
       </div>
