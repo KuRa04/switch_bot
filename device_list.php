@@ -18,14 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="switchbot_api.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async function() {
-      const container = document.getElementById('container');
-      container.style.display = 'none';
-      await getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
-      container.style.display = '';
-    });
-  </script>
 </head>
 
 <body class="device-list-body">
@@ -93,6 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     <p class="footer"><small>&copy; 2023 watalab.info</small></p>
   </div>
 </body>
+<script>
+  document.addEventListener('DOMContentLoaded', async function() {
+    const container = document.getElementById('container');
+    container.style.display = 'none';
+    await getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
+    container.style.display = '';
+  });
+</script>
 <style>
   body.device-list-body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
