@@ -191,6 +191,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     resize: vertical;
   }
 
+  .error-messages {
+    color: red;
+    margin-bottom: 20px;
+  }
+
   .footer {
     margin-top: 20px;
     text-align: center;
