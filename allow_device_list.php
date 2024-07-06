@@ -147,7 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   .button-command {
     background-color: #4CAF50;
-    /* Green */
     border: none;
     color: white;
     padding: 10px 20px;

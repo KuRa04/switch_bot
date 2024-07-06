@@ -281,11 +281,7 @@ async function printAllowDeviceTable(jsonData) {
     jsonData["deviceList"].forEach((device) => {
       tableHtml += "<tr>";
       tableHtml += `<td>${device["deviceId"]}</td>`;
-      tableHtml += `<td><a href='allow_device_detail.php?t=${encodeURIComponent(
-        jsonData["token"]
-      )}s=${encodeURIComponent(jsonData["secretKey"])}&d=${encodeURIComponent(
-        device["deviceId"]
-      )}'>${device["deviceName"]}</a></td>`;
+      tableHtml += `<td>${device["deviceName"]}</td>`;
       tableHtml += "<td>";
       if (device["status"]) {
         allowDeviceStatus.forEach(function (allowDevice) {
