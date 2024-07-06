@@ -183,7 +183,7 @@ function clickBtnDec() {
     headers: { "Content-Type": "application/json" },
   })
     .then(function (response) {
-      const result = JSON.stringify(response.data);
+      const result = JSON.stringify(response.data, null, 2);
       document.getElementById("decodeData").textContent = result;
     })
     .catch(function (error) {
