@@ -20,7 +20,8 @@ function decrypt()
   $password = $data['password'];
   $decrypt_password = $password . MANAGE_PASSWORD;
 
-  $response = openssl_decrypt(base64_decode($auth_guest_token), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+  $decrypt_data = openssl_decrypt(base64_decode($auth_guest_token), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+  $response = json_decode($decrypt_data, true);
   return $response;
 }
 
