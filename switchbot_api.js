@@ -212,7 +212,7 @@ function jsonDownload() {
 
 async function getAllowDeviceStatus(token, secretKey, deviceList) {
   const loadingElement = document.getElementById("get-status-loading");
-  loadingElement.innerHTML = "status取得中...";
+  loadingElement.innerHTML = "デバイスを取得中...";
   const data = {
     token: token,
     secretKey: secretKey,
