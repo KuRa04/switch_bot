@@ -206,7 +206,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     color: white;
   }
 
-  .button-decrypt:disabled {
+  .button-decrypt:disabled,
+  .button-download:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
@@ -230,11 +231,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   .button:hover,
   .button-download:hover {
     opacity: 0.8;
-  }
-
-  .button-download:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
   }
 
 
