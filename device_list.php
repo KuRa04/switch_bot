@@ -77,11 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     </div>
 
     <div class="form-group">
-      <button type="button" class="button button-decrypt" onclick="clickBtnDec()">復号化</button>
+      <button type="button" id="decode-button" class="button button-decrypt" onclick="clickBtnDec()">復号化</button>
       <textarea id="decodeData" class="form-control textarea" cols="100" rows="10" readonly></textarea>
     </div>
 
-    <button class="button button-download" onclick="jsonDownload()">jsonダウンロード</button>
+    <button id="json-download-button" class="button button-download" onclick="jsonDownload()">jsonダウンロード</button>
     <p class="footer"><small>&copy; 2023 watalab.info</small></p>
   </div>
 </body>
@@ -91,6 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     container.style.display = 'none';
     await getDeviceList('<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>', '<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>');
     container.style.display = '';
+
+    const decodeButton = document.getElementById('decode-button');
+    decodeButton.disabled = true;
+    const jsonDownloadButton = document.getElementById('json-download-button');
+    jsonDownloadButton.disabled = true;
   });
 </script>
 <style>
@@ -201,6 +206,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     color: white;
   }
 
+  .button-decrypt:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   .button,
   .button-download {
     background-color: #007bff;
@@ -221,6 +231,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
   .button-download:hover {
     opacity: 0.8;
   }
+
+  .button-download:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
 
   .textarea {
     width: 100%;

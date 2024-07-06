@@ -161,6 +161,9 @@ function clickBtnEnc() {
     .then(function (response) {
       document.getElementById("authGuestToken").textContent =
         response.data.authGuestToken;
+
+      document.getElementById("decode-button").disabled = false;
+      document.getElementById("json-download-button").disabled = false;
     })
     .catch(function (error) {
       console.error("Error: " + error);
