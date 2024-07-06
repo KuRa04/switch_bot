@@ -4,7 +4,7 @@ async function getDeviceList(token, secretKey) {
     secretKey: secretKey,
   };
 
-  document.getElementById("get-device-list-loading").innerHTML =
+  document.getElementById("getDeviceListLoading").innerHTML =
     "デバイスを取得中...";
 
   try {
@@ -47,9 +47,9 @@ async function getDeviceList(token, secretKey) {
     });
 
     table += "</table>";
-    
-    document.getElementById("get-device-list-loading").innerHTML = "";
-    document.getElementById("device-list-container").innerHTML = table;
+
+    document.getElementById("getDeviceListLoading").innerHTML = "";
+    document.getElementById("deviceListContainer").innerHTML = table;
   } catch (error) {
     console.error("Error: " + error);
   }

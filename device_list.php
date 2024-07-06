@@ -29,14 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 </head>
 
 <body class="device-list-body">
-  <p id="get-device-list-loading"></p>
+  <p id="getDeviceListLoading"></p>
   <div id="container" class="container">
     <h2 class="page-title">権限管理画面</h2>
     <p class="form-group"><label for="token" class="form-label">SwitchBotAPIのToken:</label><input type="text" name="token" id="token" class="form-control" value="<?php echo htmlspecialchars($_POST['token'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
     <p class="form-group"><label for="secretKey" class="form-label">SwitchBotAPIのSecretKey:</label><input type="text" name="secretKey" id="secretKey" class="form-control" value="<?php echo htmlspecialchars($_POST['secretKey'], ENT_QUOTES, 'UTF-8'); ?>" size="100" readonly /></p>
 
     <label for="description" class="form-label">デバイスリスト:</label>
-    <div id="device-list-container" class="device-list-container"></div>
+    <div id="deviceListContainer" class="device-list-container"></div>
 
     <div class="form-group">
       <label for="description" class="form-label">説明:</label>
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
       <input type="text" name="password" id="password" class="form-control" />
     </div>
 
-    <div id="error-messages" class="error-messages"></div>
+    <div id="errorMessages" class="error-messages"></div>
 
     <div class="form-group">
       <button type="button" class="button button-encrypt" onclick="clickBtnEnc()">暗号化</button>
