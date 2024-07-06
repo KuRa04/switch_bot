@@ -32,25 +32,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
     <div class="form-group">
       <label for="description" class="form-label">説明:</label>
-      <input type="text" name="description" id="description" class="form-control" size="100" value="" />
+      <input type="text" name="description" id="description" class="form-control" size="100" onchange="clearAuthGuestToken()" value="" />
     </div>
 
     <div class="form-group">
       <div class="date-range">
         <div class="date-range-item">
           <label for="startTime" class="form-label">利用開始日:</label>
-          <input type="date" name="startTime" id="startTime" class="form-control" value="" />
+          <input type="date" name="startTime" id="startTime" class="form-control" onchange="clearAuthGuestToken()" value="" />
         </div>
         <div class="date-range-item">
           <label for="endTime" class="form-label">利用終了日:</label>
-          <input type="date" name="endTime" id="endTime" class="form-control" value="" />
+          <input type="date" name="endTime" id="endTime" class="form-control" onchange="clearAuthGuestToken()" value="" />
         </div>
       </div>
     </div>
 
     <div class="form-group">
       <label for="version" class="form-label">version:</label>
-      <select name="version" id="version" class="form-control">
+      <select name="version" id="version" class="form-control" onchange="clearAuthGuestToken()">
         <option value="v1.0">v1.0</option>
         <option value="v1.1" selected>v1.1</option>
       </select>
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
     <div class="form-group">
       <label for="vendor" class="form-label">vendor:</label>
-      <select name="vendor" id="vendor" class="form-control">
+      <select name="vendor" id="vendor" class="form-control" onchange="clearAuthGuestToken()">
         <option value="switchbot" selected>switchbot</option>
         <option value="tp-link">tp-link</option>
       </select>
@@ -66,15 +66,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
     <div class="form-group">
       <label for="password" class="form-label">所有者パスワード:</label>
-      <input type="text" name="password" id="password" class="form-control" />
+      <input type="text" name="password" id="password" class="form-control" onchange="clearAuthGuestToken()" />
     </div>
 
     <div id="errorMessages" class="error-messages"></div>
+    <div id="encryptMessages" class="encrypt-messages"></div>
 
     <div class="form-group">
       <button type="button" class="button button-encrypt" onclick="clickBtnEnc()">暗号化</button>
       <textarea id="authGuestToken" class="form-control textarea" cols="100" rows="5" readonly></textarea>
     </div>
+
 
     <div class="form-group">
       <button type="button" id="decode-button" class="button button-decrypt" onclick="clickBtnDec()">復号化</button>
@@ -243,7 +245,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     resize: vertical;
   }
 
-  .error-messages {
+  .error-messages,
+  .encrypt-messages {
     color: red;
     margin-bottom: 20px;
   }

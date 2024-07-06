@@ -27,14 +27,14 @@ async function getDeviceList(token, secretKey) {
       let statusHtml = "";
       if (device.status) {
         device.status.forEach((status) => {
-          statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
+          statusHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" onchange="clearAuthGuestToken()" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/status/${status.key}"> ${status.key}<br>`;
         });
       }
 
       let commandsHtml = "";
       if (device.commands) {
         device.commands.forEach((command) => {
-          commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
+          commandsHtml += `<input type="checkbox" onclick="onClickCheckbox(this)" onchange="clearAuthGuestToken()" value="${device.deviceId}/${device.deviceType}/${device.deviceName}/command/${command.command}"> ${command.command}<br>`;
         });
       }
       table += `<tr>
@@ -52,6 +52,16 @@ async function getDeviceList(token, secretKey) {
     document.getElementById("deviceListContainer").innerHTML = table;
   } catch (error) {
     console.error("Error: " + error);
+  }
+}
+
+function clearAuthGuestToken() {
+  if (document.getElementById("authGuestToken").textContent) {
+    document.getElementById("authGuestToken").textContent = "";
+    document.getElementById("encryptMessages").innerHTML =
+      "データが変更されました。再度「暗号化」ボタンを押し、データを暗号化してください。";
+    document.getElementById("decode-button").disabled = true;
+    document.getElementById("json-download-button").disabled = true;
   }
 }
 
@@ -164,6 +174,7 @@ function clickBtnEnc() {
 
       document.getElementById("decode-button").disabled = false;
       document.getElementById("json-download-button").disabled = false;
+      document.getElementById("encryptMessages").innerHTML = "";
     })
     .catch(function (error) {
       console.error("Error: " + error);
