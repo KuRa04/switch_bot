@@ -17,7 +17,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
     <?php if ($error == 1) : ?>
       <p class="error-message">パスワードが間違っています。</p>
     <?php elseif ($error == 2) : ?>
-      <p class="error-message">有効期限より前の日付です。</p>
+      <p class="error-message">利用開始日より前の日付です。</p>
     <?php elseif ($error == 3) : ?>
       <p class="error-message">有効期限が切れています。</p>
     <?php endif; ?>
