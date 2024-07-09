@@ -148,7 +148,7 @@ function clickBtnEnc() {
   const endTime = document.getElementById("endTime").value;
   const version = document.getElementById("version").value;
   const vendor = document.getElementById("vendor").value;
-  const deviceList = deviceArray;
+  const deviceList = deviceArray; //checkboxで選択された内容を取得
 
   const data = {
     token: token,
@@ -196,7 +196,7 @@ function clickBtnDec() {
     data: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   })
-    .then(function (response) {
+    .then(function (response) { //アロー関数に修正
       const result = JSON.stringify(response.data, null, 2);
       document.getElementById("decodeData").textContent = result;
     })
@@ -205,7 +205,7 @@ function clickBtnDec() {
     });
 }
 
-function jsonDownload() {
+function jsonDownload() { //downloadJsonFile
   const authGuestToken = document.getElementById("authGuestToken").textContent;
   const password = document.getElementById("password").value;
 
@@ -220,7 +220,7 @@ function jsonDownload() {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "data.json";
+  a.download = "data.json"; //明示的にファイル名を指定
   a.click();
   window.URL.revokeObjectURL(url);
 }
@@ -250,13 +250,13 @@ async function getAllowDeviceStatus(token, secretKey, deviceList) {
   }
 }
 
-function setDeviceCommand(token, secretKey, deviceId, func) {
+function setDeviceCommand(token, secretKey, deviceId, func) { //メソッド名: operateSwitch command: commandに修正
   const data = {
     token: token,
     secretKey: secretKey,
     deviceId: deviceId,
     commands: {
-      command: func,
+      command: func, //commandに修正
       parameter: "default",
       commandType: "command",
     },
@@ -272,12 +272,18 @@ function setDeviceCommand(token, secretKey, deviceId, func) {
   })
     .then(function (response) {
       console.log(response.data);
+      //電源情報を取得
+      //今onかoffをわかるようにする。
     })
     .catch(function (error) {
       console.error("Error: " + error);
     });
 }
 
+/**
+ * メソッドの説明
+ * @param {*} jsonData //暗号化されたデータ
+ */
 async function printAllowDeviceTable(jsonData) {
   if (jsonData) {
     const allowDeviceStatus = await getAllowDeviceStatus(

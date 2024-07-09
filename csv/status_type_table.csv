@@ -115,6 +115,7 @@ deviceType,String,Plug Mini (JP),device type.Plug Mini (JP)
 hubDeviceId,String,Plug Mini (JP),device's parent Hub ID.000000000000when the device itself is a Hub or it is connected through Wi-Fi.
 voltage,Float,Plug Mini (JP),"the voltage of the device, measured in Volt"
 version,String,Plug Mini (JP),"the current BLE and Wi-Fi firmware version, e.g. V3.1-6.3"
+power,String,Plug Mini (JP),ON/OFF state
 weight,Float,Plug Mini (JP),"the power consumed in a day, measured in Watts"
 electricityOfDay,Integer,Plug Mini (JP),"the duration that the device has been used during a day, measured in minutes"
 electricCurrent,Float,Plug Mini (JP),"the current of the device at the moment, measured in Amp"
