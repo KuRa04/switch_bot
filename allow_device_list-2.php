@@ -95,14 +95,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $tableHtml .= "<td>";
       if (isset($device['status'])) {
         foreach ($device['status'] as $key => $value) {
-          $tableHtml .= "<p id='allowStatus{$device['deviceId']}'>{$key}</p>";
+          if ($value) {
+            $tableHtml .= "<p id='allowStatus{$device['deviceId']}'>{$key}</p>";
+          }
         }
       }
       $tableHtml .= "</td>";
       $tableHtml .= "<td>";
       if (isset($device['commands'])) {
         foreach ($device['commands'] as $key => $value) {
-          $tableHtml .= "<button id='{$device['deviceId']}-{$key}' class='button-command' value='{$key}'>{$key}</button><br>";
+          if ($value) {
+            $tableHtml .= "<button id='{$device['deviceId']}-{$key}' class='button-command' value='{$key}'>{$key}</button><br>";
+          }
         }
       }
       $tableHtml .= "</td>";
