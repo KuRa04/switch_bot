@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tableHtml .= "<p id='allowStatus{$device['deviceId']}{$key}'>{$key}</p>";
           }
         }
-        $tableHtml .= "<button id='{$device['deviceId']}' class='button-command' onClick=\"getStatus('{$data['authGuestToken']}', '{$_POST['password']}', '{$device['deviceId']}')\">ステータス更新</button><br>";
+        $tableHtml .= "<button id='{$device['deviceId']}-button' class='button-command' onClick=\"getStatus('{$data['authGuestToken']}', '{$_POST['password']}', '{$device['deviceId']}')\">ステータス更新</button><br>";
       }
       $tableHtml .= "</td>";
       $tableHtml .= "<td>";

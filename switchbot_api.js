@@ -342,7 +342,8 @@ async function printAllowDeviceTable(jsonData) {
  * @returns
  */
 async function getStatus(authGuestToken, password, deviceId) {
-  const loadingElement = document.getElementById("get-status-loading");
+  const loadingElement = document.getElementById(`${deviceId}-button`);
+  loadingElement.innerHTML = "ステータスを取得中...";
   const data = {
     authGuestToken,
     password,
@@ -365,7 +366,7 @@ async function getStatus(authGuestToken, password, deviceId) {
         pTag.innerHTML = `${key}: ${response.data.body.status[key]}`;
       }
     });
-
+    loadingElement.innerHTML = "ステータスを更新";
     return response.data;
   } catch (error) {
     console.error("Error: " + error);
