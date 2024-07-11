@@ -118,14 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
   </div>
 </body>
-<script>
-  document.addEventListener('DOMContentLoaded', async function() {
-    const container = document.getElementById('container');
-    container.style.display = 'none';
-    await printAllowDeviceTable(<?php echo json_encode($json_data) ?>);
-    container.style.display = '';
-  });
-</script>
 <style>
   .device-list-body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
