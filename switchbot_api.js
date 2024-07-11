@@ -330,3 +330,36 @@ async function printAllowDeviceTable(jsonData) {
     document.getElementById("deviceListContainer").innerHTML = tableHtml;
   }
 }
+
+/**
+ * 
+ * @param {*} token 
+ * @param {*} secretKey 
+ * @param {*} deviceList 
+ * @returns 
+ */
+async function getStatus(authGuestToken, password, deviceId) {
+  const loadingElement = document.getElementById("get-status-loading");
+  loadingElement.innerHTML = "デバイスを取得中...";
+  const data = {
+    authGuestToken,
+    password,
+    deviceId,
+  };
+
+  try {
+    const response = await axios({
+      method: "post",
+      url: "https://watalab.info/lab/asakura/api/get_allow_device_status.php",
+      data: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    loadingElement.innerHTML = "";
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.error("Error: " + error);
+  }
+}
