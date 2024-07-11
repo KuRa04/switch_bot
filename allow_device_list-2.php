@@ -102,9 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $tableHtml .= "<td>";
       if (isset($device['commands'])) {
         foreach ($device['commands'] as $key => $value) {
-          if ($value) {
-            $tableHtml .= "<button id='{$device['deviceId']}-{$key}' class='button-command' value='{$key}'>{$key}</button><br>";
-          }
+          $tableHtml .= "<button id='{$device['deviceId']}-{$key}' class='button-command' value='{$key}'>{$key}</button><br>";
         }
       }
       $tableHtml .= "</td>";
