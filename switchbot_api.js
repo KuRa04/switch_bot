@@ -196,7 +196,8 @@ function clickBtnDec() {
     data: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   })
-    .then(function (response) { //アロー関数に修正
+    .then(function (response) {
+      //アロー関数に修正
       const result = JSON.stringify(response.data, null, 2);
       document.getElementById("decodeData").textContent = result;
     })
@@ -205,7 +206,8 @@ function clickBtnDec() {
     });
 }
 
-function jsonDownload() { //downloadJsonFile
+function jsonDownload() {
+  //downloadJsonFile
   const authGuestToken = document.getElementById("authGuestToken").textContent;
   const password = document.getElementById("password").value;
 
@@ -250,7 +252,8 @@ async function getAllowDeviceStatus(token, secretKey, deviceList) {
   }
 }
 
-function setDeviceCommand(token, secretKey, deviceId, func) { //メソッド名: operateSwitch command: commandに修正
+function setDeviceCommand(token, secretKey, deviceId, func) {
+  //メソッド名: operateSwitch command: commandに修正
   const data = {
     token: token,
     secretKey: secretKey,
@@ -332,11 +335,11 @@ async function printAllowDeviceTable(jsonData) {
 }
 
 /**
- * 
- * @param {*} token 
- * @param {*} secretKey 
- * @param {*} deviceList 
- * @returns 
+ *
+ * @param {*} token
+ * @param {*} secretKey
+ * @param {*} deviceList
+ * @returns
  */
 async function getStatus(authGuestToken, password, deviceId) {
   const loadingElement = document.getElementById("get-status-loading");
@@ -357,7 +360,15 @@ async function getStatus(authGuestToken, password, deviceId) {
       },
     });
     loadingElement.innerHTML = "";
-    console.log(response.data)
+    console.log(response.data);
+    Object.keys(response.data.body.status).forEach((key) => {
+      const pTagId = `allowStatus${deviceId}${key}`;
+      const pTag = document.getElementById(`${pTagId}`);
+      if (pTag) {
+        pTag.innerHTML = `${key}: ${response.data.body.status[key]}`;
+      }
+    });
+
     return response.data;
   } catch (error) {
     console.error("Error: " + error);

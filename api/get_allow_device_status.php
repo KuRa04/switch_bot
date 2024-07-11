@@ -18,7 +18,7 @@ function allow_device_decrypt()
   return $response;
 }
 
-function get_allow_device_status($token, $secret_key)
+function get_allow_device_status($token, $secret_key, $device_list)
 {
 
   $json = file_get_contents('php://input');
@@ -47,8 +47,37 @@ function get_allow_device_status($token, $secret_key)
   $response = curl_exec($ch);
   curl_close($ch);
 
-  return json_decode($response, true);
+  $filter_status = [];
+
+  foreach ($device_list as $device) {
+    $decrypt_device_id = $device['deviceId'];
+    if ($device_id == $decrypt_device_id) {
+      $device_status = json_decode($response, true);
+
+      // payloadのstatusのvalueがtrueのkeyを抽出
+      $trueStatusKeys = array_keys(array_filter($device['status'], function ($value) {
+        return $value === true;
+      }));
+
+      // responseの同じkey名のみを含む新しいオブジェクトを作成
+      $filter_status = [
+        "statusCode" => $device_status['statusCode'],
+        "body" => [
+          "deviceId" => $device["deviceId"],
+        ],
+        "message" => $device_status['message']
+      ];
+
+      foreach ($trueStatusKeys as $key) {
+        if (array_key_exists($key, $device_status['body'])) {
+          $filter_status['body']['status'][$key] = $device_status['body'][$key];
+        }
+      }
+    }
+  }
+  return $filter_status;
 }
+
 header('Content-Type: application/json; charset=utf-8');
 $decrypt_data = allow_device_decrypt();
-echo json_encode(get_allow_device_status($decrypt_data['token'], $decrypt_data['secretKey']));
+echo json_encode(get_allow_device_status($decrypt_data['token'], $decrypt_data['secretKey'], $decrypt_data['deviceList']));
