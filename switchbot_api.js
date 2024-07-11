@@ -343,7 +343,6 @@ async function printAllowDeviceTable(jsonData) {
  */
 async function getStatus(authGuestToken, password, deviceId) {
   const loadingElement = document.getElementById("get-status-loading");
-  loadingElement.innerHTML = "デバイスを取得中...";
   const data = {
     authGuestToken,
     password,
@@ -359,8 +358,6 @@ async function getStatus(authGuestToken, password, deviceId) {
         "Content-Type": "application/json",
       },
     });
-    loadingElement.innerHTML = "";
-    console.log(response.data);
     Object.keys(response.data.body.status).forEach((key) => {
       const pTagId = `allowStatus${deviceId}${key}`;
       const pTag = document.getElementById(`${pTagId}`);
