@@ -380,7 +380,7 @@ async function getStatus(authGuestToken, password, deviceId) {
  * @param {*} deviceId
  * @param {*} command
  */
-function operateSwitch(authGuestToken, password, deviceId, command) {
+async function operateSwitch(authGuestToken, password, deviceId, command) {
   //メソッド名: operateSwitch command: commandに修正
   const data = {
     authGuestToken,
@@ -393,20 +393,22 @@ function operateSwitch(authGuestToken, password, deviceId, command) {
     },
   };
 
-  axios({
-    method: "post",
-    url: "https://watalab.info/lab/asakura/api/operate_command.php",
-    data: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (response) {
-      console.log(response.data);
-      //電源情報を取得
-      //今onかoffをわかるようにする。
-    })
-    .catch(function (error) {
-      console.error("Error: " + error);
+  try {
+    const response = await axios({
+      method: "post",
+      url: "https://watalab.info/lab/asakura/api/operate_command.php",
+      data: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    const jsonData = JSON.parse(response.data);
+    const pTagId = `allowStatus${deviceId}power`;
+    const pTag = document.getElementById(`${pTagId}`);
+    if (pTag) {
+      pTag.innerHTML = `power: ${jsonData.body.items[0].status.power}`;
+    }
+  } catch (error) {
+    console.error("Error: " + error);
+  }
 }
