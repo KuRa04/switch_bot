@@ -394,6 +394,9 @@ async function operateSwitch(authGuestToken, password, deviceId, command) {
   };
 
   try {
+    const pTagId = `allowStatus${deviceId}power`;
+    const pTag = document.getElementById(`${pTagId}`);
+    pTag.innerHTML = "power: 通信中...";
     const response = await axios({
       method: "post",
       url: "https://watalab.info/lab/asakura/api/operate_command.php",
@@ -402,11 +405,8 @@ async function operateSwitch(authGuestToken, password, deviceId, command) {
         "Content-Type": "application/json",
       },
     });
-    const jsonData = JSON.parse(response.data);
-    const pTagId = `allowStatus${deviceId}power`;
-    const pTag = document.getElementById(`${pTagId}`);
-    if (pTag) {
-      pTag.innerHTML = `power: ${jsonData.body.items[0].status.power}`;
+    if (response.data.statusCode === 100) {
+      pTag.innerHTML = `power: ${response.data.power}`;
     }
   } catch (error) {
     console.error("Error: " + error);

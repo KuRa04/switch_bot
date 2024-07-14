@@ -53,7 +53,17 @@ function operate_command($token, $secret_key)
   $response = curl_exec($ch);
   curl_close($ch);
 
-  return $response;
+  $decoded_response = json_decode($response, true);
+
+  // 必要な情報を抽出
+  $statusCode = $decoded_response['statusCode'];
+  $power = $decoded_response['body']['items'][0]['status']['power'];
+
+  // statusCodeとpowerのみを含む配列を返す
+  return [
+    'statusCode' => $statusCode,
+    'power' => $power
+  ];
 }
 $decrypt_data = allow_device_decrypt();
 echo json_encode(operate_command($decrypt_data['token'], $decrypt_data['secretKey']));
