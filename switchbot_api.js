@@ -335,7 +335,7 @@ async function printAllowDeviceTable(jsonData) {
 }
 
 /**
- *
+ * デバイス毎のステータスを取得する
  * @param {*} token
  * @param {*} secretKey
  * @param {*} deviceList
@@ -371,4 +371,42 @@ async function getStatus(authGuestToken, password, deviceId) {
   } catch (error) {
     console.error("Error: " + error);
   }
+}
+
+/**
+ * 暗号化されたtokenをもとにデバイスのコマンドを叩く
+ * @param {*} token
+ * @param {*} secretKey
+ * @param {*} deviceId
+ * @param {*} command
+ */
+function operateSwitch(authGuestToken, password, deviceId, command) {
+  //メソッド名: operateSwitch command: commandに修正
+  const data = {
+    authGuestToken,
+    password,
+    deviceId,
+    commands: {
+      command: command,
+      parameter: "default",
+      commandType: "command",
+    },
+  };
+
+  axios({
+    method: "post",
+    url: "https://watalab.info/lab/asakura/api/operate_command.php",
+    data: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (response) {
+      console.log(response.data);
+      //電源情報を取得
+      //今onかoffをわかるようにする。
+    })
+    .catch(function (error) {
+      console.error("Error: " + error);
+    });
 }
