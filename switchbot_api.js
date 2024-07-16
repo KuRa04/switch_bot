@@ -196,7 +196,8 @@ function clickBtnDec() {
     data: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
   })
-    .then(function (response) { //アロー関数に修正
+    .then(function (response) {
+      //アロー関数に修正
       const result = JSON.stringify(response.data, null, 2);
       document.getElementById("decodeData").textContent = result;
     })
@@ -205,7 +206,8 @@ function clickBtnDec() {
     });
 }
 
-function jsonDownload() { //downloadJsonFile
+function jsonDownload() {
+  //downloadJsonFile
   const authGuestToken = document.getElementById("authGuestToken").textContent;
   const password = document.getElementById("password").value;
 
@@ -250,7 +252,8 @@ async function getAllowDeviceStatus(token, secretKey, deviceList) {
   }
 }
 
-function setDeviceCommand(token, secretKey, deviceId, func) { //メソッド名: operateSwitch command: commandに修正
+function setDeviceCommand(token, secretKey, deviceId, func) {
+  //メソッド名: operateSwitch command: commandに修正
   const data = {
     token: token,
     secretKey: secretKey,
@@ -328,5 +331,86 @@ async function printAllowDeviceTable(jsonData) {
     tableHtml += "</table>";
 
     document.getElementById("deviceListContainer").innerHTML = tableHtml;
+  }
+}
+
+/**
+ * デバイス毎のステータスを取得する
+ * @param {*} token
+ * @param {*} secretKey
+ * @param {*} deviceList
+ * @returns
+ */
+async function getStatus(authGuestToken, password, deviceId) {
+  const loadingElement = document.getElementById(`${deviceId}-button`);
+  loadingElement.innerHTML = "ステータスを取得中...";
+  const data = {
+    authGuestToken,
+    password,
+    deviceId,
+  };
+
+  try {
+    const response = await axios({
+      method: "post",
+      url: "https://watalab.info/lab/asakura/api/get_allow_device_status.php",
+      data: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    Object.keys(response.data.body.status).forEach((key) => {
+      const pTagId = `allowStatus${deviceId}${key}`;
+      const pTag = document.getElementById(`${pTagId}`);
+      if (pTag) {
+        pTag.innerHTML = `${key}: ${response.data.body.status[key]}`;
+      }
+    });
+    loadingElement.innerHTML = "ステータスを更新";
+    return response.data;
+  } catch (error) {
+    console.error("Error: " + error);
+  }
+}
+
+/**
+ * 暗号化されたtokenをもとにデバイスのコマンドを叩く
+ * @param {*} token
+ * @param {*} secretKey
+ * @param {*} deviceId
+ * @param {*} command
+ */
+async function operateSwitch(authGuestToken, password, deviceId, command) {
+  //メソッド名: operateSwitch command: commandに修正
+  const data = {
+    authGuestToken,
+    password,
+    deviceId,
+    commands: {
+      command: command,
+      parameter: "default",
+      commandType: "command",
+    },
+  };
+
+  try {
+    const pTagId = `allowStatus${deviceId}power`;
+    const pTag = document.getElementById(`${pTagId}`);
+    pTag.innerHTML = "power: 通信中...";
+    const response = await axios({
+      method: "post",
+      url: "https://watalab.info/lab/asakura/api/operate_command.php",
+      data: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.data.statusCode === 100) {
+      pTag.innerHTML = `power: ${response.data.power}`;
+    } else {
+      pTag.innerHTML = `power: ${response.data.message}`;
+    }
+  } catch (error) {
+    console.error("Error: " + error);
   }
 }
