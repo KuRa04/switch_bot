@@ -103,11 +103,11 @@ function validateInputs() {
   let isValid = true;
   let errorMessage = "";
 
-  // 必要な入力フィールドのリスト
+  // TODO: 開始日と終了日のバリデーションを教授に確認、要素として必要かどうか
   const inputs = [
     { id: "description", name: "説明" },
-    { id: "startTime", name: "開始日" },
-    { id: "endTime", name: "終了日" },
+    // { id: "startTime", name: "開始日" },
+    // { id: "endTime", name: "終了日" },
     { id: "password", name: "パスワード" },
   ];
 
