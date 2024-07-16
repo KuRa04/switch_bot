@@ -96,7 +96,6 @@ function onClickCheckbox(checkbox) {
       deviceEntry.commands[allowObj] = false;
     }
   }
-  console.log(deviceArray);
 }
 
 function validateInputs() {
