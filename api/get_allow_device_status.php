@@ -2,6 +2,14 @@
 require_once __DIR__ . '/../util/auth.php';
 require_once __DIR__ . '/../constants/constants.php';
 
+/*
+  * allow_device_decryptをconstants.phpに移動。フロントエンドとサーバーサイドで用途が違うため。
+  *
+  * @param string $token
+  * @param string $secret_key
+  * @param array $device_list
+  * @return array
+  */
 
 function allow_device_decrypt()
 {
