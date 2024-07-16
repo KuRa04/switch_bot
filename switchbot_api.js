@@ -96,18 +96,17 @@ function onClickCheckbox(checkbox) {
       deviceEntry.commands[allowObj] = false;
     }
   }
-  console.log(deviceArray);
 }
 
 function validateInputs() {
   let isValid = true;
   let errorMessage = "";
 
-  // 必要な入力フィールドのリスト
+  // TODO: 開始日と終了日のバリデーションを教授に確認、要素として必要かどうか
   const inputs = [
     { id: "description", name: "説明" },
-    { id: "startTime", name: "開始日" },
-    { id: "endTime", name: "終了日" },
+    // { id: "startTime", name: "開始日" },
+    // { id: "endTime", name: "終了日" },
     { id: "password", name: "パスワード" },
   ];
 
@@ -117,7 +116,7 @@ function validateInputs() {
   if (!isChecked) {
     isValid = false;
     errorMessage +=
-      "少なくとも一つのcommand、またはstatusを選択してください。<br>";
+      "少なくとも一つのstatus、commandを選択してください。<br>";
   }
 
   // 各入力フィールドをチェック
@@ -227,113 +226,6 @@ function jsonDownload() {
   window.URL.revokeObjectURL(url);
 }
 
-async function getAllowDeviceStatus(token, secretKey, deviceList) {
-  const loadingElement = document.getElementById("get-status-loading");
-  loadingElement.innerHTML = "デバイスを取得中...";
-  const data = {
-    token: token,
-    secretKey: secretKey,
-    deviceList: deviceList,
-  };
-
-  try {
-    const response = await axios({
-      method: "post",
-      url: "https://watalab.info/lab/asakura/api/get_allow_device_list_status.php",
-      data: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    loadingElement.innerHTML = "";
-    return response.data;
-  } catch (error) {
-    console.error("Error: " + error);
-  }
-}
-
-function setDeviceCommand(token, secretKey, deviceId, func) {
-  //メソッド名: operateSwitch command: commandに修正
-  const data = {
-    token: token,
-    secretKey: secretKey,
-    deviceId: deviceId,
-    commands: {
-      command: func, //commandに修正
-      parameter: "default",
-      commandType: "command",
-    },
-  };
-
-  axios({
-    method: "post",
-    url: "https://watalab.info/lab/asakura/api/set_allow_device_command.php",
-    data: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (response) {
-      console.log(response.data);
-      //電源情報を取得
-      //今onかoffをわかるようにする。
-    })
-    .catch(function (error) {
-      console.error("Error: " + error);
-    });
-}
-
-/**
- * メソッドの説明
- * @param {*} jsonData //暗号化されたデータ
- */
-async function printAllowDeviceTable(jsonData) {
-  if (jsonData) {
-    const allowDeviceStatus = await getAllowDeviceStatus(
-      jsonData["token"],
-      jsonData["secretKey"],
-      jsonData["deviceList"]
-    );
-
-    let tableHtml =
-      '<table class="device-table"><tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>';
-
-    jsonData["deviceList"].forEach((device) => {
-      tableHtml += "<tr>";
-      tableHtml += `<td>${device["deviceId"]}</td>`;
-      tableHtml += `<td>${device["deviceName"]}</td>`;
-      tableHtml += "<td>";
-      if (device["status"]) {
-        allowDeviceStatus.forEach(function (allowDevice) {
-          if (typeof allowDevice.body === "object") {
-            if (allowDevice.body.deviceId === device["deviceId"]) {
-              Object.entries(allowDevice.body.status).map(([key, value]) => {
-                tableHtml += `<p id='allowStatus${device["deviceId"]}'>${key}: ${value}</p>`;
-                ``;
-              });
-            }
-          }
-        });
-      }
-      tableHtml += "</td>";
-      tableHtml += "<td>";
-      if (device["commands"]) {
-        Object.keys(device["commands"]).forEach((key) => {
-          if (device["commands"][key]) {
-            tableHtml += `<button id='${device["deviceId"]}-${key}' class='button-command' value='${key}' onClick="setDeviceCommand('${jsonData["token"]}', '${jsonData["secretKey"]}','${device["deviceId"]}', '${key}')">${key}</button><br>`;
-          }
-        });
-      }
-      tableHtml += "</td>";
-      tableHtml += "</tr>";
-    });
-
-    tableHtml += "</table>";
-
-    document.getElementById("deviceListContainer").innerHTML = tableHtml;
-  }
-}
-
 /**
  * デバイス毎のステータスを取得する
  * @param {*} token
@@ -381,7 +273,6 @@ async function getStatus(authGuestToken, password, deviceId) {
  * @param {*} command
  */
 async function operateSwitch(authGuestToken, password, deviceId, command) {
-  //メソッド名: operateSwitch command: commandに修正
   const data = {
     authGuestToken,
     password,
