@@ -21,7 +21,7 @@ $error = isset($_GET['error']) ? $_GET['error'] : '';
     <?php elseif ($error == 3) : ?>
       <p class="error-message">有効期限が切れています。</p>
     <?php endif; ?>
-    <form id="uploadForm" class="login-form" action="allow_device_list-2.php" method="post" enctype="multipart/form-data">
+    <form id="uploadForm" class="login-form" action="allow_device_list.php" method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="password" class="form-label">所有者パスワード:</label>
         <input type="text" name="password" id="password" class="form-control" />

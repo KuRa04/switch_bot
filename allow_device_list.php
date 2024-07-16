@@ -34,32 +34,35 @@ function decodeJsonFile($tmpName)
   return $data;
 }
 
-function decryptAuthToken($authGuestToken, $password)
+function get_allow_decrypt($authGuestToken, $password)
 {
-  $decrypt_password = $password . MANAGE_PASSWORD;
-  $response = openssl_decrypt(base64_decode($authGuestToken), 'aes-256-cbc', $decrypt_password, OPENSSL_RAW_DATA, 'iv12345678901234');
+  $url = "https://watalab.info/lab/asakura/api/allow_decrypt.php";
+
+  $headers = [
+    "Content-Type: application/json; charset=utf-8"
+  ];
+
+  $data = [
+    "authGuestToken" => $authGuestToken,
+    "password" => $password
+  ];
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data, true));
+  $response = curl_exec($ch);
+  curl_close($ch);
+
   if (!$response) {
     return false;
   }
+
   return json_decode($response, true);
 }
 
-function validateAccessPeriod($json_data)
-{
-  if (isset($json_data['startTime']) && isset($json_data['endTime'])) {
-    $current_date = new DateTime();
-    $start_time = DateTime::createFromFormat('Y-m-d', $json_data['startTime']);
-    $end_time = DateTime::createFromFormat('Y-m-d', $json_data['endTime']);
-
-    if ($start_time > $current_date) {
-      return 2;
-    }
-    if ($end_time < $current_date) {
-      return 3;
-    }
-  }
-  return null;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $fileUploadError = handleFileUpload();
@@ -74,17 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 
-  $json_data = decryptAuthToken($data['authGuestToken'], $_POST['password']);
-  if (!$json_data) {
-    header('Location: guest_login.php?error=1');
-    exit;
-  }
-
-  $accessError = validateAccessPeriod($json_data);
-  if ($accessError) {
-    header('Location: guest_login.php?error=' . $accessError);
-    exit;
-  }
+  $allow_device_list = get_allow_decrypt($data['authGuestToken'], $_POST['password']);
 }
 ?>
 
@@ -92,17 +85,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <p id="get-status-loading"></p>
   <div id="container" class="container">
     <h2>デバイス一覧</h2>
-    <div id="deviceListContainer"></div>
+    <?php
+    $tableHtml = '<table class="device-table"><tr><th>Device ID</th><th>Device Name</th><th>Status</th><th>Command</th></tr>';
+
+    foreach ($allow_device_list['deviceList'] as $device) {
+      $tableHtml .= "<tr>";
+      $tableHtml .= "<td>{$device['deviceId']}</td>";
+      $tableHtml .= "<td>{$device['deviceName']}</td>";
+      $tableHtml .= "<td>";
+      if (isset($device['status'])) {
+        foreach ($device['status'] as $key => $value) {
+          if ($value) {
+            $tableHtml .= "<p id='allowStatus{$device['deviceId']}{$key}'>{$key}</p>";
+          }
+        }
+        $tableHtml .= "<button id='{$device['deviceId']}-button' class='button-command' onClick=\"getStatus('{$data['authGuestToken']}', '{$_POST['password']}', '{$device['deviceId']}')\">ステータスを更新</button><br>";
+      }
+      $tableHtml .= "</td>";
+      $tableHtml .= "<td>";
+      if (isset($device['commands'])) {
+        foreach ($device['commands'] as $key => $value) {
+          if ($value) {
+            $tableHtml .= "<button id='{$device['deviceId']}-{$key}' class='button-command' value='{$key}' onClick=\"operateSwitch('{$data['authGuestToken']}', '{$_POST['password']}', '{$device['deviceId']}', '{$key}')\">{$key}</button><br>";
+          }
+        }
+      }
+      $tableHtml .= "</td>";
+      $tableHtml .= "</tr>";
+    }
+    $tableHtml .= "</table>";
+    echo $tableHtml;
+
+    ?>
   </div>
 </body>
-<script>
-  document.addEventListener('DOMContentLoaded', async function() {
-    const container = document.getElementById('container');
-    container.style.display = 'none';
-    await printAllowDeviceTable(<?php echo json_encode($json_data) ?>);
-    container.style.display = '';
-  });
-</script>
 <style>
   .device-list-body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
