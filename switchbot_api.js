@@ -407,6 +407,8 @@ async function operateSwitch(authGuestToken, password, deviceId, command) {
     });
     if (response.data.statusCode === 100) {
       pTag.innerHTML = `power: ${response.data.power}`;
+    } else {
+      pTag.innerHTML = `power: ${response.data.message}`;
     }
   } catch (error) {
     console.error("Error: " + error);

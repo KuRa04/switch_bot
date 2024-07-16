@@ -56,12 +56,14 @@ function operate_command($token, $secret_key)
   $decoded_response = json_decode($response, true);
 
   // 必要な情報を抽出
-  $statusCode = $decoded_response['statusCode'];
+  $status_code = $decoded_response['statusCode'];
+  $message = $decoded_response['message'];
   $power = $decoded_response['body']['items'][0]['status']['power'];
 
   // statusCodeとpowerのみを含む配列を返す
   return [
-    'statusCode' => $statusCode,
+    'statusCode' => $status_code,
+    'message' => $message,
     'power' => $power
   ];
 }
