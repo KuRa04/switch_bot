@@ -17,8 +17,6 @@ async function getDeviceList(token, secretKey) {
       data: JSON.stringify(data),
     });
 
-    const result = JSON.stringify(response.data);
-
     let table =
       '<table class="device-table"><tr><th>Device ID</th><th>Device Name</th><th>Device Type</th><th>Status</th><th>Command</th></tr>';
 
