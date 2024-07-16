@@ -78,6 +78,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   $allow_device_list = get_allow_decrypt($data['authGuestToken'], $_POST['password']);
+
+  if (!$allow_device_list) {
+    header('Location: guest_login.php?error=1');
+    exit;
+  }
 }
 ?>
 
