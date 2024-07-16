@@ -116,7 +116,7 @@ function validateInputs() {
   if (!isChecked) {
     isValid = false;
     errorMessage +=
-      "少なくとも一つのcommand、またはstatusを選択してください。<br>";
+      "少なくとも一つのstatus、commandを選択してください。<br>";
   }
 
   // 各入力フィールドをチェック
