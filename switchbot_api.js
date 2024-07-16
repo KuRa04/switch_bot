@@ -274,7 +274,6 @@ async function getStatus(authGuestToken, password, deviceId) {
  * @param {*} command
  */
 async function operateSwitch(authGuestToken, password, deviceId, command) {
-  //メソッド名: operateSwitch command: commandに修正
   const data = {
     authGuestToken,
     password,
