@@ -252,37 +252,6 @@ async function getAllowDeviceStatus(token, secretKey, deviceList) {
   }
 }
 
-function setDeviceCommand(token, secretKey, deviceId, func) {
-  //メソッド名: operateSwitch command: commandに修正
-  const data = {
-    token: token,
-    secretKey: secretKey,
-    deviceId: deviceId,
-    commands: {
-      command: func, //commandに修正
-      parameter: "default",
-      commandType: "command",
-    },
-  };
-
-  axios({
-    method: "post",
-    url: "https://watalab.info/lab/asakura/api/set_allow_device_command.php",
-    data: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (response) {
-      console.log(response.data);
-      //電源情報を取得
-      //今onかoffをわかるようにする。
-    })
-    .catch(function (error) {
-      console.error("Error: " + error);
-    });
-}
-
 /**
  * メソッドの説明
  * @param {*} jsonData //暗号化されたデータ
