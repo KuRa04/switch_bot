@@ -112,8 +112,7 @@ function validateInputs() {
 
   if (!isChecked) {
     isValid = false;
-    errorMessage +=
-      "少なくとも一つのstatus、commandを選択してください。<br>";
+    errorMessage += "少なくとも一つのstatus、commandを選択してください。<br>";
   }
 
   // 各入力フィールドをチェック
@@ -203,13 +202,14 @@ function clickBtnDec() {
 }
 
 function jsonDownload() {
-  //downloadJsonFile
   const authGuestToken = document.getElementById("authGuestToken").textContent;
-  const password = document.getElementById("password").value;
+  const description = document.getElementById("description").value;
+  const version = document.getElementById("version").value;
 
   const guestLoginInfo = {
-    authGuestToken: authGuestToken,
-    password: password,
+    authGuestToken,
+    description,
+    version,
   };
 
   const guestLoginJson = JSON.stringify(guestLoginInfo);
